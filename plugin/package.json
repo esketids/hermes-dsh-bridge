@@ -24,6 +24,7 @@
   "main": "index.js",
   "files": [
     "index.js",
+    "lib",
     "cordis.patch.yml",
     "README.md",
     "smoke.mjs",

@@ -31,6 +31,8 @@ import { createServer } from 'node:http'
 import { randomUUID } from 'node:crypto'
 import { realpath } from 'node:fs/promises'
 import { resolve as resolvePath, sep } from 'node:path'
+import { callerAttemptsOnly, guardWriteCall, signatureParams } from './lib/write-guard.mjs'
+import { positionalFromNamed } from './lib/named-args.mjs'
 
 export const name = 'hermes-thin'
 
@@ -857,36 +859,6 @@ export function apply(ctx, config = {}) {
     return null
   }
 
-  /** Parse "name(a: A, b?: B): C" → [{name, optional, type}] using top-level commas only. */
-  function signatureParams(sig) {
-    if (typeof sig !== 'string') return []
-    const open = sig.indexOf('(')
-    if (open === -1) return []
-    let depth = 0
-    let close = -1
-    for (let i = open; i < sig.length; i++) {
-      const ch = sig[i]
-      if ('(<[{'.includes(ch)) depth++
-      else if (ch === ')') { depth--; if (depth === 0) { close = i; break } }
-      else if (')>]}'.includes(ch)) depth--
-    }
-    if (close === -1) return []
-    const inner = sig.slice(open + 1, close)
-    const parts = []
-    let buf = ''
-    let d = 0
-    for (const ch of inner) {
-      if ('(<[{'.includes(ch)) d++
-      if (')>]}'.includes(ch)) d--
-      if (ch === ',' && d === 0) { parts.push(buf); buf = '' } else buf += ch
-    }
-    if (buf.trim()) parts.push(buf)
-    return parts.map((p) => {
-      const m = p.trim().match(/^([A-Za-z_$][\w$]*)\s*(\?)?\s*(?::\s*([\s\S]+))?$/)
-      return m ? { name: m[1], optional: Boolean(m[2]), type: (m[3] ?? '').trim() } : null
-    }).filter(Boolean)
-  }
-
   /** A value for one declared parameter — only the two the host insists on are synthesised. */
   function runtimeArgFor({ name, type }) {
     if (name === 'signal' || /\bAbortSignal\b/.test(type)) return new AbortController().signal
@@ -1078,12 +1050,24 @@ export function apply(ctx, config = {}) {
     if (typeof target[op] !== 'function') {
       throw new Error(`service "${group}" lists "${op}" but the live object has no such method`)
     }
-    // Request-shaped methods take one object; pass an array to spread positional arguments.
-    const callArgs = Array.isArray(args) ? args : [args ?? {}]
-    // Method arguments: try the caller's as-is, then signature-derived variants (agent/signal/
-    // session filled from what this plugin holds), in order, first success wins.
-    const candidates = argumentCandidates((svc.methods ?? []).find((m) => m.name === op)?.signature ?? '', callArgs)
+    // Writes on an authority surface need explicit, signature-validated arguments: the guard
+    // refuses the empty/placeholder shapes the bridge must never turn into a real argument.
+    const signature = (svc.methods ?? []).find((m) => m.name === op)?.signature ?? ''
     const started = Date.now()
+    const guard = guardWriteCall({ service: group, op, signature, args })
+    if (!guard.ok) {
+      audit({ at: new Date().toISOString(), op: key, ok: false, ms: Date.now() - started, error: guard.why, via: 'catalog' })
+      throw new Error(guard.why)
+    }
+    // A named object is mapped onto the method's published parameters, in signature order (guard
+    // above already validated it by name). Everything else keeps the older behaviour: an array
+    // spreads positionally, and a request-shaped method takes the object it is.
+    const named = positionalFromNamed(signature, args)
+    const callArgs = named ?? (Array.isArray(args) ? args : [args ?? {}])
+    // Method arguments: try the caller's as-is, then signature-derived variants (agent/signal/
+    // session filled from what this plugin holds), in order, first success wins. A mutating method
+    // only ever gets the caller's own list — never a signature-derived, auto-filled one.
+    const candidates = callerAttemptsOnly(op, argumentCandidates(signature, callArgs))
     let result
     let autoFilled = false
     let lastErr = null

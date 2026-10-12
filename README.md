@@ -272,6 +272,8 @@ Through `dsh_cmd`, the bridge also exposes the harness's **own live service cata
 | 2 | every method in the live service catalog (mutations included) | off |
 | 3 | `credentials`, `deepseekAccount`, `authorization`, `pluginManager`, config editing | off |
 
+Writes on an authority/credential surface are held to a higher bar than reads: `dsh_cmd` runs them only with explicit arguments that satisfy the method's **published signature**, and never auto-fills them from whatever the bridge happens to hold. `args` may be given either as an object keyed by the method's published parameter names — the normal way — or as a positional array. That rule is not theoretical — a tier-3 probe once called a credentials setter with `args: {}`, the empty object went through as the credential reference, and the app refused to boot until `~/.dsh/.credentials.yaml` was repaired by hand.
+
 ## Using it from Hermes
 
 ```

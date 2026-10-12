@@ -78,6 +78,13 @@ When the user asks whether something is **possible** rather than asking for it, 
 - **The app shares `$DSH_HOME` but not its plugin tree.** Sessions, settings, credentials, workspaces, and storage are shared with the CLI; executable packages, plugin activation, and lockfiles are separate — so a plugin installed for `web` is not mounted in `desktop`. Mount where you actually run.
 - **Token appetite on long tasks.** Small tasks are cheap; a single long generation can burn millions of cache-read tokens. Cap run time and prefer resumable sessions over re-running.
 - **This is a developer preview with breaking interface changes** (session-log format migrations, plugin API removals). Pin the version you validate against, and re-check flags against the shipped package after an update.
+- **Never let a generic dispatcher invent arguments for a write.** A credential/authority surface (`credentials`, `credentialsController`, `deepseekAccount`, `authorization`, `pluginManager`, `configEditor`) must only ever be written to with explicit, signature-validated arguments — a reference must satisfy the harness' own identifier grammar, and an empty or placeholder value must be refused rather than passed through — because a `{}` reference that reaches `credentials.set` persists a document the next boot rejects, and the failure that surfaces is "a required plugin did not activate", not "an argument was wrong"; reads on those surfaces are unaffected, and a method taking one request-shaped parameter must still receive its object (only a named object whose keys exactly match the published parameter names may be mapped to positional order). The persisted junk looks like:
+  ```yaml
+  refs:
+    ? {}
+    : {}
+  ```
+- **A startup failure is a config parse error far more often than a damaged install.** The startup dialog names a diagnostic report at `~/Library/Logs/DeepSeek Harness/crash-<ts>-host.log` and tells you to reinstall — the log is the authority and the advice is not: read it first (it carries `phase: startup` plus the failing plugin, or a `failed to parse overlay …: YAMLException` for a malformed profile patch), and note that the recoverable state all lives under `$DSH_HOME` / `~/.dsh/profiles/`, never in the app bundle; localise the fix to the named file, preserve every other entry, and keep a fallback copy — repairing by hand beats reinstalling.
 
 ## Verified vs unverified — say which one you are claiming
 

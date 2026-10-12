@@ -1,0 +1,89 @@
+{
+ "results": [
+  {
+   "feature": "tier3 enabled",
+   "ok": true,
+   "detail": "enabled \u2014 authority / credential / install services"
+  },
+  {
+   "feature": "authorization.list",
+   "ok": true,
+   "detail": "[{\"key\": \"<24 chars, masked>\", \"label\": \"Amazon Bedrock\", \"methods\": [{\"id\": \"api-key\", \"label\": \"AWS credentials or bearer token\"}], \"inFlight\": false}, {\"key\": \"<18 chars, masked>\", \"label\": \"Ant Li"
+  },
+  {
+   "feature": "authorization.describe",
+   "ok": true,
+   "detail": "\"undefined\""
+  },
+  {
+   "feature": "configEditor.entries",
+   "ok": true,
+   "detail": "[{\"loader\": {\"ctx\": {\"baseUrl\": \"file://$HOME/.dsh/profiles/desktop/\"}, \"enableLogs\": \"undefined\", \"root\": {\"ctx\": \"[deep]\", \"tree\": \"[deep]\", \"data\": \"[deep]\"}, \"store\": {\"include\": \"[deep]"
+  },
+  {
+   "feature": "configEditor.configuration",
+   "ok": true,
+   "detail": "[{\"entry\": {\"loader\": {\"ctx\": \"[deep]\", \"enableLogs\": \"undefined\", \"root\": \"[deep]\", \"store\": \"[deep]\", \"config\": \"[deep]\", \"envData\": \"[deep]\", \"name\": \"loader\", \"internal\": \"[deep]\", \"builtins\": \"[d"
+  },
+  {
+   "feature": "credentials.describe",
+   "ok": true,
+   "detail": "{\"configured\": false, \"writable\": true}"
+  },
+  {
+   "feature": "credentials.readRecord",
+   "ok": true,
+   "detail": "\"undefined\""
+  },
+  {
+   "feature": "credentials.describeRecord",
+   "ok": true,
+   "detail": "{\"configured\": false, \"writable\": true}"
+  },
+  {
+   "feature": "credentialsController.describe",
+   "ok": false,
+   "detail": "error: invalid payload for credentials.describe"
+  },
+  {
+   "feature": "deepseekAccount.getState",
+   "ok": true,
+   "detail": "{\"status\": \"credential-stored\", \"attempt\": null, \"links\": {\"usageUrl\": \"<redacted>/usage\", \"topUpUrl\": \"<redacted>/top_up\"}}"
+  },
+  {
+   "feature": "deepseekAccount.getProfile",
+   "ok": false,
+   "detail": "error: Cannot read properties of undefined (reading 'toLowerCase')"
+  },
+  {
+   "feature": "deepseekAccount.getBalance",
+   "ok": false,
+   "detail": "error: Cannot read properties of undefined (reading 'toLowerCase')"
+  },
+  {
+   "feature": "pluginManager.listVersionExemptions",
+   "ok": true,
+   "detail": "{\"exemptions\": {}, \"warnings\": []}"
+  },
+  {
+   "feature": "pluginManager.listPlugins",
+   "ok": true,
+   "detail": "[{\"entryId\": \"include\", \"moduleName\": \"cordis:include\", \"enabled\": true, \"fiberPhase\": \"active\", \"readOnlyReason\": \"unaddressable\"}, {\"entryId\": \"include:tool-plugin-manager\", \"moduleName\": \"@deepseek"
+  },
+  {
+   "feature": "pluginManager.listBundles",
+   "ok": true,
+   "detail": "[{\"name\": \"@deepseek-ai/dsh-base\", \"version\": \"0.2.0-rc.2\", \"description\": \"<135 chars, masked: The sh\\u2026>\", \"meta\": {\"title\": \"@deepseek-ai/dsh-base\", \"description\": \"<135 chars, masked: The sh\\u2"
+  },
+  {
+   "feature": "credentials.set (throwaway key)",
+   "ok": true,
+   "detail": "wrote"
+  },
+  {
+   "feature": "credentials.unset (cleanup)",
+   "ok": true,
+   "detail": "deleted"
+  }
+ ]
+}

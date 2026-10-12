@@ -1,0 +1,223 @@
+# DeepSeek Harness upstream docs — local corpus
+
+Source: deepseek-ai/deepseek-harness @ master, docs/**.md (English only). 217 files, pulled 2026-10-13.
+
+Read a file directly with read_file; this index exists so you can pick the right one without listing the tree.
+
+- `docs/AGENTS.md` — AGENTS.md — The documentation standard
+- `docs/agent-lifecycle.md` — Agent Turn And Step Lifecycle
+- `docs/api-gateway.md` — API Gateway
+- `docs/architecture.md` — DeepSeek Harness Architecture
+- `docs/capability-seams.md` — Capability Seams And Core Services
+- `docs/cli-help.md` — dsh CLI help
+- `docs/config-catalog.md` — Plugin Config Catalog
+- `docs/cookbook/adding-a-package.md` — Cookbook: adding a workspace package
+- `docs/cookbook/adding-a-remote-api.md` — Cookbook: adding a Remote API
+- `docs/cookbook/adding-a-session-format-version.md` — Cookbook: adding a Session log format version
+- `docs/cookbook/adding-a-settings-card.md` — Cookbook: live configuration forms
+- `docs/cookbook/adding-a-tool.md` — Tool authoring reference
+- `docs/cookbook/adding-a-vendored-package.md` — Cookbook: adding a vendored package
+- `docs/cookbook/adding-an-llm-adapter.md` — Cookbook: adding an LLM adapter
+- `docs/cookbook/extension-cookbook.md` — Cookbook: extension plugin shapes
+- `docs/cookbook/maintaining-dsh-code-review.md` — Maintaining the dsh-code-review skill
+- `docs/cookbook/responding-to-pr-review-on-a-stack.md` — Responding to review across a stacked PR chain
+- `docs/cookbook/reviewing-persistence-type-changes.md` — Cookbook: reviewing persistence-type changes
+- `docs/cordis-api/context.md` — Context
+- `docs/cordis-api/events.md` — Events
+- `docs/cordis-api/fiber.md` — Fiber
+- `docs/cordis-api/inherited.md` — Inherited Cordis API
+- `docs/cordis-api/registry.md` — Registry
+- `docs/cordis-api/service.md` — Service
+- `docs/cordis-primer.md` — Cordis Primer
+- `docs/cordis-tutorial/01-first-plugin.md` — 1. Your first plugin
+- `docs/cordis-tutorial/02-lifecycle-and-effects.md` — 2. Lifecycle and effects
+- `docs/cordis-tutorial/03-services.md` — 3. Services
+- `docs/cordis-tutorial/04-events.md` — 4. Events
+- `docs/cordis-tutorial/05-config.md` — 5. Configuration
+- `docs/cordis-tutorial/06-composition-and-hmr.md` — 6. Composition and HMR
+- `docs/cordis-tutorial/07-into-the-harness.md` — 7. Into the harness
+- `docs/cordis-tutorial/index.md` — Cordis tutorial
+- `docs/deepseek-llm-api-wire-extensions.md` — Official DeepSeek LLM API wire extensions
+- `docs/defensive-patterns.md` — Defensive patterns
+- `docs/development.md` — Development guide
+- `docs/event-producer-consumer.md` — Event Producer And Consumer Matrix
+- `docs/experimental-persistence-catalog.md` — Experimental Plugin Record Catalog
+- `docs/glossary.md` — Glossary
+- `docs/graph-atlas.md` — Documentation Graph Index
+- `docs/i18n/README.md` — Bilingual documentation
+- `docs/i18n/style-samples.md` — 翻译语体样例（style samples）
+- `docs/i18n/terminology.md` — Terminology
+- `docs/i18n/translation-prompt.md` — Translation prompt (pipeline asset)
+- `docs/i18n/translation-rules.md` — Translation rules
+- `docs/module-graph.md` — Shared-instance dependency graph
+- `docs/persistence-catalog.md` — Session Persistence Event Catalog
+- `docs/persistence-changes/2026-09-11-initial.md` — Initial persistence type baseline
+- `docs/persistence-changes/2026-09-12-auto-review-error-metadata.md` — 2026-09-12-auto-review-error-metadata
+- `docs/persistence-changes/2026-09-13-working-directory.md` — 2026-09-13-working-directory
+- `docs/persistence-changes/2026-09-14-image-offload.md` — 2026-09-14-image-offload
+- `docs/persistence-changes/2026-09-14-workspace-changes-event.md` — 2026-09-14-workspace-changes-event
+- `docs/persistence-changes/2026-09-16-session-format-v4.md` — 2026-09-16-session-format-v4
+- `docs/persistence-changes/2026-09-18-schedule-optional-title.md` — 2026-09-18-schedule-optional-title
+- `docs/persistence-changes/2026-09-19-external-subagent-catalog.md` — 2026-09-19-external-subagent-catalog
+- `docs/persistence-changes/2026-09-20-unknown-child-catalog.md` — 2026-09-20-unknown-child-catalog
+- `docs/persistence-changes/2026-09-21-user-question-reply.md` — 2026-09-21-user-question-reply
+- `docs/persistence-changes/2026-10-05-ptc-operation-metadata.md` — 2026-10-05-ptc-operation-metadata
+- `docs/persistence-changes/2026-10-05-working-directory-attribution.md` — 2026-10-05-working-directory-attribution
+- `docs/persistence-changes/2026-10-07-title-reasoning-effort.md` — 2026-10-07-title-reasoning-effort
+- `docs/persistence-changes/README.md` — Persistence-type change records
+- `docs/persistence-changes/historical-formats/README.md` — Session persistence formats
+- `docs/persistence-changes/historical-formats/v0.md` — Session V0 persistence format
+- `docs/persistence-changes/historical-formats/v1.md` — Session V1 persistence format
+- `docs/persistence-changes/historical-formats/v2.md` — Session V2 persistence format
+- `docs/persistence-changes/historical-formats/v3.md` — Session V3 persistence format
+- `docs/persistence-changes/releases/README.md` — Persistence changes across DSH prereleases
+- `docs/persistence-changes/releases/dsh-v0.0.1-rc.1.md` — Persistence release: dsh-v0.0.1-rc.1
+- `docs/persistence-changes/releases/dsh-v0.0.1-rc.2.md` — Persistence release: dsh-v0.0.1-rc.2
+- `docs/persistence-changes/releases/dsh-v0.0.1-rc.3.md` — Persistence release: dsh-v0.0.1-rc.3
+- `docs/persistence-changes/releases/dsh-v0.0.1-rc.4.md` — Persistence release: dsh-v0.0.1-rc.4
+- `docs/persistence-changes/releases/dsh-v0.0.1-rc.5.md` — Persistence release: dsh-v0.0.1-rc.5
+- `docs/persistence-changes/releases/dsh-v0.1.0-rc.1.md` — Persistence release: dsh-v0.1.0-rc.1
+- `docs/persistence-changes/releases/dsh-v0.1.0-rc.2.md` — Persistence release: dsh-v0.1.0-rc.2
+- `docs/persistence-changes/releases/dsh-v0.1.0-rc.3.md` — Persistence release: dsh-v0.1.0-rc.3
+- `docs/persistence-changes/releases/dsh-v0.1.0-rc.5.md` — Persistence release: dsh-v0.1.0-rc.5
+- `docs/persistence-changes/releases/dsh-v0.1.0-rc.6.md` — Persistence release: dsh-v0.1.0-rc.6
+- `docs/persistence-changes/releases/dsh-v0.1.0-rc.7.md` — Persistence release: dsh-v0.1.0-rc.7
+- `docs/persistence-changes/releases/dsh-v0.1.0-rc.8.md` — Persistence release: dsh-v0.1.0-rc.8
+- `docs/persistence-changes/releases/dsh-v0.1.1-rc.1.md` — Persistence release: dsh-v0.1.1-rc.1
+- `docs/persistence-changes/releases/dsh-v0.1.1-rc.2.md` — Persistence release: dsh-v0.1.1-rc.2
+- `docs/persistence-changes/releases/dsh-v0.1.2-alpha.1.md` — Persistence release: dsh-v0.1.2-alpha.1
+- `docs/persistence-changes/releases/dsh-v0.1.2-alpha.2.md` — Persistence release: dsh-v0.1.2-alpha.2
+- `docs/persistence-changes/releases/dsh-v0.1.2-alpha.3.md` — Persistence release: dsh-v0.1.2-alpha.3
+- `docs/persistence-changes/releases/dsh-v0.1.2-alpha.4.md` — Persistence release: dsh-v0.1.2-alpha.4
+- `docs/persistence-changes/releases/dsh-v0.1.2-alpha.5.md` — Persistence release: dsh-v0.1.2-alpha.5
+- `docs/persistence-changes/releases/dsh-v0.1.2-rc.1.md` — Persistence release: dsh-v0.1.2-rc.1
+- `docs/persistence-changes/releases/dsh-v0.1.3-alpha.1.md` — Persistence release: dsh-v0.1.3-alpha.1
+- `docs/persistence-changes/releases/dsh-v0.1.3-alpha.2.md` — Persistence release: dsh-v0.1.3-alpha.2
+- `docs/persistence-changes/releases/dsh-v0.1.5-alpha.1.md` — Persistence release: dsh-v0.1.5-alpha.1
+- `docs/persistence-changes/releases/dsh-v0.1.5-alpha.2.md` — Persistence release: dsh-v0.1.5-alpha.2
+- `docs/persistence-changes/releases/dsh-v0.1.5-rc.1.md` — Persistence release: dsh-v0.1.5-rc.1
+- `docs/persistence-changes/releases/dsh-v0.1.5-rc.2.md` — Persistence release: dsh-v0.1.5-rc.2
+- `docs/postmortem/0001-acp-default-export-drops-inject.md` — Post-mortem 0001: ACP server crashed on connect — `export default` dropped the plugin's `inject`
+- `docs/postmortem/0002-js-expression-disabled-filesystem-tools.md` — Post-mortem 0002: Filesystem snapshot tools were permanently disabled
+- `docs/postmortem/0003-web-agent-gui-feedback-loop.md` — Post-mortem 0003: Web agent validated a replacement server instead of its current GUI
+- `docs/postmortem/0004-landlock-partial-notice-misclassified-child-failures.md` — Post-mortem 0004: Landlock partial-enforcement notice misclassified child failures
+- `docs/postmortem/README.md` — Post-mortems
+- `docs/rescope.md` — Vendored package rescope
+- `docs/session-format-status.md` — Session format version and release status
+- `docs/subsystems/README.md` — Subsystems
+- `docs/subsystems/agent-team.md` — Agent Teams
+- `docs/subsystems/approval.md` — User Approval
+- `docs/subsystems/attachment.md` — Durable Attachments
+- `docs/subsystems/boot.md` — Profile management
+- `docs/subsystems/browser-use.md` — Browser use
+- `docs/subsystems/claude-code-mods.md` — Claude Code mods: compatibility
+- `docs/subsystems/client-modules.md` — Client Modules
+- `docs/subsystems/client-resources.md` — Client Resources
+- `docs/subsystems/commands.md` — Human Commands
+- `docs/subsystems/compaction.md` — Compaction
+- `docs/subsystems/computer-use.md` — Computer use
+- `docs/subsystems/conversation.md` — Conversation assembly
+- `docs/subsystems/core.md` — Core
+- `docs/subsystems/credentials.md` — User Credentials
+- `docs/subsystems/deliverables.md` — Deliverables
+- `docs/subsystems/extensions.md` — Extensions
+- `docs/subsystems/feedback.md` — Message Feedback
+- `docs/subsystems/filesystem.md` — Filesystem
+- `docs/subsystems/goal.md` — Same-session goals
+- `docs/subsystems/jobs.md` — Background Job Runtime
+- `docs/subsystems/llm-streaming.md` — LLM Streaming
+- `docs/subsystems/lsp.md` — LSP navigation
+- `docs/subsystems/mcp.md` — MCP
+- `docs/subsystems/office-to-pdf.md` — Office to PDF
+- `docs/subsystems/otel.md` — OTel reporting
+- `docs/subsystems/permission-presets.md` — Permission Presets
+- `docs/subsystems/persistence.md` — Session Persistence
+- `docs/subsystems/plan.md` — Plan Mode
+- `docs/subsystems/product-telemetry.md` — Product telemetry
+- `docs/subsystems/ptc-runtime.md` — PTC runtime
+- `docs/subsystems/sandbox.md` — Process Sandbox
+- `docs/subsystems/schedule.md` — Host-wide Schedule
+- `docs/subsystems/scope.md` — Scoped Registration
+- `docs/subsystems/session-projection.md` — Session Projections
+- `docs/subsystems/session-query.md` — Session Query
+- `docs/subsystems/session-reference.md` — Session References
+- `docs/subsystems/session-telemetry.md` — SessionTelemetryBackend
+- `docs/subsystems/session-title.md` — Session Titles
+- `docs/subsystems/session.md` — Sessions
+- `docs/subsystems/settings.md` — Plugin Configuration Forms
+- `docs/subsystems/shell.md` — Shell Executor
+- `docs/subsystems/sidebar-right.md` — Right Sidebar
+- `docs/subsystems/skills.md` — Skills
+- `docs/subsystems/slots.md` — Web Client Slots
+- `docs/subsystems/spill.md` — Spill Storage
+- `docs/subsystems/ssh.md` — SSH
+- `docs/subsystems/storage.md` — Storage
+- `docs/subsystems/subagent.md` — Subagents
+- `docs/subsystems/subprocess.md` — Subprocess
+- `docs/subsystems/system-prompt.md` — System Prompt Assembly
+- `docs/subsystems/terminal.md` — Persistent PTY Sessions
+- `docs/subsystems/todo.md` — Todo
+- `docs/subsystems/token-meter.md` — Token Meter
+- `docs/subsystems/tools.md` — Tools
+- `docs/subsystems/translation.md` — Text translation
+- `docs/subsystems/typert.md` — Typert remote calls
+- `docs/subsystems/user-questions.md` — User Interaction
+- `docs/subsystems/voice-input.md` — Voice input
+- `docs/subsystems/web-client.md` — Web Client architecture
+- `docs/subsystems/web-server.md` — HTTP Server
+- `docs/subsystems/web.md` — Web Access
+- `docs/subsystems/webhook.md` — Webhook runtime
+- `docs/subsystems/workflow.md` — Workflow
+- `docs/subsystems/working-directory.md` — Working Directory
+- `docs/subsystems/workspace.md` — Workspaces
+- `docs/subsystems/worktrees.md` — Git Worktrees
+- `docs/testing.md` — Testing policy
+- `docs/tool-catalog.md` — Tool Schema Catalog
+- `docs/tool-execution-pipeline.md` — Tool Execution Pipeline
+- `docs/ui-radius.md` — DSH unified corner-radius standard
+- `docs/upgrade-guide/v0.1.7-rc.2/schedule-optional-bundle/guide.md` — Schedule moves into the Automation tasks optional bundle
+- `docs/upgrade-guide/v0.1.7-rc.2/transcript-view-legacy-normal/guide.md` — Legacy `normal` work details display as Detailed
+- `docs/upgrade-guide/v0.2.0-rc.2/account-sign-in-errors/guide.md` — Account sign-in error codes
+- `docs/upgrade-guide/v0.2.0-rc.2/bundled-python-tests/guide.md` — NumPy and pandas upstream tests require a separate environment
+- `docs/upgrade-guide/v0.2.0-rc.2/remove-runtime-invariants/guide.md` — Runtime invariant plugins are removed
+- `docs/upgrade-guide/v0.2.0-rc.2/schedule-bundle-retired/guide.md` — Automation tasks bundle removed
+- `docs/upgrade-guide/v0.2.0-rc.2/subpath-plugin-display-manifest/guide.md` — Subpath plugins read `<subpath>/icon` instead of `<subpath>/package.json`
+- `docs/upgrade-guide/v0.2.1-alpha.1/deepseek-model-discovery/guide.md` — DeepSeek API-key model visibility
+- `docs/upgrade-guide/v0.2.1-alpha.1/desktop-test-auth-popup/guide.md` — Enable test update-policy authentication dialogs locally
+- `docs/upgrade-guide/v0.2.1-alpha.1/experimental-package-composition/guide.md` — Explicit installation and composition for optional capabilities
+- `docs/upgrade-guide/v0.2.1-alpha.1/instruction-home-override/guide.md` — Instruction loading resolves one harness home
+- `docs/upgrade-guide/v0.2.1-alpha.1/mock-messages-events/guide.md` — Read named events from the Messages mock server
+- `docs/upgrade-guide/v0.2.1-alpha.1/native-subagent-bundle-tools/guide.md` — Native subagent bundles include global tools
+- `docs/upgrade-guide/v0.2.1-alpha.1/new-session-generations/guide.md` — Start a fresh Agent with New Session
+- `docs/upgrade-guide/v0.2.1-alpha.1/plugin-option-placement/guide.md` — `dsh plugin` option placement
+- `docs/upgrade-guide/v0.2.1-alpha.1/python-optional-resources/guide.md` — Download optional Python runtime resources explicitly
+- `docs/upgrade-guide/v0.2.1-alpha.1/python-ptc-sandbox/guide.md` — Python PTC applies the shared file sandbox
+- `docs/upgrade-guide/v0.2.1-alpha.1/session-title-adapters/guide.md` — Prepare custom title routes
+- `docs/upgrade-guide/v0.2.1-alpha.1/session-title-provider-strategy/guide.md` — Migrate session-title providers
+- `docs/upgrade-guide/v0.2.1-alpha.1/ssh-helper-launch/guide.md` — SSH helper and PTC launch configuration
+- `docs/upgrade-guide/v0.2.1-alpha.1/subagent-activations/guide.md` — Migrate delegation to managed subagent activations
+- `docs/upgrade-guide/v0.2.1-alpha.1/team-direct-inbox/guide.md` — Agent Teams messages use target inboxes
+- `docs/upgrade-guide/v0.2.1-alpha.1/terminal-command-labels/guide.md` — Terminal command labels
+- `docs/upgrade-guide/v0.2.1-alpha.1/tool-presentation-mode/guide.md` — Select native or PTC tool presentation
+- `docs/upgrade-guide/v0.2.1-alpha.1/web-listener-trust-config/guide.md` — Web listener and trust configuration moves to `webStartup`
+- `docs/upgrade-guide/v0.2.1-alpha.1/working-directory/guide.md` — Migrate working-directory configuration and tool presentation
+- `docs/user/develop/basic/config.md` — Plugin configuration
+- `docs/user/develop/basic/index.md` — Your first plugin
+- `docs/user/develop/basic/publish.md` — Package and install a plugin
+- `docs/user/develop/basic/tool.md` — Build a tool
+- `docs/user/develop/framework/events.md` — Event system
+- `docs/user/develop/framework/index.md` — Plugins and lifecycle
+- `docs/user/develop/framework/service.md` — Services and dependencies
+- `docs/user/develop/practice/dynamic-cordis.md` — Configure persistent plugins from a prompt
+- `docs/user/develop/practice/index.md` — Three-role capability design
+- `docs/user/develop/practice/llm-adapter.md` — LLM adapters
+- `docs/user/guide/github-review.md` — Create review Sessions from GitHub webhooks
+- `docs/user/guide/index.md` — Use the Web UI
+- `docs/user/guide/mcp-memory.md` — Connect a third-party memory MCP server
+- `docs/user/guide/network-proxy.md` — Run DSH behind a network proxy
+- `docs/user/guide/providers.md` — Configure models
+- `docs/user/guide/public-deployments.md` — Publish the Web UI behind a reverse proxy
+- `docs/user/guide/python-sdk.md` — Get started with the Python SDK
+- `docs/user/guide/schedule.md` — Schedule reminders
+- `docs/user/index.md` — DeepSeek Harness
+- `docs/web-styling.md` — Web UI style reference

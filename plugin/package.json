@@ -1,0 +1,28 @@
+{
+  "name": "dsh-hermes-thin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Thin, cache-optimised MCP bridge that lets Hermes Agent drive the DeepSeek Harness desktop app as its coding surface.",
+  "type": "module",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "cordis.patch.yml",
+    "README.md",
+    "smoke.mjs"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "comment": "Bundle manifest: installing this package into a profile activates ./cordis.patch.yml as a layer. The @deepseek-ai/* packages are peerDependencies ON PURPOSE - per the harness' own publish guide, peers present in the running installation's resolution use the INSTALLATION'S copy, which is what preserves Symbol identity (and therefore agent preset mounting). A real dependency copy here is the 'dual-package hazard': the agent then runs with no tools. @modelcontextprotocol/sdk is deliberately not used - the MCP surface is hand-rolled in index.js.",
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "*",
+    "@deepseek-ai/dsh-agent": "*",
+    "@deepseek-ai/dsh-llm": "*",
+    "@deepseek-ai/dsh-session": "*",
+    "@deepseek-ai/schemastery": "*"
+  },
+  "dependencies": {}
+}

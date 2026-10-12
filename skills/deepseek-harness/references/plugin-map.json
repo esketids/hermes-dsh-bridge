@@ -1,0 +1,2011 @@
+{
+ "cordis": {
+  "group": "other",
+  "desc": "",
+  "summary": "",
+  "kv": "",
+  "tok": ""
+ },
+ "cordis-plugin-group": {
+  "group": "other",
+  "desc": "",
+  "summary": "",
+  "kv": "",
+  "tok": ""
+ },
+ "cordis-plugin-include": {
+  "group": "other",
+  "desc": "",
+  "summary": "",
+  "kv": "",
+  "tok": ""
+ },
+ "cordis-plugin-loader": {
+  "group": "other",
+  "desc": "",
+  "summary": "",
+  "kv": "",
+  "tok": ""
+ },
+ "cordis-plugin-timer": {
+  "group": "other",
+  "desc": "",
+  "summary": "",
+  "kv": "",
+  "tok": ""
+ },
+ "cosmokit": {
+  "group": "other",
+  "desc": "",
+  "summary": "",
+  "kv": "",
+  "tok": ""
+ },
+ "dsh": {
+  "group": "other",
+  "desc": "",
+  "summary": "",
+  "kv": "",
+  "tok": ""
+ },
+ "dsh-acp": {
+  "group": "acp",
+  "desc": "Automation-only ACP (Agent Client Protocol) server for programmatic clients and maintainers driving DeepSeek Harness agents over JSON-RPC stdio.",
+  "summary": "`dsh-acp` lets trusted programs automate persistent DeepSeek Harness agents through the standard [ACP](https://agentclientprotocol.com): create or resume sessions, select a model and reasoning effort,",
+  "kv": "Append-only while the selected route and assembled prefix stay unchanged. A model change starts the next ACP turn on the new route.",
+  "tok": "Prompt content, tool calls/results, and durable image references remain in that session until compaction. Concurrent sessions retain independent contexts."
+ },
+ "dsh-acp-app": {
+  "group": "bundle",
+  "desc": "Automation-only ACP stdio application profile for users and maintainers launching persistent harness agents.",
+  "summary": "The automation-only ACP stdio application as a `dsh` profile bundle over [`dsh-base`](../base/README.md). It inherits the base's disabled module-HMR policy; its patch sets the coding-agent persona and",
+  "kv": "Stable for a fixed profile, provider, model, and tool roster. Profile changes take effect on the next process because the shipped ACP profile uses startup-only patches.",
+  "tok": "One short stable persona plus the data-dependent base prompt sections and selected tool schemas."
+ },
+ "dsh-agent": {
+  "group": "core",
+  "desc": "The Agent handle, live registry, process-local initiator scope, and agent/* event vocabulary for plugins, UI, and orchestrators building or extending ",
+  "summary": "Use `dsh-agent` to create or resume live agents, send follow-up or steering input, inject model-facing context, cancel work, and wait for idle completion. Plugins, UI, hooks, and orchestrators can als",
+  "kv": "Accepted history and steering are append-only; a blocked submission sends no request. A session prefix remains stable within its loop instance, while a new or resumed instance may establish a different prefix.",
+  "tok": "Accepted content becomes retained history or a repeated session prefix; blocked content contributes no request tokens. Each emitted model-switch notice adds its text to retained hi"
+ },
+ "dsh-agent-default-model": {
+  "group": "core",
+  "desc": "The deployment default model selection for users and maintainers choosing, configuring, or debugging which model freshly created agents start on.",
+  "summary": "Give newly created agents a shared default provider and model when their sessions do not specify one. Provider, model, and reasoning effort are live Config fields. Saved selections update the active p",
+  "kv": "Changing the default affects only agents that subsequently resolve from it. An existing session whose request log already names a selection keeps that selection, so this service does not invalidate its established prefix",
+  "tok": ""
+ },
+ "dsh-agent-instructions": {
+  "group": "context",
+  "desc": "Workspace-instruction context for users and maintainers enabling, sizing, or debugging AGENTS.md/CLAUDE.md loading and refresh.",
+  "summary": "`dsh-agent-instructions` gives agents workspace guidance from user-global and project-level `AGENTS.md`-compatible files. It loads the applicable chain for the first request. It does not watch externa",
+  "kv": "Append-only after the existing reusable prefix. Resume preserves reuse when the visible baseline identity is compatible; an incompatible identity appends a complete replacement, so discovery, precedence, project-root, or",
+  "tok": "The rendered baseline is appended once and remains in derived history until compaction. `maxBytes` bounds the complete message, broader files are omitted before the most-specific f"
+ },
+ "dsh-agent-loop": {
+  "group": "core",
+  "desc": "The default agent driver for users and maintainers choosing, configuring, or debugging how agents are created and how turns and steps run.",
+  "summary": "`dsh-agent-loop` creates fresh agents or resumes persisted sessions, then drives each turn through model requests, streamed responses, tool execution, and durable session history. Mount it for standar",
+  "kv": "Prefix reuse requires earlier messages and declarations to stay byte-identical under the same provider and model route. An unchanged rendered prompt keeps the cached prefix unless an incapable route or a new request seri",
+  "tok": "System text and schemas are paid again on every step, and on an `in-history` route every retained prompt version is paid until compaction shadows it or prompt reconciliation emptie"
+ },
+ "dsh-agent-preset": {
+  "group": "preset",
+  "desc": "Define an Agent\u2019s child plugins in ordinary Cordis YAML. Declare several presets and let sessions select one. Definitions load eagerly, and edits affe",
+  "summary": "Define an Agent\u2019s child plugins in ordinary Cordis YAML. Declare several presets and let sessions select one. Definitions load eagerly, and edits affect subsequently created Agents.",
+  "kv": "A live Agent\u2019s composition stays stable; new Agents can use an updated definition.",
+  "tok": ""
+ },
+ "dsh-agent-preset-registry": {
+  "group": "preset",
+  "desc": "Choose an Agent\u2019s tools, prompt sections and skills through declarative presets. One process can run several compositions. Failed definitions remain v",
+  "summary": "Choose an Agent\u2019s tools, prompt sections and skills through declarative presets. One process can run several compositions. Failed definitions remain visible, while existing Agents retain the compositi",
+  "kv": "Existing Agents retain their plugins and prompts. New Agents build their prefixes from the current definition.",
+  "tok": "None from this package; each mounted `plugins` row declares its own tools and sections."
+ },
+ "dsh-agent-tool-presentation": {
+  "group": "core",
+  "desc": "The agent-plane presentation selector for users and maintainers choosing, configuring, or debugging which form of its tools an agent preset's models s",
+  "summary": "Use `dsh-agent-tool-presentation` in an [agent preset](../../preset/agent-preset-registry/README.md) to fix whether models see every native tool schema, only `run_code` with a generated SDK, or both f",
+  "kv": "No direct invalidation; the presentation is fixed when the agent is composed, so its request prefix is stable for the session's life.",
+  "tok": ""
+ },
+ "dsh-anonymous-user-id": {
+  "group": "identity",
+  "desc": "Anonymous per-harness-home identity for users and maintainers tracing how telemetry, feedback acknowledgement, and DeepSeek provider requests correlat",
+  "summary": "DeepSeek Harness uses one anonymous identifier per harness home to correlate telemetry, feedback, and DeepSeek requests from the same installation without identifying the user. The random UUID is stor",
+  "kv": "None; the transport header changes neither tokens nor the model-visible prefix.",
+  "tok": ""
+ },
+ "dsh-api-account-controller": {
+  "group": "api",
+  "desc": "Account screens use authenticated Remote commands and a snapshot stream. The controller exposes login state without returning tokens or PKCE secrets.",
+  "summary": "Account screens use authenticated Remote commands and a snapshot stream. The controller exposes login state without returning tokens or PKCE secrets.",
+  "kv": "No model request prefix changes.",
+  "tok": ""
+ },
+ "dsh-api-gateway": {
+  "group": "api",
+  "desc": "Typed Client-to-Host calls and streams: dispatch, validation, cancellation, reconnection, and forwarded Host events.",
+  "summary": "Two-sided Typert RPC endpoint for Host and Client Cordis environments. The Host entry provides `ctx.typertGateway`, while `@deepseek-ai/dsh-api-gateway/client` provides `ctx.remote`; both consume the ",
+  "kv": "No direct effect; invoked business Services own any model-visible result.",
+  "tok": ""
+ },
+ "dsh-api-job-controller": {
+  "group": "api",
+  "desc": "Host and Client job control: the roster one session can see and one job's retained output, mirrored to the browser without touching the model's consum",
+  "summary": "`@deepseek-ai/dsh-api-job-controller` owns the Host `ctx.jobController` service and the generated Client `ctx.remote.job` namespace. Its two Remote streams are projections of `ctx.jobs`: `job.list` mi",
+  "kv": "No direct effect; observation reads never touch model requests.",
+  "tok": ""
+ },
+ "dsh-api-remotes": {
+  "group": "api",
+  "desc": "Application Remote assembly: selects typed Host capabilities and forwarded events for Client consumers.",
+  "summary": "Two-sided BFF for Host Remote capabilities selected by this application. The Host entry owns the forwarded-event selection and registers its application event source with API Gateway; the Client entry",
+  "kv": "No direct effect; mounted Host capabilities own any model-visible behavior they trigger.",
+  "tok": ""
+ },
+ "dsh-api-session-controller": {
+  "group": "api",
+  "desc": "Host and Client session control: create, resume, prompt, follow history, and project live session state.",
+  "summary": "`@deepseek-ai/dsh-api-session-controller` owns the Host `ctx.sessionController` service and the generated Client `session`, `skills`, and `fileReferences` Remote namespaces. It serves Session lifecycl",
+  "kv": "No direct effect; model requests remain owned by the Agent and LLM packages.",
+  "tok": ""
+ },
+ "dsh-api-settings-controller": {
+  "group": "api",
+  "desc": "Host Remote owner for settings and credential configuration surfaces, including redacted reads, writes, credential references, and native document ope",
+  "summary": "`@deepseek-ai/dsh-api-settings-controller` exposes generated `ctx.remote.settings` and `ctx.remote.credentials` namespaces for browser configuration surfaces. It returns redacted settings and credenti",
+  "kv": "No direct effect; reading or writing these configuration values does not alter model requests already in flight.",
+  "tok": ""
+ },
+ "dsh-api-terminal-controller": {
+  "group": "api",
+  "desc": "Interactive user terminals with execution-environment shell defaults, bounded screen recovery and typed Remote control.",
+  "summary": "Open the execution environment's default shell in a Session workspace from the Web sidebar. Reconnect to existing processes and close their complete provider-owned process ranges. Terminal output stay",
+  "kv": "None; terminal output travels only between the browser and Host.",
+  "tok": ""
+ },
+ "dsh-api-workspace-controller": {
+  "group": "api",
+  "desc": "Host and Client workspace control: mutate workspace navigation and follow its complete projection.",
+  "summary": "`@deepseek-ai/dsh-api-workspace-controller` owns the Host `ctx.workspaceController` service and the generated Client `ctx.remote.workspace` namespace. Its Remote methods create, rename, remove, and re",
+  "kv": "No direct effect; Workspace mutations do not alter model requests.",
+  "tok": ""
+ },
+ "dsh-api-workspace-files": {
+  "group": "api",
+  "desc": "Workspace file service for the web GUI: bounded reads and target-scoped filesystem watches, plus directory listing inside the Session workspace root.",
+  "summary": "Use this package to preview files readable through a Session's filesystem from the web client. It reads UTF-8 text by page, reads bounded byte windows or complete files, resolves related files from a ",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-app-boot": {
+  "group": "boot",
+  "desc": "Shared Loader boot support for dsh profiles and the temporary Python SDK runtime: environment layers, patches, diagnostics, and configuration preview.",
+  "summary": "`dsh-app-boot` is the shared Loader boot library behind `dsh` profiles, including the CLI packaged by the Python runtime wheel. It loads environment layers, composes profile bundles and patches, boots",
+  "kv": "Boot itself changes no request prefix. `addHarnessSourceSection` places its source path after first-party reusable instructions, so different checkouts leave those preceding bytes unchanged when tools and configuration m",
+  "tok": ""
+ },
+ "dsh-atomic-write": {
+  "group": "util",
+  "desc": "Atomic file replacement and cross-process writer locking for packages that must never leave partial, symlink-hijacked, or wider-permission content on ",
+  "summary": "Use `dsh-atomic-write` to replace a file without exposing partial content or following a symlinked temporary path. Its writer lock serializes read-modify-write cycles across processes so concurrent wr",
+  "kv": "Nothing here enters a request prefix, so provider cache reuse is unaffected.",
+  "tok": ""
+ },
+ "dsh-attachment": {
+  "group": "attachment",
+  "desc": "Durable image and file attachments for users and maintainers attaching, reusing, or debugging uploads in prompts and commands.",
+  "summary": "Attach images and generic files to prompts and commands, then reuse them after restarting the same session, without extra setup in the shipped `dsh` composition. Images are validated and normalized be",
+  "kv": "Adding an image changes the provider request and therefore invalidates the affected request suffix.",
+  "tok": ""
+ },
+ "dsh-attachment-local": {
+  "group": "attachment",
+  "desc": "Local storage for your attached images below DSH_HOME, for users and maintainers choosing or debugging where image attachments are kept.",
+  "summary": "Store images and generic file attachments durably below `DSH_HOME` on the machine running DSH. Images are validated, normalized for model requests, and cached per route; generic files are preserved by",
+  "kv": "Normalization and request projection are deterministic. An unchanged attachment and route policy reuse identical cached request bytes on later turns; execution-world path mapping can change descriptor text without changi",
+  "tok": ""
+ },
+ "dsh-authorization": {
+  "group": "credentials",
+  "desc": "The authorization flow registry for users and maintainers who obtain credentials that configuration cannot supply, because getting one means a convers",
+  "summary": "`dsh-authorization` lets a configuration UI or another caller obtain credentials through a human-guided sign-in, code entry, or question. Each attempt sends notices and prompts only to the surface tha",
+  "kv": "No invalidation; no authorization state enters a request prefix.",
+  "tok": ""
+ },
+ "dsh-base": {
+  "group": "bundle",
+  "desc": "The shared dsh core: model access, tools, durable sessions, and safety defaults for every dsh --profile surface, for users composing or customizing a ",
+  "summary": "Every base-backed `dsh --profile` surface runs on `dsh-base`, so those surfaces share a model connection, the full tool set, durable session history, and workspace safety defaults. The shipped `sdk-mi",
+  "kv": "The bundle itself adds no request prefix; each inserted row's package owns any cache effect.",
+  "tok": ""
+ },
+ "dsh-bash-local": {
+  "group": "shell",
+  "desc": "The default POSIX Bash executor for deployments and maintainers choosing, configuring, or debugging unconfined command execution over the shell seam.",
+  "summary": "`dsh-bash-local` is the default Bash executor for POSIX: every command runs as a fresh, non-login `bash -c` process with no rc files, so no shell state survives between calls. It applies configured bu",
+  "kv": "No direct invalidation; the named consumer owns any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-bash-sandbox": {
+  "group": "shell",
+  "desc": "The sandbox-consuming Bash executor for deployments and maintainers choosing, configuring, or debugging confined command execution with denial and esc",
+  "summary": "Use `dsh-bash-sandbox` to run each Bash command with file-access confinement instead of the harness process's full authority. Results report the selected mode, denied file operations, and whether the ",
+  "kv": "A standing-policy change appends a complete owner-rendered context snapshot after retained history, preserving the existing system/history prefix byte-for-byte. Changing executor capabilities alters the `bash` schema.",
+  "tok": "Small fixed schema increment on requests where `bash` is visible, plus the current-policy clause owned by `dsh-sandbox-policy`."
+ },
+ "dsh-brand": {
+  "group": "util",
+  "desc": "Nominal string and number types with stateless constructors for packages that own confusable domain values.",
+  "summary": "`dsh-brand` makes structurally identical strings or numbers non-interchangeable at the type level: a `SessionId` cannot be passed where a `ToolCallId` is expected, and an event sequence cannot be pass",
+  "kv": "",
+  "tok": ""
+ },
+ "dsh-chunked-list": {
+  "group": "util",
+  "desc": "Immutable append-only lists for projection state, with bounded append copying, insertion-order iteration, and Zod checkpoint validation.",
+  "summary": "`dsh-chunked-list` lets callers append values while retaining earlier list versions without copying the whole collection. Callers can iterate every value in insertion order and validate JSON checkpoin",
+  "kv": "Nothing here enters a model request, so provider cache reuse is unaffected.",
+  "tok": ""
+ },
+ "dsh-client-connection": {
+  "group": "ui",
+  "desc": "Browser-host wire layer for the web GUI: Remote RPC, event-stream delivery with reconnect, exact Fetch routes, the /api HTTP bridge, and the browser-t",
+  "summary": "The package carries browser-to-Host Remote calls, exact Fetch responses, and connection generations. The Client plugin mounts `ctx.connection` with current-page loopback state, generic RPC, the active",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-file-upload": {
+  "group": "ui",
+  "desc": "Session-addressed browser file uploads with streaming intake, progress, cancellation, and staged receipts for later prompts.",
+  "summary": "This package lets browser features store a `Blob`, exact bytes, or a `ReadableStream<Uint8Array>` for one Session and receive an opaque receipt for a later prompt. Served pages send Blob and stream bo",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-hmr": {
+  "group": "ui",
+  "desc": "Live graph synchronization and development bundle reloads for Web client plugins.",
+  "summary": "`dsh-client-hmr` keeps open Web pages in sync with the Host plugin graph and reloads rebuilt browser bundles. Ordinary plugin enable/disable changes take effect without reloading the page or restartin",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-locale": {
+  "group": "ui",
+  "desc": "Localization for the web GUI: the zh/en preference, browser-derived fallback, typed namespace dictionaries, and the framework translation seat, for us",
+  "summary": "Use `dsh-client-locale` to switch the web GUI between the shipped English and Chinese locales or languages added by client plugins. User selections take effect immediately; loopback pages persist them",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-modules": {
+  "group": "ui",
+  "desc": "Client module system for the web GUI: the host composes the boot graph and serves plugin bundles, and the browser loads them lazily, for users and mai",
+  "summary": "`dsh-client-modules` turns a plugin package's `dsh.client` declaration into a loadable browser bundle: the host half scans enabled Loader entries and composes the boot graph, an available Web carrier ",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-product-analytics": {
+  "group": "ui",
+  "desc": "Configure Desktop product analytics, identity fields, and event timing without collecting Web usage.",
+  "summary": "Desktop reports selected interactions through the existing OTel product exporter by default, without a user-facing control. Ordinary Web clients never submit these events, and missing login identity i",
+  "kv": "None; collection does not modify model requests.",
+  "tok": ""
+ },
+ "dsh-client-resources": {
+  "group": "ui",
+  "desc": "Client resource model: protocol-registered providers turn URL addresses into live values that any slot component reads through the useResource standar",
+  "summary": "Use client resources when a component knows live data only by URL address, such as a tab record, link, or mention, while another client package owns the data. Resource addresses use `dsh-resource://<t",
+  "kv": "None; resource streams do not assemble model requests.",
+  "tok": ""
+ },
+ "dsh-client-shortcuts": {
+  "group": "ui",
+  "desc": "Customize application keyboard commands for each device",
+  "summary": "Customize application keyboard commands for each device. Desktop and Web choose separate defaults for the receiving device. Custom bindings survive reloads on the same device. Commands disappear when ",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-store": {
+  "group": "ui",
+  "desc": "Observable browser state stores with explicit snapshots, subscriptions, and lifecycle ownership.",
+  "summary": "React-free observable and snapshot-store primitives shared by Client controllers and renderer adapters. The package owns synchronous and animation-frame publication, Immer-backed updates, shallow equa",
+  "kv": "None; the stores neither assemble nor send model requests.",
+  "tok": ""
+ },
+ "dsh-client-ui-agent-preset": {
+  "group": "ui",
+  "desc": "Choose Agent presets and the new-task default in Web, read what each mode does and what it declares. Authoring is guided to Creator mode.",
+  "summary": "Choose Agent presets and the new-task default in Web, read what each mode does and what it declares. Authoring is guided to Creator mode.",
+  "kv": "Selection changes affect only later tasks; existing plugins and prompts remain unchanged.",
+  "tok": ""
+ },
+ "dsh-client-ui-approval": {
+  "group": "ui",
+  "desc": "Browser approval UI that answers Host permission requests through the scoped interaction path.",
+  "summary": "Browser approval presentation over the Agent-scoped Remote Event waterfall. The plugin publishes each pending request through `ctx.uiSession`, takes over the Conversation composer, optionally renders ",
+  "kv": "None; approval request and response rendering does not alter a model request.",
+  "tok": ""
+ },
+ "dsh-client-ui-attachment": {
+  "group": "ui",
+  "desc": "Attachment presentation for the conversation UI: mixed draft-attachment rail, document drop target, history-image gallery, and original-image lightbox",
+  "summary": "This package renders everything the conversation UI shows about attachments: one ordered draft rail under the composer, a full-viewport drop invitation, durable images in Chat, Trajectory, and Tool re",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-brand-official": {
+  "group": "ui",
+  "desc": "Official DeepSeek Harness brand occupants for the sidebar, active only in official builds; for users and maintainers choosing or replacing brand prese",
+  "summary": "This package gives an `official` client build the DeepSeek Harness mark and name in the sidebar. Other build profiles keep the shell's fish mark and local-build label, while the conversation hero alwa",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-chat": {
+  "group": "ui",
+  "desc": "Browser Chat target that renders Session conversation nodes, historical images, actions, localization, and scroll state.",
+  "summary": "Use this package to render a browser chat from recorded Session conversations, including historical images, localized actions, and restored scroll position. Work-details modes control reasoning previe",
+  "kv": "None; Chat presentation does not assemble or mutate provider requests.",
+  "tok": ""
+ },
+ "dsh-client-ui-commands": {
+  "group": "ui",
+  "desc": "Client command API for the Web GUI: the / command source, three dispatch kinds, the per-session command directory, and popupSelect and action registra",
+  "summary": "Typing a `/` command opens a registered popup, a client action, a host command's input, or direct execution; a command line is never silently downgraded to a plain prompt. Business packages register p",
+  "kv": "None directly; this package neither assembles nor sends a provider request. Command handlers it triggers may change what the owning host packages contribute to the next request's system prompt \u2014 a section appearing or di",
+  "tok": ""
+ },
+ "dsh-client-ui-conversation": {
+  "group": "ui",
+  "desc": "Target-neutral conversation assembly and browser shell: event and view registries, per-session bindings, input state, slots, and temporary composer ta",
+  "summary": "`ui-conversation` owns target-neutral Conversation assembly and the shared browser shell. It consumes Session Controller `SessionEventLikeEntry` feeds, exposes React-free registries and per-Session bi",
+  "kv": "None; Conversation assembly and browser input state do not alter provider-side prompt caching.",
+  "tok": ""
+ },
+ "dsh-client-ui-cordis": {
+  "group": "ui",
+  "desc": "Historical Cordis cards and controls for process-local runner definitions.",
+  "summary": "`dsh-client-ui-cordis` renders historical generated-plugin cards and a control panel for process-local definitions. Users can operate definitions supplied by programmatic consumers; persisted cards re",
+  "kv": "None directly: this package owns rendering; runner-originated steering changes the session history.",
+  "tok": ""
+ },
+ "dsh-client-ui-deliverables": {
+  "group": "ui",
+  "desc": "Changed files, deliveries, and clickable file references for the Web GUI: the changed-files card and delivery cards a finished turn ends with, the rev",
+  "summary": "This package renders the changed-files card a finished turn ends with \u2014 the files the turn changed, with the Host's line counts, each opening the turn's review tab on that file \u2014 plus cards for explic",
+  "kv": "The section is static at first-party order 9000 for the lifetime of the package mount, so it remains in the reusable prompt prefix and does not change across Turns.",
+  "tok": "One fixed paragraph containing output-selection, rendering, and file-reference guidance whenever this package is loaded. The [present tool](../../deliverables/tool-present/README.m"
+ },
+ "dsh-client-ui-directory-picker-browse": {
+  "group": "ui",
+  "desc": "In-app directory-browsing surface: the Miller-column Select Workspace Directory dialog that fills workspace directory flows; for users and maintainers",
+  "summary": "This package provides the in-app directory-browsing surface for the Web GUI: a Select Workspace Directory dialog that lists, navigates, and creates folders through the local Host, with no operating-sy",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-directory-picker-native": {
+  "group": "ui",
+  "desc": "Native directory-picker surface: the browser half that drives the local Desktop or Host OS chooser for workspace-directory flows; for users and mainta",
+  "summary": "This package provides the native directory-picking surface for the Web GUI: when a workspace flow asks for a directory, a renderless browser occupant opens the operating system's own chooser on the lo",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-goal": {
+  "group": "ui",
+  "desc": "Goal surface for the Web GUI: the composer-context strip that shows the current goal and edits, pauses, resumes, or clears it; for users and maintaine",
+  "summary": "The Web GUI goal surface shows both the durable goal state and its current process-local activation, and lets users edit, pause, resume, or clear the goal; rejected changes appear inline. It displays ",
+  "kv": "None unless the queued goal context is admitted. An admitted context extends the history tail like any other message; an insertion discarded before admission does not affect the cache.",
+  "tok": ""
+ },
+ "dsh-client-ui-input-trigger": {
+  "group": "ui",
+  "desc": "Input trigger pipeline for the Web GUI: / and @ detection under the caret, the grouped candidate menu, and pick routing to registered sources; for use",
+  "summary": "When users type `/` or `@` at the caret in the Web GUI, this package opens a grouped menu for slash commands, file references, and session references. It supports keyboard and pointer selection, inclu",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-jobs": {
+  "group": "ui",
+  "desc": "The session-header background-job list: expandable streaming output panels, running/finished sections, and static rows for settled jobs without retain",
+  "summary": "`dsh-client-ui-jobs` shows the session's background jobs in one header control, with lifecycle, elapsed time, progress, and terminal detail. Live jobs and settled jobs with retained output offer expan",
+  "kv": "None; the package never assembles or sends provider requests.",
+  "tok": ""
+ },
+ "dsh-client-ui-layout": {
+  "group": "ui",
+  "desc": "Shell layout for the Web GUI: the three-column AppFrame whose right column is a track for an edge-anchored panel, the panel-geometry service, and them",
+  "summary": "This package provides the Web GUI's three-column AppFrame, edge-column widths, and `ctx.layout` presentation control. The right column concedes space before the center; its occupant renders fullscreen",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-message-feedback": {
+  "group": "ui",
+  "desc": "The Web feedback surface: the Like/Dislike pair in the finalized assistant message's action row, the feedback dialog behind both ratings and `/feedbac",
+  "summary": "This package is the Web GUI's feedback surface: the Like/Dislike pair in the finalized assistant message's action strip, the feedback dialog with its acknowledgement and failure toasts in the composer",
+  "kv": "None; feedback mutations leave the model-visible history unchanged.",
+  "tok": ""
+ },
+ "dsh-client-ui-model-selection": {
+  "group": "ui",
+  "desc": "Model selection for the Web GUI: the /model popup and the composer model seat over one per-session provider-grouped directory; for users and maintaine",
+  "summary": "The Web GUI lets users switch the model and reasoning effort for an existing session through either the `/model` popup or the composer's model control. Both surfaces present the same provider-grouped ",
+  "kv": "Switching the route can reduce or invalidate provider-side cache reuse for subsequent requests; the prompt prefix itself is untouched.",
+  "tok": ""
+ },
+ "dsh-client-ui-open-in-app": {
+  "group": "ui",
+  "desc": "Web \\\"Open In...\\\" controls: the Session-header split button launching the remembered application on the workspace directory, and the document preview",
+  "summary": "This package provides the browser surface of the open-in-app feature. A Session-header split button opens the current session's workspace directory (the summary's `cwd`) in the remembered application,",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-permission-presets": {
+  "group": "ui",
+  "desc": "Permission preset surfaces for the Web GUI: the General settings default row and the /permission picker for the current session; for users and maintai",
+  "summary": "Choose permission presets for the current Web session or future sessions. General settings changes only the future default; the composer and `/permission` pickers switch the current session. Default W",
+  "kv": "No direct invalidation; the knob consumers own any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-client-ui-plan": {
+  "group": "ui",
+  "desc": "Plan-mode status chip for the Web GUI: the composer control that shows plan mode is on and turns it off; for users and maintainers of plan mode.",
+  "summary": "Plan mode lets you review a plan before implementation. Enter with `/plan` and leave with the composer chip. Submitted plans open automatically in the right sidebar for review and remain available fro",
+  "kv": "Entering or leaving plan mode changes the active `plan:policy` system-prompt section and therefore the request prefix; the chip itself adds no prompt content.",
+  "tok": ""
+ },
+ "dsh-client-ui-plugin-manager": {
+  "group": "ui",
+  "desc": "Manage the profile's plugin bundles, their rows, and the plugins' configuration from the Web sidebar.",
+  "summary": "Use the **Plugins** entry in the Web sidebar to manage the profile's installed bundles and the official bundles the installation ships switched off. Switch bundles and their rows on and off, install a",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-primitives": {
+  "group": "ui",
+  "desc": "Shared React UI atoms for the dsh web client: controls, icons, markdown and math rendering, and the terminal/read/diff/search/web output cards (zero C",
+  "summary": "Use `dsh-client-ui-primitives` to build web-client controls and render agent output with shared React UI. It includes standard controls, icons, anchored overlays, and renderers for Markdown with TeX, ",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-reference": {
+  "group": "ui",
+  "desc": "Web @file and @session reference source for the composer: candidates, ordering, and atomic inline references (unified file/session picking).",
+  "summary": "Use `dsh-client-ui-reference` when Web users need to mention files, folders, or sessions from one `@` completion menu. It lists files before sessions and keeps either group available when the other ca",
+  "kv": "Candidate browsing has no model effect. A selected file or session changes only the new user-message suffix and any Host-prepared session-reference context that follows that message; earlier target history remains unchan",
+  "tok": ""
+ },
+ "dsh-client-ui-renderer": {
+  "group": "ui",
+  "desc": "Browser UI renderer: React bindings for ordinary Slots and reusable Component Factories, ctx.uiRenderer, and the assembled dsh web application root.",
+  "summary": "`dsh-client-ui-renderer` mounts the assembled dsh web client GUI: after the complete client plugin roster settles, the boot kernel calls `ctx.uiRenderer.mount(container)`, which hydrates the framework",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-schedule": {
+  "group": "ui",
+  "desc": "Web task management across Sessions and a current-Session reminder catalog.",
+  "summary": "Manage active and inactive tasks from the Automation tasks page and the right Sidebar task tab: search, filter, edit name, instruction, and run time, browse records, delete, or open the original conve",
+  "kv": "None. Catalog presentation does not enter model requests.",
+  "tok": ""
+ },
+ "dsh-client-ui-session": {
+  "group": "ui",
+  "desc": "React and Slot adapters for Session Controller lists, interaction state, and per-session context.",
+  "summary": "Use this package to expose Session catalog, retain information, and unified UI status through standard Slot hooks. It materializes per-`SessionBinding` hooks and props, while `SessionProvider` can inh",
+  "kv": "None; Session selectors and Slot scopes do not assemble model requests.",
+  "tok": ""
+ },
+ "dsh-client-ui-settings": {
+  "group": "ui",
+  "desc": "Settings domain base plugin: shared configuration forms, schema service, and the canonical settings slot-type contract for the dsh web client.",
+  "summary": "This package lets web-client features expose editable preferences backed by the Host settings document without implementing their own transport or schema handling. Each feature gets namespace-scoped r",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-settings-account": {
+  "group": "ui",
+  "desc": "Desktop Account settings display DeepSeek login state and offer browser authorization and cancellation; the sidebar account menu provides Platform sig",
+  "summary": "The Account settings section displays DeepSeek login state and offers browser sign-in and cancellation; the sidebar account menu provides Platform sign-out. Desktop users also receive a resumable intr",
+  "kv": "No model request prefix changes.",
+  "tok": ""
+ },
+ "dsh-client-ui-settings-agent-loop": {
+  "group": "ui",
+  "desc": "The agent loop's settings page on the dsh web client's Plugins page: the parallel tool-call cap of the agent-loop namespace.",
+  "summary": "Open **Plugins** in the sidebar and select **Agent loop** in the Official group to set how many parallel-safe tool calls one step may run at once. The page stages what is typed and writes it only on s",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-settings-general": {
+  "group": "ui",
+  "desc": "Settings shell, ownerless copy, and durable product-onboarding namespace for the dsh web client: the General section, trigger chrome, and onboarding l",
+  "summary": "Use this package to give the dsh web client a Settings panel, connection-recovery control, feature-contributed navigation, and sequential first-run onboarding. Users can open it from the sidebar, retr",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-settings-models": {
+  "group": "ui",
+  "desc": "Models settings and product-onboarding plugin for the dsh web client: provider rows, API-key management, model lists, and the DeepSeek first-run dialo",
+  "summary": "`dsh-client-ui-settings-models` is the Models settings page of the dsh web client: users configure API keys (stored write-only under the profile's credential reference), edit each provider's model lis",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-settings-plugin-inventory": {
+  "group": "ui",
+  "desc": "Scope-grouped read-only plugin inventory tab in Web Plugins settings for the dsh web client: agent-preset compositions first, the global plane behind ",
+  "summary": "The **Plugin list** tab lets Web users inspect plugins without changing their configuration. It lists agent presets, open by default, then the collapsed global inventory; a search opens both. Cards sh",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-settings-plugins": {
+  "group": "ui",
+  "desc": "Built-in plugins settings section for the dsh web client: the Settings navigation entry and the tab chrome that feature-owned tabs register into.",
+  "summary": "Use the **Built-in plugins** settings section to inspect the plugins this deployment ships. The section is a shell: it owns the navigation entry and the tab row, and every tab in it is registered by a",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-settings-session-log": {
+  "group": "ui",
+  "desc": "Control Session-log upload with DeepSeek API requests from General settings.",
+  "summary": "Use **Upload Session Log when using the official model API** above the version number in **Settings \u2192 General** to control Session-log upload with DeepSeek API requests. The switch shows the accepted ",
+  "kv": "None; the setting controls request metadata outside model input.",
+  "tok": ""
+ },
+ "dsh-client-ui-settings-shell": {
+  "group": "ui",
+  "desc": "The shell executor's settings page on the dsh web client's Plugins page: the command timeout and the per-stream output cap of the shell namespace.",
+  "summary": "Open **Plugins** in the sidebar and select **Shell** in the Official group to set how long one command may run and how much of each output stream stays in memory. The page stages what is typed and wri",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-settings-subagent": {
+  "group": "ui",
+  "desc": "The Subagent settings page on the dsh web client's Plugins page: delegation depth and capacity over the subagent namespace, and the models agents may ",
+  "summary": "Open **Plugins** in the sidebar and select **Subagent** in the Official group to set how deep and how wide delegation may go, and which models agents may choose for their subagents. The page groups th",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-settings-web-search": {
+  "group": "ui",
+  "desc": "The DeepSeek web-search provider's settings page on the dsh web client's Plugins page: its API key, endpoint, and per-request search budget.",
+  "summary": "Open **Plugins** in the sidebar and select **Web search** in the Official group to set the provider's key, endpoint, and how many times one request may search. The page stages what is typed and writes",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-shortcuts": {
+  "group": "ui",
+  "desc": "Browse the commands available in the current window and find them by action, English alias, or key",
+  "summary": "Browse the commands available in the current window and find them by action, English alias, or key. Open the reference from General Settings or Mod+/. Record, clear, or restore application bindings; f",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-sidebar": {
+  "group": "ui",
+  "desc": "Sidebar shell plugin for the dsh web client: brand row, New Session action, collapse control, scroll-aware region seat, and bottom-pinned Settings sea",
+  "summary": "The dsh web client sidebar lets users recognize the active build, start a new session, collapse navigation to a 56px rail, browse Workspaces and Sessions, and open Settings. It preserves a bottom-pinn",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-sidebar-browser": {
+  "group": "ui",
+  "desc": "Right-Sidebar browser tabs for sandboxed HTTP(S) pages, including loopback services.",
+  "summary": "Browse HTTP(S) pages, including loopback services, inside independent right-Sidebar tabs. Web uses an iframe with application-managed history; Desktop uses Electron `<webview>` with native navigation ",
+  "kv": "None; browsing does not enter a model request.",
+  "tok": ""
+ },
+ "dsh-client-ui-sidebar-documentpreview": {
+  "group": "ui",
+  "desc": "Document previews in the right Sidebar: shared file loading and controls, selectable Markdown, code, image, PDF, Office and HTML renderers, and plain-",
+  "summary": "Preview files in the right Sidebar and choose among registered renderers. Markdown and code support paged text; PDF, HTML, common images, and spreadsheets receive complete bytes; unknown extensions us",
+  "kv": "No direct effect; what the user reads here never enters a model request.",
+  "tok": ""
+ },
+ "dsh-client-ui-sidebar-files": {
+  "group": "ui",
+  "desc": "The right Sidebar's file-tree tab type for the dsh web client: the session workspace root listed one level at a time over the wire, opening files into",
+  "summary": "Browse a Session's workspace tree and open files in Sidebar previews. The root and expanded directories refresh automatically from direct-entry watches; manual reload remains available. The tab is rea",
+  "kv": "None; directory listings travel over the Remote and assemble no model request.",
+  "tok": ""
+ },
+ "dsh-client-ui-sidebar-right": {
+  "group": "ui",
+  "desc": "The right Sidebar of the dsh web client: one docking surface per session, two presentations, the navigation controller ctx.sidebarRight, the tab-type ",
+  "summary": "The right Sidebar: where the docking kit meets this product. It holds one docking surface per session, draws it as one edge-anchored panel in the frame's right column in either of two presentations, p",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-sidebar-terminal": {
+  "group": "ui",
+  "desc": "Open, recover and control interactive shell tabs in the Web right sidebar.",
+  "summary": "Choose an installed shell from the right sidebar's Start page to run commands in the Session workspace. Rename terminals in their tabs and recover retained processes after reloading the page. Collapse",
+  "kv": "None; terminal output travels only between the browser and Host.",
+  "tok": ""
+ },
+ "dsh-client-ui-skill": {
+  "group": "ui",
+  "desc": "Web skill references and the dedicated skill tool row for the dsh web client: the /-triggered skill source and the skill call card.",
+  "summary": "`dsh-client-ui-skill` lets users invoke a skill by choosing it from the `/` suggestions or typing `/name` directly. The same literal command loads the skill consistently from the Web composer, TUI, an",
+  "kv": "Append-only: the injected message lands after the reusable history prefix. This package never edits earlier request tokens.",
+  "tok": "One invocation adds the rendered skill body to that turn as injected context \u2014 the same cost as the model loading the skill through the tool, paid unconditionally instead of at the"
+ },
+ "dsh-client-ui-slots": {
+  "group": "ui",
+  "desc": "Slot registry pure core for the dsh web client: ordinary extension slots, reusable Component Factories, derived props types, store seats, and the rend",
+  "summary": "`dsh-client-ui-slots` lets web client plugins define and compose typed UI regions. Ordinary Slots provide parent-owned extension positions; Component Factories provide reusable assemblies with caller-",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-subagent": {
+  "group": "ui",
+  "desc": "Subagent conversation catalog, continuation routing UI, and '@' reference source for the dsh web client.",
+  "summary": "Use this package to browse every subagent conversation beneath a parent session, open any descendant, and see whether it is running together with its token usage and active-turn duration. Completed on",
+  "kv": "Append-only. This package never edits earlier request tokens.",
+  "tok": "Conditional and append-only: the literal `@label` or a human follow-up adds tokens only to its new user message. Catalog and transcript operations add zero model tokens."
+ },
+ "dsh-client-ui-theme": {
+  "group": "ui",
+  "desc": "Theme and content-font-size settings for the dsh web client: --dsw-* token stylesheets, ThemeRuntime state, General settings rows, and the pre-plugin ",
+  "summary": "`dsh-client-ui-theme` lets Web GUI users choose `light`, `dark`, or `system` and set conversation content text from 10 to 22 px in Settings. A loopback client stores both values in the `ui-theme` sett",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-tool": {
+  "group": "ui",
+  "desc": "Client Tool presentation plugin for the dsh web client: whole-call tree composition, the keyed per-tool view slot, and the built-in atomic tool cards.",
+  "summary": "`dsh-client-ui-tool` is the client Tool presentation plugin of the dsh web client: it renders every tool call in the conversation. `ui-conversation` dispatches each ordered `tool-call` Conversation No",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-trajectory": {
+  "group": "ui",
+  "desc": "Trajectory view for the dsh web client: a turn-aware event ledger with an interactive timing overview, registered into the conversation view ring.",
+  "summary": "The Trajectory tab lets you inspect agent activity as a turn-aware ledger and interactive timing overview. It groups User, Assistant, Tool, nested Subtool, and compaction records, marks turn and step ",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-user-questions": {
+  "group": "ui",
+  "desc": "Web ask_user_question feature for the dsh web client: the attached question card, timed wait, drafts, late replies, and the plan-review approval card.",
+  "summary": "The Web client shows an agent's question beside the chat input. Users choose options, enter text, skip questions, and submit one answer batch. A timed card counts down; focus pauses it, editing or `Ta",
+  "kv": "No direct invalidation; `dsh-tool-ask-user` owns the model-visible tool call and result.",
+  "tok": ""
+ },
+ "dsh-client-ui-workflow-run": {
+  "group": "ui",
+  "desc": "Durable workflow-run Conversation Node for the dsh web client: reconstructs top-level workflow runs as independent chat nodes with nested member discl",
+  "summary": "Use `dsh-client-ui-workflow-run` to inspect each durable top-level workflow run as an independent Chat node. Expand a run to see its phases and expand a phase to see members; running, failed, cancelle",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-client-ui-workspace": {
+  "group": "ui",
+  "desc": "Shared Workspace browser and picker plugin for the dsh web client: grouped or flat session rows, management actions, the slot-composed Session row act",
+  "summary": "This package lets users browse grouped or flat Session lists, choose a Workspace for a new Session, and manage Workspaces and Sessions through add, rename, reorder, search, fork, archive, and Workspac",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-cmdline": {
+  "group": "boot",
+  "desc": "App-owned command lines for dsh app bins: your app parses its own flags, --help, and exit behavior from the launcher's remaining arguments.",
+  "summary": "`dsh-cmdline` lets an app parse its own flags, `--help`, and errors from the arguments left unchanged after launcher flags. Parsed values can override configuration defaults without rewriting configur",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-command-compact": {
+  "group": "compaction",
+  "desc": "The on-demand /compact command for interactive compositions: what it does, what you see, and how to mount it.",
+  "summary": "`dsh-command-compact` adds a `/compact` command to chat UIs: type it and the conversation condenses on demand \u2014 the older history is replaced by one summary even before automatic pressure triggers. Th",
+  "kv": "Discovery and command bookkeeping do not affect the cache. The accepted surface replacement invalidates reuse from the first shadowed history token.",
+  "tok": "The command lifecycle adds no model tokens. A successful compaction reduces later requests by replacing the selected span with one framed summary; summarization itself is one auxil"
+ },
+ "dsh-command-feedback": {
+  "group": "feedback",
+  "desc": "Session feedback: the `/feedback` command, the `sessionFeedback` Host Remote behind the Web feedback dialog, and the fixed category taxonomy; for user",
+  "summary": "`dsh-command-feedback` lets a user tell the harness what they think of a session. Typing `/feedback` plus a remark records it and acknowledges the session and anonymous user ids; the Web feedback dial",
+  "kv": "Independent of the model request path. Recording appends to the session log only, leaving an already-reusable request prefix untouched. Nothing this package contributes can invalidate cache reuse.",
+  "tok": "Zero direct token effect. Neither an accepted entry nor a usage error adds model tokens, in the recording turn or any later one."
+ },
+ "dsh-command-goal": {
+  "group": "goal",
+  "desc": "The human-facing /goal slash command for users and maintainers choosing, composing, or debugging goal control in UI command planes.",
+  "summary": "`dsh-command-goal` gives users the `/goal` command to create, edit, pause, resume, clear, and inspect the current goal directly in an interactive UI. Commands and their direct output stay in the UI an",
+  "kv": "Command discovery, mutations, and direct output do not affect the cache. Later continuation prompts follow the driver's ordinary request history.",
+  "tok": "Reading status, mutating a goal, or receiving a direct command error adds no model tokens. An enabled same-session driver may add later goal-round prompts. An objective's attachmen"
+ },
+ "dsh-commands": {
+  "group": "interaction",
+  "desc": "Human slash-command registry for interactive UIs: plugin-owned commands that run directly against an agent without creating a model message, for users",
+  "summary": "`dsh-commands` lets users run `/command [input]` actions in interactive Harness UIs without turning the command or its result into a model message. Commands can advertise input hints, accept attachmen",
+  "kv": "Registry metadata, command input, and direct output never enter a model request and do not affect its cache. A mutated domain owns any later cache effect.",
+  "tok": "Command discovery, execution, and UI output add no model tokens. Explicit agent work scheduled by a command producer has the same token effect as the corresponding agent input."
+ },
+ "dsh-compaction": {
+  "group": "compaction",
+  "desc": "Shared compaction contract for backend implementers and deployers: what conversation condensation does, when to use it, and how to build a backend.",
+  "summary": "`dsh-compaction` lets a long session condense its older history into a single summary message, keep the recent conversation intact, and continue as if the summary had always been there \u2014 with a backen",
+  "kv": "A successful backend replacement invalidates reuse from the first shadowed history token; the seam itself does not alter a request.",
+  "tok": "Zero direct tokens from this Service Definition. A backend trades many retained history tokens for one summary and leaves the recent tail unchanged."
+ },
+ "dsh-compaction-basic": {
+  "group": "compaction",
+  "desc": "Automatic conversation condensation for deployments choosing, tuning, or debugging how older history is summarized as token pressure builds.",
+  "summary": "This package keeps long agent conversations working near the model's context limit. As token pressure builds, it condenses the oldest history into a summary while preserving recent messages; after a c",
+  "kv": "Replacing rather than append-only. Each checkpoint invalidates reuse from the first replaced history token; the unchanged request prefix before that range remains reusable.",
+  "tok": "Model-free pruning can avoid the auxiliary call entirely; otherwise it reduces that call's transcript before the summary replaces an older range. The replacement reduces future inp"
+ },
+ "dsh-compaction-image-offload": {
+  "group": "compaction",
+  "desc": "The image offload executor for deployments composing compaction: what happens when an image-capable route rejects a request as over its image budget.",
+  "summary": "Image-heavy conversations continue when older images exceed a model route's budget. The plugin permanently replaces those images with text naming each attachment and its available read-only path, then",
+  "kv": "A selection turns earlier images into placeholder text, so provider cache reuse ends at the first changed image for that request. The selected occurrences remain omitted afterwards.",
+  "tok": "An offloaded occurrence costs its placeholder text instead of visual tokens. The token meter applies the logged selections when pricing each node. Reference-only heuristic counts e"
+ },
+ "dsh-compaction-tool-result-pruner": {
+  "group": "compaction",
+  "desc": "Tool-output trimming for deployments composing compaction: choosing size limits or debugging why oversized tool results get shortened.",
+  "summary": "`dsh-compaction-tool-result-pruner` keeps oversized tool output from filling the context window. Once a compaction trigger qualifies, it replaces over-budget text with a bounded head, a short \"middle ",
+  "kv": "Replacing an earlier result invalidates reuse from the first changed token. The pruned prefix is eligible for reuse while its route, envelope, and preceding history remain identical.",
+  "tok": "Each rewritten tool result has at most `thresholdChars` text code points. Pruning itself makes no model call; compaction-basic skips summarization when the remeasured request falls"
+ },
+ "dsh-config-editor": {
+  "group": "boot",
+  "desc": "Save active profile configuration and apply it through Loader.",
+  "summary": "Save plugin configuration in the active profile\u2019s patch and apply it immediately. Writes validate the complete candidate before touching disk and serialize with profile changes and HMR. Invalid values",
+  "kv": "Consumers that change request prefixes determine cache effects.",
+  "tok": ""
+ },
+ "dsh-cordis-client-runner": {
+  "group": "extensions",
+  "desc": "Browser half of dynamic Cordis packages for users and maintainers choosing, composing, or debugging how a page answers run requests and loads browser-",
+  "summary": "`dsh-cordis-client-runner` runs the browser half of process-local dynamic packages for programmatic callers and existing browser controls. It loads a definition after an approved request or explicit u",
+  "kv": "Host steering appends to the session history; this package does not rewrite earlier messages.",
+  "tok": "Conditional and bounded: at most one resolution per run request, spent inside the runner result the host already emits. The text is data-dependent (a definition's own error message"
+ },
+ "dsh-cordis-host-runner": {
+  "group": "extensions",
+  "desc": "Host half of dynamic Cordis packages for agents and maintainers choosing, composing, or debugging the registry, sandbox, and run round trip.",
+  "summary": "`dsh-cordis-host-runner` exposes runtime inspection and keeps process-local dynamic definitions available to programmatic callers and browser controls. Host halves run in a `node:vm` realm; browser ha",
+  "kv": "None of its own. A host half that registers tools changes the next request's tool view, which invalidates prefix reuse from the first changed schema token; running or stopping a package with no tool registrations is pref",
+  "tok": "Conditional and data-dependent: messages arrive only when an event occurs, and each carries a bounded description of what happened; there is no fixed per-request cost."
+ },
+ "dsh-credentials": {
+  "group": "credentials",
+  "desc": "The credential seam for users and maintainers resolving, describing, or storing credentials \u2014 reference values and durable records \u2014 without putting s",
+  "summary": "`dsh-credentials` keeps secret values out of configuration by letting settings and `cordis.yml` refer to key names such as `DEEPSEEK_API_KEY`. It also stores durable per-plugin credential records, inc",
+  "kv": "No direct invalidation; resolved values never enter a request prefix.",
+  "tok": ""
+ },
+ "dsh-credentials-local": {
+  "group": "credentials",
+  "desc": "The file-backed credentials provider for users and maintainers choosing, configuring, or debugging the local credential store and its environment laye",
+  "summary": "`dsh-credentials-local` keeps API keys and other secrets in a private file under your harness home. You can save credentials through the configuration UI or edit the file directly; changes reload auto",
+  "kv": "No direct invalidation; stored values never enter a request prefix.",
+  "tok": ""
+ },
+ "dsh-deepseek-account": {
+  "group": "credentials",
+  "desc": "Account consumers read stored login state, start or cancel a browser login, and sign out without editing API keys. Host model consumers resolve accoun",
+  "summary": "Account consumers read stored login state, start or cancel a browser login, and sign out without editing API keys. Host model consumers resolve account credentials only for the provider-configured inf",
+  "kv": "No model request prefix changes.",
+  "tok": ""
+ },
+ "dsh-deepseek-account-platform": {
+  "group": "credentials",
+  "desc": "Sign in through the system browser and keep the account credential in the existing local credential store. Local cancellation prevents late callbacks ",
+  "summary": "Sign in through the system browser and keep the account credential in the existing local credential store. Local cancellation prevents late callbacks and exchange responses from signing the user in. D",
+  "kv": "No model request prefix changes.",
+  "tok": ""
+ },
+ "dsh-deepseek-llm-api-extensions": {
+  "group": "llm",
+  "desc": "Official DeepSeek request-extension registry for provider plugins contributing lifecycle-owned top-level API fields.",
+  "summary": "Provider-specific registry for additive top-level fields on official DeepSeek LLM API requests. `DeepSeekLlmApiExtensionRegistry` registers `ctx.deepseekLlmApiExtensions`; contributor plugins claim on",
+  "kv": "None; registry fields are model-hidden provider metadata and do not alter the serialized model-input prefix.",
+  "tok": ""
+ },
+ "dsh-deque": {
+  "group": "util",
+  "desc": "Circular deque for Host and browser packages that need amortized constant-time queue operations, immediate release of removed entries, and bounded vac",
+  "summary": "`dsh-deque` lets Host and browser packages drain long-lived in-process queues without moving every remaining entry after each removal. Callers append or prepend entries and remove them from the front ",
+  "kv": "Nothing here enters a model request, so provider cache reuse is unaffected.",
+  "tok": ""
+ },
+ "dsh-experimental-agent-team": {
+  "group": "experimental",
+  "desc": "Run a small team of named agents in one session: durable messages between members and a shared task board, for deployments composing the experimental ",
+  "summary": "`dsh-experimental-agent-team` turns one coding session into a small working team: the session's agent becomes the Lead, creates named teammates for delegated work, exchanges durable messages with them",
+  "kv": "Peer messages append after the target's reusable history prefix. Cold resume reuses the persisted conversation before appending a previously undelivered item.",
+  "tok": "Each peer delivery adds the sender prefix plus message content to the target history. Task and roster mutations add no model tokens; their model-facing representation belongs to `@"
+ },
+ "dsh-experimental-agent-team-profile": {
+  "group": "experimental",
+  "desc": "Enable team collaboration, tools, and the Web roster and task board with one experimental bundle.",
+  "summary": "`dsh-experimental-agent-team-profile` enables [Agent Teams](../agent-team/README.md) collaboration, tools, and Web UI with one bundle. Delegate work to teammates and view members, shared tasks, and te",
+  "kv": "The bundle's composition is prefix-stable while its patch, Team identity, and configured tool schemas remain unchanged.",
+  "tok": "The bundle adds the Team policy and tool schemas described by `@deepseek-ai/dsh-experimental-tool-agent-team`; it adds no prompt text of its own."
+ },
+ "dsh-experimental-api-speech-to-text": {
+  "group": "experimental",
+  "desc": "Expose bounded transient transcription through the authenticated Web Remote.",
+  "summary": "The `speech` Remote connects browser recordings to `ctx.speechToText`. It exposes provider discovery and one complete-recording transcription call.",
+  "kv": "No direct effect; ordinary submission owns the message content.",
+  "tok": ""
+ },
+ "dsh-experimental-auto-review": {
+  "group": "experimental",
+  "desc": "Add experimental per-call Auto review to a Web profile, using the current agent's model before tools execute with Full access.",
+  "summary": "Add Auto review to the current-session permission pickers in a Web profile. Before each native or PTC inner tool call, the current agent's provider and model assess the pending action; an allowed call",
+  "kv": "The fixed reviewer policy can share a prefix; retained history and the pending action vary per call. Auto adds no dedicated runtime context or mode-switch prompt to the main agent.",
+  "tok": "One additional model request per supported call, without caching, retries, truncation, compaction, or a separate small output budget. An oversized request fails the call with the p"
+ },
+ "dsh-experimental-client-ui-agent-team": {
+  "group": "experimental",
+  "desc": "Use and debug the experimental Web Agent Teams roster, shared task board, and teammate navigation panel.",
+  "summary": "This package adds an Agent Teams action to the Web conversation header, where a user can inspect the current roster, inspect the shared task board, and navigate into a teammate's conversation. It read",
+  "kv": "No direct effect; the Team tools and ordinary conversation submission own any later model-visible use.",
+  "tok": ""
+ },
+ "dsh-experimental-client-ui-voice-input": {
+  "group": "experimental",
+  "desc": "Record speech and insert reviewable transcripts into the conversation draft.",
+  "summary": "This optional browser plugin adds an outline microphone icon between the model selector and Send. When recognition is ready, clicking it opens a recording toolbar with measured audio levels, Cancel an",
+  "kv": "No direct effect; ordinary submission owns the message content.",
+  "tok": ""
+ },
+ "dsh-experimental-schedule-bundle": {
+  "group": "experimental",
+  "desc": "Add Schedule, its reminder catalog, and the Automation tasks page from the plugin manager.",
+  "summary": "This optional bundle inserts the three Schedule rows the shipped Web composition leaves out: `time-context`, `schedule`, and `ui-schedule`. Shipped profiles leave it switched off.",
+  "kv": "The tool schemas change the request prefix once when the bundle mounts; each appended reading is new visible content after that prefix, so existing entries are not invalidated.",
+  "tok": "Selecting the bundle adds four Schedule tool schemas to every live root Agent request and one durable clock reading per eligible step; a conversation that never creates a reminder "
+ },
+ "dsh-experimental-speech-to-text": {
+  "group": "experimental",
+  "desc": "Named experimental transcription providers and cancellation ownership.",
+  "summary": "This Service Definition selects named speech recognizers through `ctx.speechToText`. Consumers resolve their request before execution; providers register independently.",
+  "kv": "No direct effect; ordinary submission owns the message content.",
+  "tok": ""
+ },
+ "dsh-experimental-speech-to-text-sensevoice": {
+  "group": "experimental",
+  "desc": "Prepare and operate a local CPU SenseVoice worker on demand.",
+  "summary": "This provider recognizes speech with SenseVoiceSmall ONNX and Silero VAD on the Host CPU. The platform-specific sherpa-onnx Node package includes ONNX Runtime; users need no Python, compiler or model ",
+  "kv": "No direct effect; ordinary submission owns the message content.",
+  "tok": ""
+ },
+ "dsh-experimental-tool-agent-team": {
+  "group": "experimental",
+  "desc": "Nine tools that let the model create, message, and coordinate teammates, for compositions mounting the experimental Team plugins.",
+  "summary": "This package lets the model create named teammates, send them messages, inspect availability, wait for progress, interrupt stuck work, and coordinate through a shared task board. Every team member rec",
+  "kv": "With the same provider/model, shared system policy, and tool schemas, a fork retains the parent request prefix and appends the initial task with its identity prefix. Tool results and peer messages append after the reusab",
+  "tok": "Fixed policy and schema cost on every Team member request. The initial identity text follows ordinary history through later steps, cold recovery, and compaction; the plugin neither"
+ },
+ "dsh-experimental-voice-input-bundle": {
+  "group": "experimental",
+  "desc": "Enable experimental speech input from the plugin manager.",
+  "summary": "This optional bundle composes a speech Service Definition, local SenseVoice provider, authenticated Remote and browser microphone control. Shipped profiles leave it disabled.",
+  "kv": "No direct effect; ordinary submission owns the message content.",
+  "tok": ""
+ },
+ "dsh-file-reference": {
+  "group": "context",
+  "desc": "File-reference discovery and @file mention grammar for host-backed UIs, for users and maintainers choosing the seam or pairing it with a provider.",
+  "summary": "Host-backed user interfaces use `dsh-file-reference` to offer `@file` completion: a UI asks for path candidates for the addressed agent, the model types `@path` or `@\"path with spaces\"`, and picking a",
+  "kv": "The interface and grammar add no request tokens; a provider-owned prompt section determines whether the reusable prefix changes.",
+  "tok": ""
+ },
+ "dsh-file-reference-local": {
+  "group": "context",
+  "desc": "Local-workspace @file completion provider for users and maintainers enabling, sizing, or debugging ctx.fileReferences discovery.",
+  "summary": "Agents and host UIs can complete `@file` mentions with ranked paths from each agent's local workspace, with bounded discovery that stays responsive in large repositories. Results refresh after tool ac",
+  "kv": "The stable sentence joins the system-prompt prefix. Mounting or removing this provider, or changing whether `read` is visible, changes that prefix; queries, candidates, and index staleness do not.",
+  "tok": "Conditional and fixed: the one sentence is present while `read` is visible to the addressed agent; candidate lookup itself adds no tokens, and a selected path contributes only its "
+ },
+ "dsh-fs": {
+  "group": "fs",
+  "desc": "The ctx.fs filesystem service contract for deployments choosing or mounting a filesystem backend and developers implementing one.",
+  "summary": "Use `dsh-fs` when an application needs consistent filesystem operations across host, confined, or remote execution environments. It lets consumers resolve stable file identities, map shared host files",
+  "kv": "No direct invalidation; the named consumer owns any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-fs-local": {
+  "group": "fs",
+  "desc": "The host-filesystem backend for ctx.fs for deployments and maintainers choosing or debugging local file access.",
+  "summary": "Use `dsh-fs-local` to read, list, watch, atomically write, and edit files on the host filesystem. Relative paths resolve from a configurable base directory, while absolute paths and parent traversal r",
+  "kv": "No direct invalidation; the named consumer owns any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-fs-observation-policy": {
+  "group": "fs",
+  "desc": "The read-before-edit filesystem policy plugin for deployments and maintainers choosing or debugging guarded write and edit behavior.",
+  "summary": "`dsh-fs-observation-policy` makes filesystem tools require an agent to read a file before overwriting or editing it. It also rejects a mutation when the file has changed since that read, and returns a",
+  "kv": "Append-only; newly visible content follows the reusable request prefix and does not invalidate existing KV Cache entries.",
+  "tok": "Zero tokens on allowed operations beyond the ordinary tool result. A denial adds the small retained error result and avoids any success payload."
+ },
+ "dsh-fs-sandbox": {
+  "group": "fs",
+  "desc": "The sandbox-enforcing ctx.fs backend for deployments and maintainers confining model file mutations to a session workspace.",
+  "summary": "`dsh-fs-sandbox` confines model file writes and edits according to each session's sandbox mode while preserving the local filesystem's read behavior. In `read-only`, it rejects every mutation; in `wor",
+  "kv": "A standing-policy change appends an owner-rendered superseding runtime-context snapshot after retained history; operation results remain append-only.",
+  "tok": "The current-policy clause adds a small runtime-context message while this backend is mounted; a denial adds the bounded marker and escalation hint to conversation history."
+ },
+ "dsh-goal": {
+  "group": "goal",
+  "desc": "The persisted same-session goal service for users and maintainers choosing, configuring, or debugging one durable completion objective per session.",
+  "summary": "`dsh-goal` lets one long-running completion objective persist across turns, session resume, fork, and process restarts. Users and agents can create, edit, pause, resume, complete, block, or clear it; ",
+  "kv": "There is no KV-cache effect until another component exposes goal state in model-visible input.",
+  "tok": "Goal mutation events add no model tokens by themselves. Tool results and scheduled continuation prompts account for their own visible state."
+ },
+ "dsh-goal-round-driver": {
+  "group": "goal",
+  "desc": "The same-session continuation driver for users and maintainers choosing, composing, or debugging automatic goal rounds.",
+  "summary": "`dsh-goal-round-driver` automatically continues an active goal in the same session while the agent is idle, continuation is armed, and the configured round allowance remains. Each round gives the mode",
+  "kv": "Append-only within an epoch: each admitted round extends the existing conversation after its reusable prefix. Compaction may replace the derived-history suffix and move the reusable boundary.",
+  "tok": "One fixed instruction block plus the objective is added per admitted round. Later requests resend retained rounds until compaction shadows them; no fresh agent or copied conversati"
+ },
+ "dsh-headless": {
+  "group": "bundle",
+  "desc": "One-shot task mode for dsh: run a single task from the command line and get the final answer printed, for users scripting or automating dsh.",
+  "summary": "`dsh-headless` runs one dsh task from the command line and prints the final answer, then exits \u2014 no GUI, no server, no browser. Type `dsh --profile headless \"run the tests\"` and the agent handles it w",
+  "kv": "The runner adds nothing to the request prefix; it only drives one user message through the composed tree.",
+  "tok": ""
+ },
+ "dsh-hmr": {
+  "group": "client",
+  "desc": "Reload plugin code and profile configuration through one coordinated queue.",
+  "summary": "Reload plugin source and configuration while an application is running. Module replacements, Include refreshes and profile configuration changes share one queue. Package installation runs outside that",
+  "kv": "Reloading a contributing plugin can change later request prefixes; HMR does not rewrite conversation history.",
+  "tok": "No direct token contribution."
+ },
+ "dsh-home-paths": {
+  "group": "util",
+  "desc": "Shared resolution of the DeepSeek Harness home and user-data paths for packages that need one consistent root, tilde expansion, and stable watch paths",
+  "summary": "`@deepseek-ai/dsh-home-paths` lets package authors resolve one DeepSeek Harness data root and derive child paths from it. An explicit path wins over `$DSH_HOME`, which wins over `~/.dsh`; blank enviro",
+  "kv": "",
+  "tok": ""
+ },
+ "dsh-hook-protocol": {
+  "group": "experimental",
+  "desc": "The shared hook rules behind the Claude Code and Codex bridges \u2014 what a hook can do and what happens when it runs \u2014 for users and maintainers of the h",
+  "summary": "`dsh-hook-protocol` makes both bridges handle your hooks identically: it defines what a hook can do and what happens when it runs. You never install or configure it yourself \u2014 choose `dsh-hooks-claude",
+  "kv": "No direct invalidation; the named consumers own any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-hooks-claude-code": {
+  "group": "experimental",
+  "desc": "Run your existing Claude Code hooks.json or settings hook config during agent runs \u2014 block prompts and tools, attach context, or force continuation \u2014 ",
+  "summary": "`dsh-hooks-claude-code` runs command hooks from your existing Claude Code `hooks.json` or settings file during agent runs, without requiring a rewrite. Supported hooks can run when sessions, prompts, ",
+  "kv": "Append-only; newly visible content follows the reusable request prefix and does not invalidate existing KV-cache entries.",
+  "tok": "No cost when hooks return no context. Hook text is data-dependent, logged, and resent in later conversation requests until compaction."
+ },
+ "dsh-hooks-codex": {
+  "group": "experimental",
+  "desc": "Run your existing Codex hooks.json hook config during agent runs \u2014 block prompts and tools, attach context, or force continuation \u2014 for users and main",
+  "summary": "`dsh-hooks-codex` runs command hooks from an existing Codex `hooks.json` during agent runs, so prompt and tool gates work without being rewritten. It supports five Codex hook points: session start, pr",
+  "kv": "Append-only; newly visible content follows the reusable request prefix and does not invalidate existing KV-cache entries.",
+  "tok": "No cost when hooks return no context. Hook text is data-dependent, logged, and resent in later conversation requests until compaction."
+ },
+ "dsh-host-directory-picker": {
+  "group": "host",
+  "desc": "Workspace-directory picking seam for the web GUI host: the service contract, capability vocabulary, and error codes the native and browse backends imp",
+  "summary": "The web GUI lets an operator choose a workspace directory with either an OS chooser or an in-app browser. Use the native option when the operator can reach the host display; use the browser option for",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-host-directory-picker-auto": {
+  "group": "host",
+  "desc": "Adaptive chooser of the directory-picker seam: resolves the web GUI host's situation once at boot and mounts the matching native or browse backend.",
+  "summary": "`dsh-host-directory-picker-auto` picks the right directory-picking interaction for every boot: it resolves the host's situation once at boot and mounts the matching backend \u2014 [native](../directory-pic",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-host-directory-picker-browse": {
+  "group": "host",
+  "desc": "In-app browsing backend of the directory-picker seam: one-level directory listing and child-directory creation for the web GUI host, serving remote cl",
+  "summary": "Users who cannot reach an OS chooser still pick a workspace directory through `dsh-host-directory-picker-browse`: it provides one-level directory listing and child-directory creation over Node's stand",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-host-directory-picker-native": {
+  "group": "host",
+  "desc": "Native-OS-chooser backend of the directory-picker seam: opens one platform chooser per pick for operators sitting at the web GUI host's display.",
+  "summary": "An operator at the host's display picks a workspace directory through a native OS chooser: `dsh-host-directory-picker-native` opens one platform directory chooser per pick and resolves the chosen abso",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-host-frontend-static": {
+  "group": "host",
+  "desc": "SPA dist server for the Web shell: claims the webserver fallback seat and serves the built frontend with traversal rejection and SPA index fallback.",
+  "summary": "Serve the built Web shell to browsers from its configured distribution directory. The root and configured index path render the bootstrapped index; existing assets are served directly, while missing o",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-host-open-in-app": {
+  "group": "host",
+  "desc": "Host half of open-in-app: resolving installed editors, Git GUIs, terminals, and file managers to verified launchers on macOS, Windows, and Linux, and ",
+  "summary": "Use `dsh-host-open-in-app` with its [browser companion](../../client/ui-open-in-app/README.md) to let users open a workspace directory in an installed editor, Git GUI, terminal, or file manager. It of",
+  "kv": "None; the package never assembles or sends provider requests.",
+  "tok": ""
+ },
+ "dsh-host-plugin-inventory": {
+  "group": "host",
+  "desc": "Read-only projection of the current Cordis Loader plugin state with each agent preset's composition beside it: the pluginInventory service and its plu",
+  "summary": "Clients can call `pluginInventory/list` to display the host\u2019s current plugins in load order, including each entry\u2019s identifier, module specifier, effective enablement, live phase, and available displa",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-host-product-telemetry-otel": {
+  "group": "host",
+  "desc": "Configure explicit product usage events, OTLP/HTTP routing, batching, and shutdown limits.",
+  "summary": "Send selected product usage events to an OTLP/HTTP collector. Events carry a name, string summary, occurrence time, and scalar or one-level object attributes. Mounting the plugin collects nothing auto",
+  "kv": "None; event submission does not change model requests.",
+  "tok": ""
+ },
+ "dsh-host-webserver": {
+  "group": "host",
+  "desc": "The web GUI host's HTTP server: named-route and upgrade registration, index transforms, and the single fallback seat that serves the Web shell's SPA d",
+  "summary": "Browsers reach the web GUI over HTTP through `dsh-host-webserver`: a `node:http` server where other plugins register named routes, upgrade routes, index startup inputs, and one fallback handler. It kn",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-http-proxy": {
+  "group": "util",
+  "desc": "Outbound HTTP proxy support for the harness: how one policy resolved from the launch environment reaches every request Node's fetch would otherwise se",
+  "summary": "Use this package to apply one outbound HTTP proxy policy to Harness requests that use Node's built-in `fetch`, including LLM, web-search, and HTTP MCP traffic. The launcher reads standard proxy enviro",
+  "kv": "No direct invalidation: the package contributes no request tokens and never mutates a request prefix, so provider cache reuse is unaffected.",
+  "tok": ""
+ },
+ "dsh-invariants": {
+  "group": "agent-core",
+  "desc": "Runtime invariant checks for live compositions: the registry service that runs package-owned checks, for users and maintainers choosing, configuring, ",
+  "summary": "`dsh-invariants` runs package-owned runtime checks \u2014 invariants \u2014 inside a DeepSeek Harness composition: any package can ship a `./invariant` companion that verifies its own durable relationships (aut",
+  "kv": "Checks observe assembled requests and durable state without mutating request content, so provider cache reuse is exactly what the underlying composition produces.",
+  "tok": ""
+ },
+ "dsh-jobs": {
+  "group": "jobs",
+  "desc": "The background-job registry contract for users and maintainers composing, implementing, or debugging background work: ids, ownership, lifecycle, the o",
+  "summary": "`dsh-jobs` lets tools keep long-running work active while an agent continues. Each job receives a stable `<kind>-N` id, and its owning agent can read output, wait with a timeout, or request cancellati",
+  "kv": "No direct invalidation; the named consumers own any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-jobs-local": {
+  "group": "jobs",
+  "desc": "The process-local background-job registry for users and maintainers composing, sizing, or debugging in-process jobs: per-owner admission, lifecycle, a",
+  "summary": "`dsh-jobs-local` runs background jobs inside the harness process while the agent continues. The owning agent can read, wait on, list, and cancel its jobs; mounting `dsh-tool-jobs` also delivers comple",
+  "kv": "No direct invalidation; the named consumers own any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-launch-environment": {
+  "group": "util",
+  "desc": "An immutable snapshot of this run's environment that remembers which layer supplied each value, for packages that must resolve user-facing values with",
+  "summary": "Use `@deepseek-ai/dsh-launch-environment` to resolve launch-time environment values without trusting the flattened `process.env`. It freezes inherited process values, the invocation directory's `.env`",
+  "kv": "",
+  "tok": ""
+ },
+ "dsh-lazy-require": {
+  "group": "util",
+  "desc": "Caller-relative lazy loading for CommonJS-compatible Host dependencies whose initialization is not needed during application startup.",
+  "summary": "`dsh-lazy-require` keeps a CommonJS-compatible Host dependency unloaded until its first real operation. Resolution remains relative to the consuming package, and one successful module value is reused ",
+  "kv": "None.",
+  "tok": ""
+ },
+ "dsh-llm": {
+  "group": "llm",
+  "desc": "The provider-neutral model-call service for users and maintainers streaming requests, registering provider adapters, or resolving model metadata.",
+  "summary": "Use `@deepseek-ai/dsh-llm` to stream model calls through configured provider adapters, discover models, and resolve model capabilities and call defaults. Callers must keep all model-visible input reco",
+  "kv": "Reasoning-effort materialization preserves the assembled request prefix. Image identity and request-preview text are deterministic, while an optional execution-world path is resolved for each request; a changed path or a",
+  "tok": ""
+ },
+ "dsh-llm-deepseek": {
+  "group": "llm",
+  "desc": "Configure DeepSeek Messages, reasoning, and image input.",
+  "summary": "Provide the shared DeepSeek Messages transport, request configuration, and model capabilities. Compose [API-key](../llm-deepseek-api-key/README.md) or [account](../llm-deepseek-account/README.md) plug",
+  "kv": "An unchanged assembled prefix is eligible for DeepSeek cache reuse, which this adapter reports in usage. Deterministic request-image bytes do not make the full prefix immutable: a changed execution-world path rewrites hi",
+  "tok": "Provider tokenization governs exact text and image-token input. The adapter declares per-route `imageRequestPricing`: it prices each occurrence selected by a logged image-offload d"
+ },
+ "dsh-llm-deepseek-account": {
+  "group": "llm",
+  "desc": "DeepSeek account authentication and model discovery.",
+  "summary": "Register authentication and model discovery for `deepseek-account`. This plugin shares the [Messages transport](../llm-deepseek/README.md) and owns credential resolution and catalog availability. Auth",
+  "kv": "Credentials and catalog availability do not enter model input; the protocol transport owns request-prefix serialization.",
+  "tok": "Authentication and discovery add no input tokens; the selected model and request content determine actual usage."
+ },
+ "dsh-llm-deepseek-api-key": {
+  "group": "llm",
+  "desc": "DeepSeek api-key authentication and model discovery.",
+  "summary": "Register authentication and model discovery for `deepseek-official`. This plugin shares the [Messages transport](../llm-deepseek/README.md) and owns credential resolution and catalog availability. Aut",
+  "kv": "Credentials and catalog availability do not enter model input; the protocol transport owns request-prefix serialization.",
+  "tok": "Authentication and discovery add no input tokens; the selected model and request content determine actual usage."
+ },
+ "dsh-llm-pi-ai": {
+  "group": "llm",
+  "desc": "The pi-ai-backed multi-provider adapter for users and maintainers routing the harness LLM service through pi-ai catalogs and hand-declared gateways.",
+  "summary": "`@deepseek-ai/dsh-llm-pi-ai` routes model requests to multiple pi-ai providers, OpenAI-compatible gateways, or self-hosted servers from one configuration. Installed pi-ai providers supply endpoint, pr",
+  "kv": "Conversion preserves logical request order, while image handles and offload placeholders add model-visible text. A changed execution-world path rewrites a historical handle and can prevent reuse from that image even when",
+  "tok": "Provider tokenization governs exact input. Retained images add the stable attachment and coordinate descriptor; the offload placeholder replaces an omitted image's visual tokens. R"
+ },
+ "dsh-llm-retry": {
+  "group": "llm",
+  "desc": "The retry executor for users and maintainers configuring provider-routed model-request recovery at durable agent-step boundaries.",
+  "summary": "Mount `@deepseek-ai/dsh-llm-retry` to retry failed model requests at durable agent-step boundaries. Provider `retryPolicy` settings choose bounded normal-mode retries or unlimited always-mode retries;",
+  "kv": "The reconstructed request preserves the prior prefix and is eligible for provider cache reuse under that provider's rules. The non-surface retry event does not change cache identity.",
+  "tok": "Each retry is a new provider request and may repeat input-token billing. Normal mode has a finite budget; always mode can consume unbounded requests until success or cancellation. "
+ },
+ "dsh-mcp-client": {
+  "group": "mcp",
+  "desc": "MCP client bridge for deployments and maintainers choosing, configuring, or debugging connections to external MCP servers whose tools register on ctx.",
+  "summary": "`dsh-mcp-client` lets the model use tools and resources from external Model Context Protocol (MCP) servers. Configure one server per entry; its tools use names such as `mcp__github__create_issue`. No ",
+  "kv": "The tool-definition prefix stays stable while the discovered set and schemas are unchanged. A re-sync that adds, removes, renames, or changes a tool replaces definitions and may invalidate reuse from the first changed sc",
+  "tok": "The tool descriptions and input schemas enter every request while the tools are registered; re-syncs replace rather than accumulate schemas, and the server-qualified name adds toke"
+ },
+ "dsh-mcp-resources": {
+  "group": "mcp",
+  "desc": "Discover and read MCP resources on demand with shared tools, explicit server selection, and agent-scoped access.",
+  "summary": "`dsh-mcp-resources` lets the model discover and read documents from configured MCP servers. Shipped profiles make its three shared tools available automatically when a server is configured in the call",
+  "kv": "Adding the first caller-visible server or removing the last changes the next tool schema or PTC declaration prefix. Changes to visible names update the server-name section; replacing a provider under the same name leaves",
+  "tok": "With no caller-visible configured servers, this package adds no tool or prompt tokens. Otherwise, three shared definitions contribute a fixed schema cost and the server-name sectio"
+ },
+ "dsh-message-feedback": {
+  "group": "feedback",
+  "desc": "Canonical Session-log ratings, categories, and notes for finalized assistant messages.",
+  "summary": "This service records positive or negative ratings, an optional category from the fixed feedback taxonomy, and optional verbatim notes for finalized assistant messages. The canonical Session log owns e",
+  "kv": "Independent. Feedback does not change the model request prefix.",
+  "tok": "Zero. Ratings, notes, and service results do not enter model requests."
+ },
+ "dsh-native-command": {
+  "group": "util",
+  "desc": "Host-native command and path-opening utilities with shell-free execution, cancellation, desktop detection, and WSL path handoff.",
+  "summary": "`dsh-native-command` runs host executables without a shell and opens Host filesystem paths through the desktop. The command runner captures utf8 output, propagates cancellation, and requires explicit ",
+  "kv": "Nothing here enters a request prefix; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-office-to-pdf": {
+  "group": "document",
+  "desc": "Host Office conversion with the independently published LibreOffice kit.",
+  "summary": "Convert Office documents to PDFs on the Host computer. Targets with a declared native LibreOffice engine use it; other targets use Node WASM. The provider accepts DOC, DOCX, XLS, XLSX, PPT, and PPTX. ",
+  "kv": "None; conversion does not construct or modify model requests.",
+  "tok": ""
+ },
+ "dsh-otel": {
+  "group": "telemetry",
+  "desc": "Create independent OTLP reporting channels through the shared Cordis OTel service.",
+  "summary": "Mount one `otel` service to create ordinary-event and Session-log reporting channels. Each channel has its own exporter, resource, instrumentation scope, and queue. Mounting alone creates no transport",
+  "kv": "None; reporting does not change model requests.",
+  "tok": ""
+ },
+ "dsh-output-retention": {
+  "group": "util",
+  "desc": "Bounded model-facing output for tools that must cap how much context they return: item and text retainers plus a standardized omission footer.",
+  "summary": "Use `dsh-output-retention` to cap the items or text a tool returns to a model while reporting what was omitted. `ItemRetainer` keeps an ordered head window and can report an exact omitted-item count; ",
+  "kv": "No direct invalidation; the retention consumers own any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-package-manifest": {
+  "group": "util",
+  "desc": "Shared TypeScript declarations for package identity, runtime requirements, and DSH plugin metadata.",
+  "summary": "Use `DshPackageManifest` for package metadata, `DshManifest` for the public fields under `dsh`, and member types such as `DshClientManifest` for one domain. Each reader owns JSON parsing, validation, ",
+  "kv": "Type declarations add no model input, so provider cache reuse is unaffected.",
+  "tok": ""
+ },
+ "dsh-permission-presets": {
+  "group": "interaction",
+  "desc": "User-facing permission presets for users and maintainers choosing, configuring, or debugging the Permissions selector that bundles sandbox mode with a",
+  "summary": "Offer named permission modes that set sandbox and approval together while each enforcement service keeps its own value. Configured presets supply future-session defaults; an explicitly loaded Auto rev",
+  "kv": "No direct invalidation; the named consumer owns any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-persona": {
+  "group": "preset",
+  "desc": "The composable persona row presets mount to give one agent its own system-prompt persona, for users and maintainers configuring or debugging it.",
+  "summary": "`dsh-persona` gives one agent its own persona: a preset mounts this composable row to register persona prefix and suffix sections, shadowing the deployment-wide defaults for that session. It can also ",
+  "kv": "Prefix-stable while the rendered template variables and text are unchanged. Suffix changes leave preceding instructions unchanged when the model, prefix, and tools match. Prefix changes affect the early prefix; provider ",
+  "tok": "Fixed for a given preset: the persona prefix and suffix tokens on every request that agent makes, and none for any other agent. Empty text contributes nothing. Complete mode remove"
+ },
+ "dsh-plan-mode": {
+  "group": "plan",
+  "desc": "Plan mode for users and maintainers choosing, configuring, or debugging the per-agent planning feature with deployment guidance, a /plan command, and ",
+  "summary": "Plan mode asks an agent to explore and design before execution, then presents the finished plan for your approval. Enter it with `/plan`, optionally with a message or ordered image and file attachment",
+  "kv": "The section is stable within plan mode, but entering or leaving changes the system prompt from first-party order 500 onward.",
+  "tok": "Inactive mode adds no tokens; active mode adds the configured section to every request."
+ },
+ "dsh-plugin-manager": {
+  "group": "boot",
+  "desc": "Enable profile plugins and install, remove or select bundles from the Web sidebar or an agent.",
+  "summary": "Manage the current profile's plugins without editing configuration by hand. Enable or disable individual plugin entries, select installed bundles, and install or remove external bundles. With HMR enab",
+  "kv": "Tool results append to the transcript. Enabling or disabling other tools can change subsequent tool declarations and their cache reuse.",
+  "tok": "The tool declaration is present when its consumer is mounted; each invocation adds its returned inventory or change result."
+ },
+ "dsh-plugin-package-inventory-deepseek": {
+  "group": "llm",
+  "desc": "Active Loader package inventory metadata for deployments sending official DeepSeek requests.",
+  "summary": "Complete active Loader-backed plugin package inventory for official DeepSeek LLM API requests. This function plugin injects the Loader, live Agent registry, and `ctx.deepseekLlmApiExtensions`, then ow",
+  "kv": "None; package lifecycle changes do not alter the model-visible prefix.",
+  "tok": "Zero model-input tokens; the complete inventory adds only HTTP request bytes."
+ },
+ "dsh-ptc-runtime": {
+  "group": "ptc-runtime",
+  "desc": "Abstract PTC execution seam (`ctx.ptcRuntime`) for users and maintainers composing, consuming, or building a backend that runs one model-written progr",
+  "summary": "Use `dsh-ptc-runtime` to run one model-written program against host-provided asynchronous functions through a configured backend. A request returns a lossless-JSON value, ordered per-channel logs, or ",
+  "kv": "No direct invalidation; the named consumer owns any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-ptc-runtime-node": {
+  "group": "ptc-runtime",
+  "desc": "Run TypeScript programs in fresh Node processes with the session filesystem sandbox, managed cleanup, and configurable execution and output limits.",
+  "summary": "Execute model-written TypeScript under the same platform sandbox policy as Bash, with host-provided functions available as async bindings. Each call starts a fresh Node process and returns captured lo",
+  "kv": "No direct invalidation; the named consumer owns any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-pwsh-local": {
+  "group": "shell",
+  "desc": "The local PowerShell executor for deployments and maintainers choosing, configuring, or debugging unconfined PowerShell command execution over the she",
+  "summary": "`dsh-pwsh-local` is the PowerShell executor: every command runs as a fresh, non-interactive `pwsh -Command` process with no profile files, so no shell state survives between calls. It mirrors `dsh-bas",
+  "kv": "No direct invalidation; the named consumer owns any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-pwsh-sandbox": {
+  "group": "shell",
+  "desc": "The sandbox-consuming PowerShell executor for deployments and maintainers choosing, configuring, or debugging confined PowerShell command execution wi",
+  "summary": "`dsh-pwsh-sandbox` is the sandbox-consuming PowerShell executor: every command runs as a fresh `pwsh -Command` process confined through the `ctx.sandbox` capability, with the selected mode, enforcemen",
+  "kv": "None directly; the denial surface belongs to the tool layer.",
+  "tok": "No model-visible text beyond the command's stderr and the tool layer's standard denial surface."
+ },
+ "dsh-repeat-tool-reminder": {
+  "group": "guard",
+  "desc": "Advisory loop-hygiene guard that nudges the model out of identical tool-call loops, for users and maintainers choosing, configuring, or debugging the ",
+  "summary": "This package helps a model escape loops in which it calls the same tool with identical arguments without making progress. At configured repeat counts, it asks the model to inspect the previous result ",
+  "kv": "Append-only; newly visible content follows the reusable request prefix and does not invalidate existing KV-cache entries.",
+  "tok": "Zero tokens before the threshold. The reminder is retained history for that agent."
+ },
+ "dsh-sandbox": {
+  "group": "sandbox",
+  "desc": "The process-sandbox service contract for users and maintainers composing, using, or extending same-world subprocess confinement.",
+  "summary": "Use `dsh-sandbox` to run a subprocess and everything it spawns under a per-call file-access policy. A command can run without writes (`read-only`), write only inside its workspace (`workspace-write`),",
+  "kv": "Append-only; newly visible content follows the reusable request prefix and does not invalidate existing KV Cache entries.",
+  "tok": "Conditional error text is visible for that call and retained in history until compaction."
+ },
+ "dsh-sandbox-local": {
+  "group": "sandbox",
+  "desc": "Local per-platform sandbox backends for users and maintainers choosing, configuring, or debugging process confinement on Linux, macOS, or Windows.",
+  "summary": "`dsh-sandbox-local` confines commands and their descendants on Linux, macOS, and Windows while sharing the host kernel and filesystem. It chooses a supported platform runner automatically and fails wi",
+  "kv": "No direct invalidation; the named consumers own any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-sandbox-policy": {
+  "group": "sandbox",
+  "desc": "The shared per-call sandbox policy resolver and current model context for users and maintainers composing, configuring, or debugging file-effect polic",
+  "summary": "Use this package to apply one file-effect policy to every confined bash, filesystem, and terminal call. Deployments choose a default mode and fallback workspace root, while each session can switch mod",
+  "kv": "The stable system prompt remains byte-identical across mode changes. A changed full context snapshot is appended after retained history, preserving the prior cached prefix; subsequent unchanged requests reuse that retain",
+  "tok": "One concise durable context message on the first request and each effective policy change; unchanged requests add nothing. `workspace-write` carries only the recorded session works"
+ },
+ "dsh-sandbox-windows-acl": {
+  "group": "sandbox",
+  "desc": "The Windows write-restriction sandbox backend for users and maintainers choosing, configuring, or debugging restricted-token process confinement on Wi",
+  "summary": "On Windows, this package confines child-process writes and deletes to the workspace and a private temporary directory: `workspace-write` grants both, `read-only` grants neither. Mounting `dsh-sandbox-",
+  "kv": "One extra catalog entry on Windows: the skill's description enters context with the catalog, and the body enters only when invoked. Resource extraction happens at registration and does not add script contents to model co",
+  "tok": ""
+ },
+ "dsh-schedule": {
+  "group": "schedule",
+  "desc": "Host-wide durable reminders and shared Session-bound task management.",
+  "summary": "Schedule delivers one-shot, fixed-rate, daily, weekly, and cron wall-clock reminders as follow-up messages in their original Session. Tasks remain available after Host restart, and each recurring task",
+  "kv": "Unchanged schemas preserve their repeated prefix. Loading, unloading, or changing the tool definitions can change request-prefix tokens; provider cache availability remains outside this package.",
+  "tok": "The four schemas contribute fixed request-context tokens while available. Stored tasks and browser catalog queries add no schema tokens."
+ },
+ "dsh-scope": {
+  "group": "core",
+  "desc": "The scoped-registration library for plugin authors and maintainers building registries or event surfaces that isolate contributions per agent or per g",
+  "summary": "`dsh-scope` lets plugin authors give each agent or group an isolated contribution set with a shared lifetime. Child scopes inherit ancestor contributions, with the nearest definition taking precedence",
+  "kv": "",
+  "tok": ""
+ },
+ "dsh-sdk-app": {
+  "group": "bundle",
+  "desc": "SDK stdio application profile for users and maintainers launching a JSON-RPC harness runtime.",
+  "summary": "The SDK stdio application as a `dsh` profile bundle over [`dsh-base`](../base/README.md). It inherits the base's disabled module-HMR policy; its patch sets the coding-agent persona, mounts an app-owne",
+  "kv": "Stable for a fixed profile, provider, model, and tool roster. Profile changes take effect on the next process because the shipped SDK profile uses startup-only patches.",
+  "tok": "One short stable persona plus the data-dependent base prompt sections and selected tool schemas."
+ },
+ "dsh-sdk-jsonrpc-server": {
+  "group": "other",
+  "desc": "The stdio JSON-RPC serving plugin for deployments that let out-of-process SDK clients open sessions and drive agents in a DeepSeek Harness runtime.",
+  "summary": "`dsh-sdk-jsonrpc-server` serves the SDK wire protocol over stdio so out-of-process clients can drive harness agents: it opens one session per `sessionId`, queues user prompts, and streams every sessio",
+  "kv": "Append-only; newly visible content follows the reusable request prefix and does not invalidate existing KV-cache entries.",
+  "tok": "Data-dependent user-message tokens enter retained session history and are resent on later turns until another package compacts them. The JSON-RPC frames, session notifications, and"
+ },
+ "dsh-sdk-minimal": {
+  "group": "bundle",
+  "desc": "Standalone SDK profile with one default shell tool for users who need a minimal cross-platform coding agent without the shared base bundle.",
+  "summary": "Use `dsh --profile sdk-minimal` when an SDK client needs a small, explicit coding-agent runtime. By default, the profile advertises only a platform-selected persistent shell, persists sessions as unco",
+  "kv": "Stable for a fixed persona, platform, provider, model, and bundle patch stack. Profile changes take effect on the next process.",
+  "tok": "By default, one stable persona plus one tool schema. Configured MCP servers add their tools, shared resource tools, and available server instructions. Tool results and ordinary con"
+ },
+ "dsh-sdk-protocol": {
+  "group": "other",
+  "desc": "The SDK wire protocol for client and server implementers: the newline-delimited JSON-RPC transport and the named request, result, and notification typ",
+  "summary": "`dsh-sdk-protocol` lets a DeepSeek Harness runtime and its SDK clients exchange JSON-RPC 2.0 messages over newline-delimited byte streams: one transport class plus the named request, result, and notif",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-session": {
+  "group": "core",
+  "desc": "The event-sourced session log and in-memory store for users and maintainers building, inspecting, or extending the durable record behind every agent i",
+  "summary": "`dsh-session` records every model-visible fact in an append-only session log and derives model history from that record. Consumers can inspect, replay, fork, and flush sessions while preserving histor",
+  "kv": "Appended surface entries preserve reusable prefixes. A `replace` operation invalidates reuse from the first shadowed message even though the underlying event log stays append-only.",
+  "tok": "Appended surface entries are resent on later steps. A `replace` surface operation removes the shadowed entries from future inputs without deleting their raw log records."
+ },
+ "dsh-session-checkpoint-policy": {
+  "group": "session",
+  "desc": "Semantic session durability checkpoints for users and maintainers deploying persisted agents that must not lose a model request or tool side effect on",
+  "summary": "Use this package with a session persistence backend to make work durable before a model request, before a top-level tool can cause external effects, and before the next agent step begins. After each c",
+  "kv": "The repair result is appended after the reusable prefix, so it does not invalidate earlier cache entries.",
+  "tok": "Successful checkpoints add no tokens and do not change the request. Recovery adds one short tool-result message to balance the interrupted transcript."
+ },
+ "dsh-session-format": {
+  "group": "session",
+  "desc": "Pure adjacent Session format planning, lossless JSON value checks, header-only migration, and physical codec dispatch.",
+  "summary": "`dsh-session-format` lets persistence code restore a current Session directly or compose a unique sequence of adjacent migrations while consuming physical rows once. A restore transfers caller-owned p",
+  "kv": "No direct effect. A migration that changes current history can change the cache identity owned by request reconstruction.",
+  "tok": "Zero direct tokens."
+ },
+ "dsh-session-format-catalog": {
+  "group": "session",
+  "desc": "Build-static first-party Session format codec and adjacent migration assembly for persistence readers.",
+  "summary": "`dsh-session-format-catalog` gives persistence one deterministic Session format reader without consulting mounted plugins. It assembles codecs and adjacent edges from the earliest supported format thr",
+  "kv": "No direct effect; restored history determines cache identity in its consumer.",
+  "tok": "Zero direct tokens."
+ },
+ "dsh-session-format-v0-to-v1": {
+  "group": "session",
+  "desc": "Frozen released-v0 Session header, event, and packed-row decoder with the identity conversion to v1.",
+  "summary": "This package restores released v0 Session JSONL by decoding each physical row and producing the shared-layout v1 format. It preserves validated headers and events apart from changing version 0 to vers",
+  "kv": "No direct effect for canonical v0 history. Bounded normalizers preserve model-visible content while producing current wrappers and deterministic identities.",
+  "tok": "Zero direct tokens."
+ },
+ "dsh-session-format-v1-to-v2": {
+  "group": "session",
+  "desc": "Frozen released-v1 Session reader and cardinality-changing migration that embeds Assistant streams in released v2 events.",
+  "summary": "`dsh-session-format-v1-to-v2` converts a released-v1 Session into the released-v2 event model through one stateful event stage. It consumes top-level `assistant/chunk` events, embeds their exact timed",
+  "kv": "The restored model-message sequence stays unchanged, so the migration alone does not alter request-prefix cache identity.",
+  "tok": "The migration adds no model-visible content. It preserves the derived message history and removes only top-level chunk envelopes from the current logical event sequence."
+ },
+ "dsh-session-format-v2-to-v3": {
+  "group": "session",
+  "desc": "The complete V2-to-V3 Session conversion: system heads, audited references, PTC and preset names, canonical envelopes, preservation, and refusal.",
+  "summary": "Restore supported released V2 Sessions as V3 without changing historical request meaning. This page is the single specification for this adjacent edge: what it transforms, preserves, and refuses, foll",
+  "kv": "The edge preserves historical request meaning and model configuration; it does not guarantee provider cache hits or byte-identical native V3 recordings.",
+  "tok": "The edge adds no model-visible text; it moves the recorded prompt from the request header into the message history."
+ },
+ "dsh-session-format-v3-to-v4": {
+  "group": "session",
+  "desc": "Complete V3-to-V4 Session conversion and native admission: tool-role results, producer sources, parent catalogs, reference remapping, and refusal.",
+  "summary": "Restore supported released V3 Sessions as V4 without rewriting their stored generation. This page specifies the edge's transformations, preservation, prerequisites, and refusal, then separates native ",
+  "kv": "The edge preserves the recorded request prefix. Provider cache availability and eviction remain outside this library.",
+  "tok": "The conversion changes no request text or token-bearing data."
+ },
+ "dsh-session-log-deepseek": {
+  "group": "session",
+  "desc": "Incremental canonical session-log upload for deployments enabling official DeepSeek request metadata.",
+  "summary": "Incremental canonical session-log upload for official DeepSeek LLM API requests. This function plugin injects `ctx.sessions` and `ctx.deepseekLlmApiExtensions`, then owns the `dsh_session_log` request",
+  "kv": "None; the model-visible request prefix remains unchanged.",
+  "tok": "Zero model-input tokens; the field only increases HTTP request bytes, bounded by `maxBytes`."
+ },
+ "dsh-session-log-export": {
+  "group": "session-query",
+  "desc": "Web Session-log ZIP export: Host streaming, the authenticated download route, the Session Header action, and the /export command.",
+  "summary": "`dsh-session-log-export` lets the Web interface download a session's full history: a `Download session log` menu item under the Session Header's more-actions button and an `/export` slash command both",
+  "kv": "None. The log-only command lifecycle and browser download do not change the derived request prefix.",
+  "tok": "Zero. The command creates no model turn."
+ },
+ "dsh-session-persistence": {
+  "group": "session",
+  "desc": "The durable session-storage seam for users and maintainers choosing a persistence backend, resuming sessions, or building a backend against the shared",
+  "summary": "This package lets applications persist and resume session event logs through a backend-independent API. Readers can create, open, inspect, list, append to, read, flush, and close stored sessions while",
+  "kv": "Persistence does not mutate live request prefixes. A resumed loop can reuse provider cache only when its reconstructed history, current envelope, and model route match; crash-repair results append without rewriting earli",
+  "tok": "Zero tokens during ordinary persistence. Resume restores retained history cost and pays the current request envelope normally; each repaired call adds the quoted retained error tex"
+ },
+ "dsh-session-persistence-jsonl": {
+  "group": "session",
+  "desc": "The shipped JSONL session-persistence backend for deployments and maintainers choosing, configuring, or debugging per-session durable logs with option",
+  "summary": "`dsh-session-persistence-jsonl` stores each session in a current append-only JSONL log and retains immutable historical format generations \u2014 checksummed Zstandard frames by default, raw newline-delimi",
+  "kv": "JSONL storage does not mutate live request prefixes. A resumed loop can reuse provider cache only when its reconstructed history, current envelope, and model route match; crash-repair results append.",
+  "tok": "Zero live-request tokens. A resumed agent pays for retained history and its current envelope, plus the quoted repair result for each interrupted call."
+ },
+ "dsh-session-projection": {
+  "group": "session",
+  "desc": "The session-projection registry for developers serving whole current values of log-derived per-session state to client carriers, and for maintainers o",
+  "summary": "Use `dsh-session-projection` when clients need current per-session state\u2014such as todos, goals, or conversation statistics\u2014without replaying the raw event log. Domains define synchronous projections fr",
+  "kv": "None; projections never assemble or send provider requests.",
+  "tok": ""
+ },
+ "dsh-session-projection-cache": {
+  "group": "session",
+  "desc": "The persisted session-projection cache for deployments and maintainers choosing, configuring, or debugging durable checkpoints, zero-I/O list reads, a",
+  "summary": "This package keeps durable per-session projection checkpoints so history lists, statistics, and goal snapshots can read cached values without loading each session log. Cold projection folds can resume",
+  "kv": "None; the cache never assembles or sends provider requests.",
+  "tok": ""
+ },
+ "dsh-session-query": {
+  "group": "session-query",
+  "desc": "The unified session-history query service for consumers and backend authors: exact reads, relationship traces, and provider-independent filters over l",
+  "summary": "`dsh-session-query` lets application code list, filter, read, and search session history, inspect bounded event context, and trace session or event relationships. Reads prefer live sessions over persi",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-session-query-sqlite": {
+  "group": "session-query",
+  "desc": "The SQLite FTS5 full-text search backend for session history, for deployments and maintainers choosing, configuring, or debugging full-text search ove",
+  "summary": "Use this package to add ranked SQLite FTS5 search across session history, either across sessions or within one session, with cursor pagination. It indexes live and persisted history in a separate deri",
+  "kv": "None; this package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-session-reference": {
+  "group": "context",
+  "desc": "Cross-session snapshot references and durable untrusted model context, for users and maintainers enabling or debugging ctx.sessionReferenceResolver.",
+  "summary": "`dsh-session-reference` lets a conversation reference other sessions: a host turns a `@label` mention into a canonical URI, and the service prepares a bounded, read-only snapshot of each referenced se",
+  "kv": "The request and snapshot are consecutive append-only target messages and preserve earlier cacheable history. Different references or source capture contents change the new suffix only; later target compaction may invalid",
+  "tok": "Each referenced message adds the fixed warning plus up to three serialized previews, each independently bounded by the configured or model-relative byte budget. Truncated reference"
+ },
+ "dsh-session-stats": {
+  "group": "session",
+  "desc": "Whole-log conversation counts and wall times for clients and maintainers choosing, composing, or debugging the sessionStats projection unit.",
+  "summary": "This package gives clients whole-session turn and step counts plus LLM, tool, first-token, and decode wall times through the public `sessionStats` value. The figures come from the complete durable log",
+  "kv": "None; the package never assembles or sends provider requests.",
+  "tok": ""
+ },
+ "dsh-session-telemetry": {
+  "group": "session",
+  "desc": "Session-telemetry capture seam for deployments and backend authors choosing a reporting backend, mounting redaction rules, or implementing the backend",
+  "summary": "Session telemetry lets deployments send ordered copies of session activity for reporting while preserving the canonical session log. Deployments choose one reporting backend and can redact each outbou",
+  "kv": "None; the package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-session-telemetry-otel": {
+  "group": "session",
+  "desc": "OpenTelemetry session-telemetry backend for deployments choosing a mode, configuring the exporter, or tracing what leaves the machine.",
+  "summary": "The adapter injects `otel`; the [shared OTel plugin](../../telemetry/otel/README.md) creates its independent Session-log channel. Authorization, redaction, identity, scope version, configuration, and ",
+  "kv": "None; the package neither assembles nor sends a provider request.",
+  "tok": ""
+ },
+ "dsh-session-title": {
+  "group": "session",
+  "desc": "Log-backed session titles for users and maintainers choosing a title source, configuring the service, or debugging title state.",
+  "summary": "Use `dsh-session-title` to give each session a client-visible title from the first eligible human message, an optional asynchronous generator, or an explicit user rename. Accepted titles persist throu",
+  "kv": "None for the main request; title events do not change its reconstructed content or cache key.",
+  "tok": "The fallback and accepted provider revisions add zero tokens to the main agent request. An optional provider's separate auxiliary request is documented by that provider package."
+ },
+ "dsh-session-title-first-prompt-llm": {
+  "group": "session",
+  "desc": "First-message LLM session-title provider for users and maintainers choosing a title strategy or debugging automatic title generation.",
+  "summary": "`dsh-session-title-first-prompt-llm` summarizes the first eligible human message through `ctx.llm` as an optional `ctx.sessionTitle` provider. It registers the `first-prompt` cadence, runs automatical",
+  "kv": "No main-request invalidation. The auxiliary request uses the configured or logged route and has provider-specific cache behavior.",
+  "tok": "At most one automatic auxiliary request is made for a fresh session, bounded by `maxInputBytes` and `maxOutputTokens`; explicit refreshes may make additional calls. The main agent "
+ },
+ "dsh-session-title-llm": {
+  "group": "session",
+  "desc": "Shared model-backed title generation policy for users and maintainers configuring title providers or debugging auxiliary LLM requests.",
+  "summary": "`dsh-session-title-llm` generates concise session titles from selected human messages with a consistent model request policy. Callers choose which messages contribute to each revision and may either s",
+  "kv": "No main-request invalidation. Auxiliary cache reuse is provider-specific; the fixed instruction is reusable while the JSON message array changes with each revision.",
+  "tok": "The auxiliary request consumes tokens according to selected input size and `maxOutputTokens`. It is separate from the main agent request and does not add title text or framing to a"
+ },
+ "dsh-session-turn-outline": {
+  "group": "session",
+  "desc": "Whole-log turn outline for clients and maintainers composing or debugging the turnOutline projection unit behind full-session turn navigation.",
+  "summary": "This package gives history clients a whole-session outline of every started turn, including bounded prompt and settled-response previews. Clients can navigate turns that are not yet loaded and page ba",
+  "kv": "None; the package never assembles or sends provider requests.",
+  "tok": ""
+ },
+ "dsh-settings": {
+  "group": "settings",
+  "desc": "Inspect and edit live plugin configuration through Config-derived forms.",
+  "summary": "Edit fields that plugins declare with `.volatile()` and inspect their effective values. Forms identify each plugin by its profile entry id, preserve secret values, and refuse stale writes. Changes per",
+  "kv": "Consumers that change request prefixes determine cache effects.",
+  "tok": ""
+ },
+ "dsh-shell": {
+  "group": "shell",
+  "desc": "The shell executor seam for developers and maintainers choosing, composing, or implementing command execution over ctx.shell.",
+  "summary": "Use `ctx.shell` to run shell commands with bounded output or keep them running as background work. One execution handle supports foreground results and background reads. A profile can select local or ",
+  "kv": "No direct invalidation; the named consumer owns any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-shell-env": {
+  "group": "shell",
+  "desc": "The managed DSH_* shell environment for users and maintainers choosing, configuring, or extending the environment every model shell call runs with.",
+  "summary": "`dsh-shell-env` provides the trusted `DSH_*` environment that every model shell call \u2014 bash or pwsh \u2014 runs with: built-in facts such as `DSH_HOME`, `DSH_SHELL=1`, the agent's `DSH_SESSION_ID`, and the",
+  "kv": "The managed environment never enters the request prefix, so it does not invalidate provider cache reuse; the shell tools' definitions and the current request envelope own any prefix change.",
+  "tok": ""
+ },
+ "dsh-skill": {
+  "group": "skill",
+  "desc": "The skill provider registry for users and maintainers choosing, configuring, or debugging how skills from any source are merged, resolved, and loaded.",
+  "summary": "Use this package to give agents and users one catalog of reusable, task-specific instructions collected from local directories, embedded plugin data, or remote services. It resolves duplicate names pr",
+  "kv": "No direct prompt effect. The named consumer owns the durable initial catalog and append-only replacements after invalidation.",
+  "tok": ""
+ },
+ "dsh-skill-badge": {
+  "group": "experimental",
+  "desc": "The bundled 'powered by dsh' badge skill for users and maintainers enabling, using, or debugging the optional badge provider.",
+  "summary": "Agents can load the official \"powered by dsh\" badge skill from this bundled provider and follow its instructions for adding attribution badges to documents, PRs, and other content produced with DeepSe",
+  "kv": "Disabled by default, the plugin changes no request. When enabled, its catalog entry and any loaded body change the provider KV prefix at their insertion points.",
+  "tok": ""
+ },
+ "dsh-skill-filesystem": {
+  "group": "skill",
+  "desc": "The local filesystem skill provider for users and maintainers authoring local skills or configuring how project, custom, and user skill roots are disc",
+  "summary": "Agents can use local skills from the repository, a custom directory, or the user's agent configuration: author a skill as a directory bundle with a `SKILL.md` or a flat `<name>.md` file under any scan",
+  "kv": "Watcher invalidation can cause the named consumer to append a replacement catalog to the existing request history. Body-only edits leave the catalog digest unchanged.",
+  "tok": ""
+ },
+ "dsh-skill-office": {
+  "group": "skill",
+  "desc": "Bundled Word, PowerPoint, and Excel instructions for deployments providing Office file authoring and structural checks.",
+  "summary": "Agents can load Word, PowerPoint, and Excel workflows that use the bundled Python environment by default and respect explicit user or AGENTS.md environment choices. The skills cover creation, focused ",
+  "kv": "Mounting the provider adds three catalog entries; loading a skill adds its body at the existing skill-tool insertion point. The provider does not add separate prompt sections.",
+  "tok": ""
+ },
+ "dsh-spill": {
+  "group": "spill",
+  "desc": "The spill storage service: save oversized tool text or captured session references and return a retrievable locator.",
+  "summary": "`dsh-spill` lets plugins and tools save oversized text through the public `ctx.spillStore` API and receive an opaque locator, exact byte count, and retrieval guidance. Choose it when full results must",
+  "kv": "No direct invalidation; the named consumer owns any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-spill-local": {
+  "group": "spill",
+  "desc": "The local filesystem spill backend: how spilled text is saved to private session-scoped files and retrieved with read or grep.",
+  "summary": "`dsh-spill-local` saves a caller's oversized text to a private, session-scoped file on the host filesystem and returns that file's path as the locator, with retrieval guidance telling the model to rea",
+  "kv": "No direct invalidation; the named consumer owns any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-spill-policy": {
+  "group": "spill",
+  "desc": "Tool-result retention with a shared text/image token budget and readable recovery files.",
+  "summary": "Keep oversized text and image results within a shared estimated token budget. The model receives ordered head/tail content and a path to the complete result. Images remain in attachment storage; the r",
+  "kv": "Append-only; newly visible content follows the reusable request prefix and does not invalidate existing KV-cache entries.",
+  "tok": "A successful replacement fits `maxInlineTokens` under the shared text estimate and active route's image calculator, including notices and image descriptor text. Provider-reported u"
+ },
+ "dsh-storage": {
+  "group": "storage",
+  "desc": "Storage hub (ctx.storage) for compositions and maintainers choosing, mounting, or debugging named storage backends and data-form facilities.",
+  "summary": "Use `dsh-storage` to keep typed application data durable without adding it to session history. Mount it with a supported storage medium and domain configuration, then callers can access records throug",
+  "kv": "Independent of live requests: the hub never touches a request prefix, so it cannot invalidate provider cache reuse.",
+  "tok": "Zero direct tokens on every request."
+ },
+ "dsh-storage-domain": {
+  "group": "storage",
+  "desc": "Domain data form (ctx.storageDomain) for hosts and maintainers choosing, mounting, or debugging schema-validated, change-emitting KV domains over stor",
+  "summary": "Use this package to declare schema-validated key-value domains and open them through `ctx.storageDomain` over a configured storage backend. Reads return synchronously from validated in-memory state, w",
+  "kv": "Independent: domain reads and writes never touch request prefixes, so nothing here can invalidate provider cache reuse.",
+  "tok": "Zero: no text from this package enters any model request."
+ },
+ "dsh-storage-json": {
+  "group": "storage",
+  "desc": "JSON storage backend for hosts and maintainers choosing, configuring, or debugging whole-unit and per-record files under a configured root.",
+  "summary": "`dsh-storage-json` stores domain data as readable JSON under a configured root and registers as backend `json`. Its default `single` layout keeps one complete `<unit>.json` file per unit; its `per-rec",
+  "kv": "None \u2014 the backend never touches live request prefixes.",
+  "tok": "Zero live-request tokens."
+ },
+ "dsh-subagent": {
+  "group": "subagent",
+  "desc": "The subagent delegation seam for users and maintainers choosing a provider backend, composing delegation tools, or debugging child-agent runs.",
+  "summary": "Use `dsh-subagent` to delegate work to named child agents, collect their results, and continue supported child conversations across turns. A composition can offer in-process, ACP, SDK, Codex, or Claud",
+  "kv": "Append-only in the parent: the notice follows its reusable request prefix. Reaching an idle parent starts one independent model request; reaching a busy one does not.",
+  "tok": "One notice per settled Activation in the parent's request, sized by the child's final text. A child that sends its own message and then settles costs the parent both."
+ },
+ "dsh-subagent-fork-in-process": {
+  "group": "subagent",
+  "desc": "In-process fork subagent backend for users and maintainers choosing, configuring, or debugging children seeded with the parent's completed turns.",
+  "summary": "`dsh-subagent-fork-in-process` is an in-process subagent backend that seeds each child with the parent's completed conversation turns: the child sees every finished turn and none of the in-flight one,",
+  "kv": "The child may reuse the inherited byte-identical prefix under the same provider and model. Persona, tool-filter, generated-SDK, or route changes may invalidate reuse before inherited history; later child history is appen",
+  "tok": "Forking duplicates retained completed history into the child's request, which then accumulates its own tokens independently. A persona changes repeated prompt cost; filtering chang"
+ },
+ "dsh-subagent-in-process-driver": {
+  "group": "subagent",
+  "desc": "Shared in-process subagent run driver for maintainers and backend authors who need to understand or extend the spawn and fork run lifecycle.",
+  "summary": "`dsh-subagent-in-process-driver` is the shared run driver behind the two in-process subagent backends: it creates one child agent through the host's agent factory, applies per-child customization, dri",
+  "kv": "Independent of the parent request cache. The child's later history is append-only, while persona, tool-filter, generated-SDK, provider, or model changes establish a different child prefix.",
+  "tok": "Child input is isolated from the parent and grows through the child's own steps. A persona changes repeated prompt text; filtering changes schema or generated SDK cost, and scope-a"
+ },
+ "dsh-subagent-spawn-in-process": {
+  "group": "subagent",
+  "desc": "In-process spawn subagent backend for users and maintainers choosing, configuring, or debugging fresh-child delegation.",
+  "summary": "`dsh-subagent-spawn-in-process` is an in-process subagent backend: it runs each delegated task in a fresh child agent that shares this process and its agent factory, LLM, and tool services. The child ",
+  "kv": "The child's request cache is independent of the parent's. Child history grows append-only, while persona, tool-filter, generated-SDK, provider, or model changes establish a different child prefix.",
+  "tok": "The child pays for a new independent context and history, and no parent-history token is duplicated. A persona changes the child's repeated prompt cost; a tool filter changes its s"
+ },
+ "dsh-subprocess": {
+  "group": "subprocess",
+  "desc": "The subprocess service (ctx.subprocess) for composition authors and capability consumers starting, observing, and terminating managed child processes ",
+  "summary": "`ctx.subprocess` resolves executables, starts explicitly specified child processes or real terminal sessions, streams or collects bounded output, and terminates the full managed process range. Configu",
+  "kv": "No direct invalidation; the named consumers own any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-subprocess-local": {
+  "group": "subprocess",
+  "desc": "The local host provider for the subprocess service: run OS-owned managed ranges and real terminal sessions on the host machine, with explicit weaker f",
+  "summary": "Mount `dsh-subprocess-local` in any composition that runs child processes on the host. It resolves local executables, gives ordinary Linux and Windows commands plus supported Linux terminal sessions a",
+  "kv": "No direct invalidation; the named consumers own any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-system-prompt": {
+  "group": "core",
+  "desc": "System-prompt assembly for users and maintainers adding prompt sections, variables, tool-schema sources, or configuring the model-facing prompt.",
+  "summary": "`dsh-system-prompt` lets agents receive one ordered system prompt and the available tool schemas for each model step. Use it to add prompt sections, dynamic runtime facts, reusable variables, or tool ",
+  "kv": "Prefix-stable while identity, persona, variables, section text, and order render identically: an unchanged rendering leaves the system nodes untouched unless an incapable route or a new request series must consolidate re",
+  "tok": "Identity is a fixed per-request cost when enabled. Persona prefixes, suffixes, and plugin text are repeated per request and scale with their rendered content."
+ },
+ "dsh-terminal": {
+  "group": "terminal",
+  "desc": "Persistent terminal sessions for deployments and consumers choosing, composing, or extending the owner-scoped ctx.terminals service.",
+  "summary": "`dsh-terminal` provides persistent, owner-scoped terminal sessions to the harness: a session keeps shell or REPL state across tool calls, and every operation is fenced to the exact agent that created ",
+  "kv": "No direct invalidation; `@deepseek-ai/dsh-tool-terminal` owns request-prefix changes.",
+  "tok": "None directly. Live session state stays process-local until a consumer returns a bounded result."
+ },
+ "dsh-terminal-bash": {
+  "group": "terminal",
+  "desc": "The shipped shell backend for persistent terminal sessions: interactive bash or pwsh under the shared sandbox policy, with readiness detection and bou",
+  "summary": "`dsh-terminal-bash` starts a persistent interactive shell under the deployment's sandbox policy: the session stays alive across tool calls, readiness for input is detected, and bounded line-oriented o",
+  "kv": "No direct invalidation; consumer results remain append-only.",
+  "tok": "Retained PTY scrollback is not placed in model history until a consumer returns bounded output."
+ },
+ "dsh-time-context": {
+  "group": "context",
+  "desc": "Per-step clock context with the current time, browser zone, and elapsed time, for users and maintainers tuning the plugin.",
+  "summary": "`dsh-time-context` gives the model a clock: on eligible steps it appends a durable, source-attributed reading with the current time, the browser zone attached to the open request, and the elapsed time",
+  "kv": "Append-only; newly visible content follows the reusable request prefix and does not invalidate existing KV Cache entries.",
+  "tok": "Each reading accumulates until compaction shadows it. A positive interval reduces additions; `0` adds one at every eligible preparation attempt."
+ },
+ "dsh-timeout": {
+  "group": "util",
+  "desc": "Shared timeout arithmetic, deadline fusion, and timeout-versus-cancel classification for capabilities that clamp a caller's hint, arm a deadline, and ",
+  "summary": "`dsh-timeout` lets callers apply bounded deadlines to work, distinguish local timeout from upstream cancellation, and monitor streamed reads for inactivity. `clampTimeout` fills a missing hint from a ",
+  "kv": "No direct invalidation; the timeout consumers own any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-tmux-context": {
+  "group": "context",
+  "desc": "Opt-in per-turn tmux location context for users and maintainers enabling or tuning the agent's session, window, and pane awareness.",
+  "summary": "`dsh-tmux-context` lets the model identify the tmux session, window, pane, and pane-tree layout containing its agent process. It adds a durable, source-attributed reading on the first step of a turn o",
+  "kv": "Append-only; newly visible content follows the reusable request prefix and does not invalidate existing KV Cache entries.",
+  "tok": "Each three-line reading accumulates until compaction shadows it. Unchanged locations and interval suppression add nothing."
+ },
+ "dsh-token-meter": {
+  "group": "llm",
+  "desc": "Replay-aware token and context-pressure measurement for users and maintainers sizing prompts or building compaction and occupancy displays.",
+  "summary": "Use `ctx.tokenMeter` to estimate a session's current request and context pressure or price one message. Measurements replay the durable session log, remain deterministic, and make no model calls, so c",
+  "kv": "No direct invalidation; the named consumer owns any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-tool-ask-user": {
+  "group": "interaction",
+  "desc": "The model-facing ask_user_question tool over the user-questions seam, for users and maintainers composing or debugging interactive agent surfaces.",
+  "summary": "`ask_user_question` asks the user for confirmation, a choice, or missing information. It waits for an answer by default. With `mode: timed`, a deadline can release the model to continue independent wo",
+  "kv": "Prefix-stable while the definition and visibility are unchanged. Plugin lifecycle or scoped restrictions may invalidate reuse from this schema.",
+  "tok": "Fixed schema cost on every request where the tool is visible."
+ },
+ "dsh-tool-bash": {
+  "group": "shell",
+  "desc": "The model-facing bash tool for users and maintainers choosing, configuring, or debugging one-shot command execution, background jobs, and sandbox esca",
+  "summary": "`dsh-tool-bash` runs Bash commands and returns stdout, stderr, and exit markers. Each call uses a fresh shell; cwd, variables, and functions do not persist. With a job registry composed, every command",
+  "kv": "Prefix-stable while the registration scope and prompt text are unchanged. Plugin activation or disposal may invalidate reuse from this prompt section; sandbox mode switches do not.",
+  "tok": "Small fixed input cost per request while the plugin is active, unchanged by sandbox mode or mode switches."
+ },
+ "dsh-tool-bash-persistent": {
+  "group": "shell",
+  "desc": "The model-facing persistent bash tool for users and maintainers choosing, configuring, or debugging owner-scoped shell state that survives across call",
+  "summary": "This package gives an agent a `bash` tool whose cwd, exported variables, functions, and background jobs persist across calls. Each agent receives an isolated shell, and its commands run sequentially. ",
+  "kv": "Prefix-stable while the configured description and schema remain unchanged.",
+  "tok": "Fixed schema cost while `bash` is visible."
+ },
+ "dsh-tool-call-timeout-policy": {
+  "group": "tools",
+  "desc": "Cooperative time limit for cancellation-aware tool calls, mapping a settled timeout to a clear model error for users and maintainers choosing or debug",
+  "summary": "Use this package to give tool calls their configured cooperative time limits and return a clear timeout error to the model after cancellation settles. Calls that finish in time are unchanged. A tool t",
+  "kv": "Append-only; newly visible content follows the reusable request prefix and does not invalidate existing KV Cache entries.",
+  "tok": "Zero tokens on non-timeout calls. A timeout adds one small retained error result and can prevent a larger late provider result from entering context."
+ },
+ "dsh-tool-cordis": {
+  "group": "extensions",
+  "desc": "Read-only runtime API discovery for agents developing and configuring installed Harness plugins.",
+  "summary": "Inspect Host and Client runtime APIs before writing plugin code. Creator mode provides these read-only tools alongside Plugin Manager, which owns persistent profile changes. The inspection registry is",
+  "kv": "Unchanged tool schemas remain prefix-stable. Query results append to history; enabling other plugins can change subsequent tool schemas.",
+  "tok": "Only the two tool schemas enter model requests while this plugin is visible. Query results append to the transcript; exact queries avoid loading unrelated declarations."
+ },
+ "dsh-tool-fs": {
+  "group": "fs",
+  "desc": "The model-facing read, read_image, write, and edit tools for users and maintainers composing or debugging filesystem access for agents.",
+  "summary": "Use `dsh-tool-fs` to let a model read UTF-8 files with line numbers, read supported images, create or atomically replace files, and apply targeted literal edits. Results are capped, and failures provi",
+  "kv": "Prefix-stable while the visible tool set, plugin scope, and guidance text are unchanged. Restrictions or plugin lifecycle changes may invalidate reuse from the first changed section.",
+  "tok": "Guidance cost follows the visible tools and their applicable cross-tool recommendations."
+ },
+ "dsh-tool-fs-search": {
+  "group": "fs",
+  "desc": "The model-facing glob and grep discovery tools for users and maintainers composing or debugging workspace search for agents.",
+  "summary": "Use `dsh-tool-fs-search` to give models `glob` file discovery and `grep` content search over a local workspace. Searches need no host `rg` installation or filesystem provider, return workdir-relative ",
+  "kv": "Prefix-stable while the visible tool set, plugin scope, sampling choice, and guidance text are unchanged. Restrictions, activation, disposal, or changing the choice may invalidate reuse from the first changed section.",
+  "tok": "Guidance cost follows the visible tools; the required sampling choice selects one glob variant."
+ },
+ "dsh-tool-goal": {
+  "group": "goal",
+  "desc": "The model-facing goal tools for users and maintainers choosing, composing, or debugging get_goal, create_goal, and update_goal.",
+  "summary": "`dsh-tool-goal` lets a model read persisted goals and infer and create a long-running goal from a direct human request. Creating, editing, pausing, or resuming requires that direct request in a top-le",
+  "kv": "Prefix-stable while the plugin scope, configured threshold, and guidance text are unchanged. Activation, disposal, or configuration changes may invalidate reuse from this prompt section.",
+  "tok": "Small fixed input cost on every request where this plugin's prompt registration is in scope."
+ },
+ "dsh-tool-jobs": {
+  "group": "jobs",
+  "desc": "The model-facing background-job controls for users and maintainers choosing, configuring, or debugging job_output, job_list, job_kill, and completion ",
+  "summary": "Use `dsh-tool-jobs` to inspect and control background commands, PTY work, and subagents through `job_output`, `job_list`, and `job_kill`. Reads can wait within a configured timeout, list results ident",
+  "kv": "Prefix-stable while the plugin scope and guidance text are unchanged. Activation or disposal may invalidate reuse from this prompt section.",
+  "tok": "Small fixed input cost per request while active."
+ },
+ "dsh-tool-present": {
+  "group": "deliverables",
+  "desc": "Declare accessible files as deliverables with present; configuration, Session ownership, and source-file opening.",
+  "summary": "Use `present` to declare final files accessible through the Session filesystem, including files created through shell commands. Users open the current source files in their default application. The to",
+  "kv": "The tool schema is static for the mount lifetime. Delivery result text extends the conversation without rewriting its prompt prefix.",
+  "tok": "One tool schema per mounted agent and one result line per delivered file. File bytes do not enter model messages."
+ },
+ "dsh-tool-pwsh": {
+  "group": "shell",
+  "desc": "The model-facing pwsh tool for users and maintainers choosing, configuring, or debugging one-shot PowerShell execution, background jobs, and sandbox e",
+  "summary": "`dsh-tool-pwsh` lets the agent run PowerShell commands through a mounted shell executor. Each call uses a fresh process; with a job registry composed every command is a job from the moment it starts, ",
+  "kv": "Prefix-stable while the registration scope and prompt text are unchanged. Plugin activation or disposal may invalidate reuse from this prompt section.",
+  "tok": "Small fixed input cost per request while the plugin is active."
+ },
+ "dsh-tool-pwsh-persistent": {
+  "group": "shell",
+  "desc": "The model-facing persistent pwsh tool for users and maintainers choosing, configuring, or debugging owner-scoped PowerShell state that survives across",
+  "summary": "`dsh-tool-pwsh-persistent` gives each agent a `pwsh` tool that preserves its current directory, environment variables, functions, and background jobs across calls. Commands for one agent run sequentia",
+  "kv": "Prefix-stable while the configured description and schema remain unchanged.",
+  "tok": "Fixed schema cost while `pwsh` is visible."
+ },
+ "dsh-tool-ralph": {
+  "group": "experimental",
+  "desc": "The model-facing ralph tool: a fixed foreground fresh-agent loop toward one immutable objective, for users and maintainers choosing or configuring fre",
+  "summary": "`ralph` runs a foreground sequence of fresh child agents against one immutable objective, with each round receiving only the previous bounded report and shared workspace state. It returns when a worke",
+  "kv": "Prefix-stable while the plugin scope and guidance text are unchanged. Activation or disposal may invalidate reuse from this prompt section.",
+  "tok": "Small fixed guidance cost per request while the plugin is active."
+ },
+ "dsh-tool-skill": {
+  "group": "skill",
+  "desc": "The model-facing skill catalog and loader tool for users and maintainers understanding what agents see, or configuring the session skill catalog.",
+  "summary": "Agents can discover and load skills during a session. Before the first request, when model-invocable skills exist and the `skill` tool is visible, they receive a durable catalog of available skill nam",
+  "kv": "The initial durable catalog is appended after the existing reusable prefix. Dynamic changes are append-only history after that catalog, so earlier reusable tokens stay intact while each newly appended catalog and later t",
+  "tok": "Repeated input cost scales with skill count and `catalogDescriptionMaxLength`; no initial catalog tokens are sent when the list is empty or the tool is hidden or shadowed. Each act"
+ },
+ "dsh-tool-str-replace-editor": {
+  "group": "fs",
+  "desc": "The standalone str_replace_editor tool over ctx.fs for users and maintainers composing Claude-Code-style file editing for agents.",
+  "summary": "`dsh-tool-str-replace-editor` provides a standalone model-facing `str_replace_editor` tool over `ctx.fs`: `view` shows numbered file content or a shallow directory listing, `create` makes a new file, ",
+  "kv": "Prefix-stable while the configured description and schema remain unchanged.",
+  "tok": "Fixed schema cost while `str_replace_editor` is visible."
+ },
+ "dsh-tool-subagent": {
+  "group": "subagent",
+  "desc": "Model-facing subagent delegation tool for users and maintainers configuring, composing, or debugging delegation over a subagent provider.",
+  "summary": "Use this package to give an agent a named tool that delegates work to a configured child-agent backend. In `one-shot` mode, calls wait for the child by default; in `continuable` mode, they start a per",
+  "kv": "Prefix-stable while provider instances and their configuration are unchanged. Adapter catalog changes do not alter the definition; a child route override may prevent a fork child from reusing the inherited parent prefix.",
+  "tok": "Fixed schema cost per parent request; model selection adds three parameters. Each provider instance adds one schema, and each continuable instance adds one short system-prompt sect"
+ },
+ "dsh-tool-subagent-control": {
+  "group": "subagent",
+  "desc": "Global send_message, interrupt_agent, and list_agents tools for users and maintainers composing or debugging continuable-child control.",
+  "summary": "`dsh-tool-subagent-control` adds the global control tools for continuable children: `send_message` steers between a direct parent and child, `interrupt_agent` stops a child's current turn while keepin",
+  "kv": "Prefix-stable; the schema does not change at runtime.",
+  "tok": "Fixed schema cost per parent request."
+ },
+ "dsh-tool-todo": {
+  "group": "todo",
+  "desc": "The model-facing todo_write tool over the DeepSeek Harness session log: whole-list replacement, per-session ownership, and the todos projection, for u",
+  "summary": "`dsh-tool-todo` gives the agent a structured task list to plan with: break multi-step work into concrete tasks, mark the task you are working on, and check tasks off as they finish. The list survives ",
+  "kv": "Prefix-stable while the definition and visibility are unchanged. Plugin lifecycle or scoped restrictions may invalidate reuse from this schema.",
+  "tok": "Fixed schema cost on every request where the tool is visible; the description and schema are stable for a given configuration."
+ },
+ "dsh-tool-web": {
+  "group": "web",
+  "desc": "The model-facing web tools (web_search, web_fetch) over ctx.web: how deployments enable, configure, and observe the search and fetch tools the model s",
+  "summary": "`dsh-tool-web` lets models search the web with `web_search` and retrieve pages with `web_fetch`. Choose it when an agent needs current information or full source text, and enable either tool independe",
+  "kv": "Prefix-stable while visible tools, scope, and guidance text are unchanged. Config, scoped restrictions, `searchMaxQueries`, or plugin lifecycle changes may invalidate reuse from the first changed prompt section.",
+  "tok": "Guidance cost follows the visible tools. Config or scoped restrictions can remove a paragraph or select the existing search-only text; changing `searchMaxQueries` changes the adver"
+ },
+ "dsh-tool-workflow": {
+  "group": "workflow",
+  "desc": "The model-facing workflow tool: run a JavaScript orchestration script that fans out subagents, for users and maintainers choosing or configuring model",
+  "summary": "`dsh-tool-workflow` lets a model run JavaScript orchestration that delegates to many subagents and returns a final JSON value. Use it only when the user explicitly requests a workflow or large multi-a",
+  "kv": "Prefix-stable while the plugin scope and guidance text are unchanged. Activation or disposal may invalidate reuse from this prompt section.",
+  "tok": "Small fixed guidance cost per request while the plugin is active."
+ },
+ "dsh-tool-workspace-dependencies": {
+  "group": "skill",
+  "desc": "The load_workspace_dependencies tool: absolute paths into a bundled Python, Node.js, and pnpm payload, used in place or installed under the Harness ho",
+  "summary": "Deployments that ship their own script runtimes (Desktop's primary runtime, or a container image layer) mount this tool so the agent can ask where the bundled Python, Node.js, and pnpm live instead of",
+  "kv": "Prefix-stable while the tool definition and visibility are unchanged.",
+  "tok": "Fixed schema cost per request where the tool is visible; the description names the bundled Office libraries so the model can choose the interpreter without loading a skill first."
+ },
+ "dsh-tools": {
+  "group": "core",
+  "desc": "The tool registry and execution pipeline for tool authors and maintainers registering, restricting, presenting, or debugging model-facing tools.",
+  "summary": "Use `dsh-tools` to expose typed capabilities to models, validate calls, enforce allow/deny/ask policy, and return finalized results without ending a turn on ordinary tool failures. Choose native Funct",
+  "kv": "Prefix-stable while visible definitions and their order are unchanged. Registration, disposal, or scoped restriction may invalidate reuse from the first changed schema token.",
+  "tok": "Fixed per-request cost proportional to the visible definitions. Restrictions that hide tools remove their entire schema cost for that agent."
+ },
+ "dsh-typert-loader": {
+  "group": "seams",
+  "desc": "Loader integration for generated Typert artifacts: how mounted packages automatically contribute their host-face reflection and schemas to the runtime",
+  "summary": "With `dsh-typert-loader` mounted, every package that mounts in a Loader composition automatically contributes its generated Typert reflection and schema factories to the runtime registry \u2014 and withdra",
+  "kv": "No direct effect; registration changes reach a request only through a consumer that reads the registry.",
+  "tok": ""
+ },
+ "dsh-typert-protocol": {
+  "group": "seams",
+  "desc": "The shared Typert Remote protocol: decorators, wire descriptors, codecs, and provider contracts used by business packages, generated artifacts, the Ho",
+  "summary": "With `dsh-typert-protocol`, business packages can expose Host methods to Remote clients: mark a method with `@Remote` (or `@RemoteScope` for scoped receivers), bind the service to a wire namespace, an",
+  "kv": "No direct effect; the declared contracts reach a request only when an assembly places them in one.",
+  "tok": ""
+ },
+ "dsh-typert-registry": {
+  "group": "seams",
+  "desc": "The runtime Typert registry: stores generated package reflection, lazy Zod schema factories, and Remote invocation descriptors, and resolves them for ",
+  "summary": "`dsh-typert-registry` makes generated Typert artifacts queryable at runtime: each package's reflection, lazy Zod schema factories, and Remote invocation descriptors live under stable keys. A schema is",
+  "kv": "No direct effect; a consumer that places reflection or schemas in a request owns the resulting prefix change.",
+  "tok": ""
+ },
+ "dsh-user-approval": {
+  "group": "interaction",
+  "desc": "Channel-neutral one-shot approval seam for users and maintainers composing answerers, setting policy, or debugging fail-closed permission decisions.",
+  "summary": "Use this package to require a one-shot decision before a sensitive tool action proceeds. The `ask` policy sends each request to the deployment's human or machine answerers; `never` rejects it without ",
+  "kv": "Append-only after retained history. An `ask`/`never` switch preserves the stable system and conversation prefix instead of rewriting the first wire message.",
+  "tok": "One concise context message on the first request and on an effective change; unchanged requests add no duplicate policy tokens."
+ },
+ "dsh-user-questions": {
+  "group": "interaction",
+  "desc": "Waterfall-based question and answer service for tools, permission plugins, local answerers, and Agent-scoped Web interactions.",
+  "summary": "Use `ctx.userQuestions` when a tool or permission flow needs a structured answer from the user. `ask()` waits for that answer; `askTimed()` may release the agent to continue independent work while the",
+  "kv": "No direct invalidation; the named consumer owns any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-util-code-language": {
+  "group": "other",
+  "desc": "Single file-extension to syntax-highlighting language table shared by the Client code surfaces and the Host read card.",
+  "summary": "The repository's one file-extension to syntax-highlighting language table, shared by the Client's document Code preview and diff review, and by the Host read tool's persisted `lang` hint. `languageFor",
+  "kv": "",
+  "tok": ""
+ },
+ "dsh-util-crypto": {
+  "group": "other",
+  "desc": "Cross-runtime UUID generation for maintainers replacing secure-context-only crypto.randomUUID calls.",
+  "summary": "Zero-dependency browser-safe UUID and byte-encoding helpers. UUID minting uses `crypto.getRandomValues`, the one random primitive every shipped context provides. `crypto.randomUUID` is a secure-contex",
+  "kv": "No direct invalidation; identifier-minting consumers own any request changes.",
+  "tok": ""
+ },
+ "dsh-util-time": {
+  "group": "other",
+  "desc": "IANA time-zone validation and canonicalization for maintainers accepting a caller-reported zone at a wire boundary.",
+  "summary": "Zero-dependency zone vocabulary for the wire boundaries that accept a caller's time zone. `canonicalClientTimeZone` admits `UTC` or an IANA `Area/Location` name and answers the platform-canonical spel",
+  "kv": "None of its own. The consumer that injects a zone-derived line into a request owns that request's cache behavior.",
+  "tok": ""
+ },
+ "dsh-util-values": {
+  "group": "other",
+  "desc": "Lossless JSON validation, detached snapshots, deep freezing, structural equality, and exhaustive-union helpers for runtime packages.",
+  "summary": "`dsh-util-values` gives runtime packages one implementation for lossless JSON values, immutable object graphs, structural JSON equality, and exhaustive closed-union failures. Callers can validate untr",
+  "kv": "",
+  "tok": ""
+ },
+ "dsh-util-workspace-path": {
+  "group": "other",
+  "desc": "Browser-safe Workspace path helpers for joining relative paths, abbreviating POSIX homes, and deriving display titles.",
+  "summary": "Browser-safe path helpers shared by Workspace-facing client and controller packages. The package joins Workspace-relative paths, abbreviates POSIX home directories for display, derives Workspace title",
+  "kv": "",
+  "tok": ""
+ },
+ "dsh-web": {
+  "group": "web",
+  "desc": "The web access service (ctx.web): how deployments and plugin authors search the web and fetch URLs through interchangeable providers, with one selecti",
+  "summary": "Use `dsh-web` to search the web or fetch a URL without tying callers to a specific vendor. It selects a usable backend for each operation and gives callers consistent cancellation, errors, and result ",
+  "kv": "No direct invalidation; the named consumer owns any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-web-app": {
+  "group": "bundle",
+  "desc": "The browser GUI for dsh: interactive chat, model and settings management, and session history, for users running the dsh web surface.",
+  "summary": "Run `dsh --profile web` to open an interactive browser GUI with chat, model and settings management, and session history. It uses the same model access, tools, and safety defaults as other dsh surface",
+  "kv": "Source and Web sections follow first-party reusable instructions. Different checkout paths or local ports leave that preceding prefix unchanged when tools and configuration match; provider cache reuse is not guaranteed.",
+  "tok": "One source line and one prompt paragraph per session plus two managed-environment variable lines; constant per process."
+ },
+ "dsh-web-fetch-http": {
+  "group": "web",
+  "desc": "The anonymous public HTTP(S) fetch backend for ctx.web: how deployments mount bounded, safe URL retrieval with same-origin redirects and text-only dec",
+  "summary": "With `dsh-web-fetch-http`, the harness can fetch public HTTP(S) pages through the web service (`ctx.web`) and get their status code plus bounded, decoded content without sending credentials. Choose it",
+  "kv": "No direct invalidation; the named consumer owns any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-web-search-deepseek": {
+  "group": "web",
+  "desc": "The DeepSeek-backed search provider for ctx.web: how deployments mount native DeepSeek web search through the Anthropic-compatible Messages API, with ",
+  "summary": "With `dsh-web-search-deepseek`, the harness searches the web through DeepSeek's native search using the DeepSeek account sign-in or an existing `DEEPSEEK_API_KEY`. Choose it when a deployment wants De",
+  "kv": "Independent of the conversation request cache. The auxiliary instruction and native tool definition can form a stable prefix, but each changed query or model route prevents reuse from its first difference.",
+  "tok": "Separate provider input and output tokens are incurred for each search; `maxTokens` caps generated output and `maxUses` caps native search uses."
+ },
+ "dsh-webhook": {
+  "group": "experimental",
+  "desc": "Webhook rule runtime for maintainers registering trusted external-event policies that create Workspace Sessions.",
+  "summary": "`dsh-webhook` provides the Host `ctx.webhookRuntime`: a registry for trusted programmatic webhook rules plus the one built-in action, creating an ordinary root Session inside a Web Workspace. The inte",
+  "kv": "The initial prompt begins a new Session, so it establishes rather than invalidates that Session's reusable request prefix.",
+  "tok": "One data-dependent user-role message is retained in the new Session and contributes tokens until ordinary compaction replaces or removes that history."
+ },
+ "dsh-webhook-github": {
+  "group": "experimental",
+  "desc": "Signed GitHub webhook adapter for deployments routing authenticated JSON events into the webhook runtime.",
+  "summary": "`dsh-webhook-github` registers one exact HTTP route on the injected `ctx.webServer`. It bounds and verifies GitHub's raw JSON body, projects a provider-neutral delivery, calls `ctx.webhookRuntime.disp",
+  "kv": "Independent. Authentication and HTTP dispatch do not touch a model request; any new Session prefix belongs to the consuming rule and runtime.",
+  "tok": ""
+ },
+ "dsh-win32-process": {
+  "group": "subprocess",
+  "desc": "Low-level Win32 process primitives for maintainers implementing or debugging the Windows ACL sandbox and ordinary subprocess Job runner.",
+  "summary": "This low-level Win32 process library is consumed by the Windows ACL sandbox and the ordinary subprocess Job runner. It owns the repository's one Koffi binding table for reusable process, stdio, and Jo",
+  "kv": "The package contributes no stable request prefix, so it does not invalidate model KV caches.",
+  "tok": "None directly. Consumers decide whether process output enters a tool result or later model request."
+ },
+ "dsh-workflow": {
+  "group": "workflow",
+  "desc": "The workflow orchestration capability: run a model-written script that fans out subagents, for users and maintainers choosing or building on ctx.workf",
+  "summary": "Run a plain-JavaScript orchestration script that fans work out to subagents and returns the script's final JSON value. Scripts can use `agent()`, `parallel()`, `pipeline()`, `phase()`, and `log()`; mo",
+  "kv": "No direct invalidation; the named consumer and engine own any request-prefix changes.",
+  "tok": ""
+ },
+ "dsh-workflow-ptc": {
+  "group": "workflow",
+  "desc": "Run workflow orchestration through the shared sandboxed PTC Node process runtime, with workflow hooks, subagent routing and caller-owned cancellation.",
+  "summary": "Run JavaScript workflows in fresh Node processes under the calling Session's file sandbox policy. Scripts keep the `agent()`, `parallel()`, `pipeline()`, `phase()` and `log()` hooks while subagents pe",
+  "kv": "Independent of the parent request cache and of sibling children. Each child can reuse only a byte-identical prefix under its own provider, model, prompt and schema.",
+  "tok": "Each child consumes its own model context. Cooperative concurrency, total-agent and item caps limit ordinary script fan-out; child histories do not join the parent history directly"
+ },
+ "dsh-workspace": {
+  "group": "workspace",
+  "desc": "Workspace entity registry (ctx.workspaceRegistry) for hosts choosing, mounting, or debugging durable workspace records and header-validated session me",
+  "summary": "Use this package to keep an ordered, persistent list of project directories and the sessions run in each directory. Hosts can build project sidebars, hide sessions from grouping without deleting their",
+  "kv": "Independent of live requests: the package never touches a request prefix, so it cannot invalidate provider cache reuse.",
+  "tok": "Zero direct tokens on every request."
+ },
+ "dsh-workspace-changes": {
+  "group": "deliverables",
+  "desc": "Summarize each top-level turn's changed files from git working-tree snapshots and whole-file captures around file-tool edits, announce them with a wor",
+  "summary": "This plugin summarizes which files each top-level turn changed, with per-file line counts, and serves each listed file's turn-start and turn-end comparison. Git snapshots of the working tree at turn s",
+  "kv": "Nothing here enters a model request, so provider cache reuse is unaffected.",
+  "tok": ""
+ },
+ "libreoffice-kit": {
+  "group": "other",
+  "desc": "",
+  "summary": "",
+  "kv": "",
+  "tok": ""
+ },
+ "node-addon-system": {
+  "group": "other",
+  "desc": "JavaScript entry for the prebuilt Landlock launcher and asynchronous POSIX flock.",
+  "summary": "",
+  "kv": "",
+  "tok": ""
+ },
+ "node-addon-system-darwin-arm64": {
+  "group": "other",
+  "desc": "Prebuilt system.node for macOS arm64 POSIX locks.",
+  "summary": "",
+  "kv": "",
+  "tok": ""
+ },
+ "schemastery": {
+  "group": "other",
+  "desc": "",
+  "summary": "",
+  "kv": "",
+  "tok": ""
+ }
+}

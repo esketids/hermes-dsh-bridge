@@ -1,0 +1,1674 @@
+{
+ "startedAt": "2026-10-13T04:32:38",
+ "phases": {
+  "A.tools": [
+   {
+    "feature": "tools/list",
+    "ok": true,
+    "detail": "10 tools"
+   },
+   {
+    "feature": "dsh_health",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "dsh_commands",
+    "ok": true,
+    "detail": {
+     "curatedOps": 12,
+     "curatedCallable": 11,
+     "catalogServices": 91
+    }
+   },
+   {
+    "feature": "dsh_workspaces",
+    "ok": true,
+    "detail": "count=1"
+   },
+   {
+    "feature": "dsh_sessions",
+    "ok": true,
+    "detail": "pool=1"
+   },
+   {
+    "feature": "dsh_stats",
+    "ok": true,
+    "detail": "7204 in / 0 cached"
+   },
+   {
+    "feature": "dsh_debug",
+    "ok": true,
+    "detail": "1 sessions"
+   },
+   {
+    "feature": "dsh_workspace_add",
+    "ok": true,
+    "detail": "created=True"
+   },
+   {
+    "feature": "dsh_workspace_remove",
+    "ok": true,
+    "detail": "via workspaceController.delete"
+   },
+   {
+    "feature": "dsh_run",
+    "ok": true,
+    "detail": "PONG"
+   },
+   {
+    "feature": "dsh_cmd",
+    "ok": true,
+    "detail": "bridge.health"
+   }
+  ],
+  "B.curated": [
+   {
+    "feature": "bridge.health",
+    "ok": true,
+    "detail": {
+     "ok": true,
+     "version": "0.1.1",
+     "poolSize": 1,
+     "route": {
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "reasoningEffort": "low"
+     },
+     "preset": "standard",
+     "permissionPreset": "hermes-managed",
+     "workspaceRoots": []
+    }
+   },
+   {
+    "feature": "session.list",
+    "ok": true,
+    "detail": {
+     "poolSize": 1,
+     "sessions": [
+      {
+       "sessionId": "sess_redacted_1",
+       "cwd": "$HOME/$HOME/Repos/Home/dsh-bridge/scratch-run",
+       "resident": true,
+       "live": true,
+       "title": null,
+       "turns": 2,
+       "cacheHitRate": 0.9535,
+       "inputTokens": 7383,
+       "outputTokens": 6,
+       "cacheReadTokens": 7040
+      }
+     ]
+    }
+   },
+   {
+    "feature": "workspace.list",
+    "ok": true,
+    "detail": {
+     "count": 1,
+     "workspaces": [
+      {
+       "id": "sess_redacted_2",
+       "path": "$HOME/$HOME/Repos/Home/dsh-bridge/scratch-run",
+       "title": "scratch-run",
+       "sessions": 15,
+       "warm": true
+      }
+     ],
+     "warmCwds": [
+      "$HOME/$HOME/Repos/Home/dsh-bridge/scratch-run"
+     ]
+    }
+   },
+   {
+    "feature": "harness.tools",
+    "ok": true,
+    "detail": {
+     "available": true,
+     "count": 27,
+     "scope": "agent request header (authoritative: what the model was offered)",
+     "names": [
+      "ask_user_question",
+      "bash",
+      "create_goal",
+      "edit",
+      "exit_plan_mode",
+      "get_goal",
+      "glob",
+      "grep",
+      "interrupt_agent",
+      "job_kill",
+      "job_list",
+      "job_output",
+      "list_agents",
+      "load_workspace_dependencies",
+      "present",
+      "read",
+      "read_image",
+      "send_message",
+      "skill",
+      "subagent",
+      "subagent_fork",
+      "todo_write",
+      "update_goal",
+      "web_fetch",
+      "web_search",
+      "workflow",
+      "write"
+     ],
+     "agentViews": [
+      {
+       "visible": [
+        "load_workspace_dependencies"
+       ],
+       "restrictableCount": 1,
+       "knownCount": 1,
+       "keys": [
+        "visible",
+        "knownNames",
+        "restrictableNames"
+       ]
+      }
+     ],
+     "pluginView": {
+      "visible": [
+       "load_workspace_dependencies"
+      ],
+      "restrictableCount": 1,
+      "knownCount": 1,
+      "keys": [
+       "visible",
+       "knownNames",
+       "restrictableNames"
+      ]
+     }
+    }
+   },
+   {
+    "feature": "harness.services",
+    "ok": true,
+    "detail": {
+     "note": "Probed by name; Cordis hides services from key reflection. \"readable\" means this plugin can reach it right now.",
+     "readable": [
+      "agents",
+      "agentPresets",
+      "permissionPresets",
+      "sessionTitle",
+      "workspaceRegistry",
+      "loader",
+      "profileContext"
+     ],
+     "services": [
+      {
+       "name": "agents",
+       "readable": true,
+       "kind": "object",
+       "methodCount": 0,
+       "methods": []
+      },
+      {
+       "name": "agentLoop",
+       "readable": false,
+       "why": "cannot get property \"agentLoop\" without inject"
+      },
+      {
+       "name": "agentPresets",
+       "readable": true,
+       "kind": "object",
+       "methodCount": 0,
+       "methods": []
+      },
+      {
+       "name": "permissionPresets",
+       "readable": true,
+       "kind": "object",
+       "methodCount": 1,
+       "methods": [
+        "defaultSettings"
+       ]
+      },
+      {
+       "name": "sessionTitle",
+       "readable": true,
+       "kind": "object",
+       "methodCount": 0,
+       "methods": []
+      },
+      {
+       "name": "workspaceRegistry",
+       "readable": true,
+       "kind": "object",
+       "methodCount": 0,
+       "methods": []
+      },
+      {
+       "name": "workspaceController",
+       "readable": false,
+       "why": "cannot get property \"workspaceController\" without inject"
+      },
+      {
+       "name": "tools",
+       "readable": false,
+       "why": "cannot get property \"tools\" without inject"
+      },
+      {
+       "name": "sessions",
+       "readable": false,
+       "why": "cannot get property \"sessions\" without inject"
+      },
+      {
+       "name": "sessionQuery",
+       "readable": false,
+       "why": "cannot get property \"sessionQuery\" without inject"
+      },
+      {
+       "name": "sessionProjections",
+       "readable": false,
+       "why": "cannot get property \"sessionProjections\" without inject"
+      },
+      {
+       "name": "sessionStats",
+       "readable": false,
+       "why": "cannot get property \"sessionStats\" without inject"
+      },
+      {
+       "name": "llm",
+       "readable": false,
+       "why": "cannot get property \"llm\" without inject"
+      },
+      {
+       "name": "tokenMeter",
+       "readable": false,
+       "why": "cannot get property \"tokenMeter\" without inject"
+      },
+      {
+       "name": "sandboxPolicy",
+       "readable": false,
+       "why": "cannot get property \"sandboxPolicy\" without inject"
+      },
+      {
+       "name": "approval",
+       "readable": false,
+       "why": "cannot get property \"approval\" without inject"
+      },
+      {
+       "name": "shell",
+       "readable": false,
+       "why": "cannot get property \"shell\" without inject"
+      },
+      {
+       "name": "fs",
+       "readable": false,
+       "why": "cannot get property \"fs\" without inject"
+      },
+      {
+       "name": "jobs",
+       "readable": false,
+       "why": "cannot get property \"jobs\" without inject"
+      },
+      {
+       "name": "commands",
+       "readable": false,
+       "why": "cannot get property \"commands\" without inject"
+      },
+      {
+       "name": "settings",
+       "readable": false,
+       "why": "cannot get property \"settings\" without inject"
+      },
+      {
+       "name": "attachments",
+       "readable": false,
+       "why": "cannot get property \"attachments\" without inject"
+      },
+      {
+       "name": "skills",
+       "readable": false,
+       "why": "cannot get property \"skills\" without inject"
+      },
+      {
+       "name": "schedule",
+       "readable": false,
+       "why": "cannot get property \"schedule\" without inject"
+      },
+      {
+       "name": "webhooks",
+       "readable": false,
+       "why": "cannot get property \"webhooks\" without inject"
+      },
+      {
+       "name": "pluginManager",
+       "readable": false,
+       "why": "cannot get property \"pluginManager\" without inject"
+      },
+      {
+       "name": "credentials",
+       "readable": false,
+       "why": "cannot get property \"credentials\" without inject"
+      },
+      {
+       "name": "hmr",
+       "readable": false,
+       "why": "cannot get property \"hmr\" without inject"
+      },
+      {
+       "name": "cordisInspect",
+       "readable": false,
+       "why": "cannot get property \"cordisInspect\" without inject"
+      },
+      {
+       "name": "dynamicCordisRunner",
+       "readable": false,
+       "why": "cannot get property \"dynamicCordisRunner\" without inject"
+      },
+      {
+       "name": "loader",
+       "readable": true,
+       "kind": "object",
+       "methodCount": 0,
+       "methods": []
+      },
+      {
+       "name": "profileContext",
+       "readable": true,
+       "kind": "object",
+       "methodCount": 0,
+       "methods": []
+      },
+      {
+       "name": "directoryPickerController",
+       "readable": false,
+       "why": "cannot get property \"directoryPickerController\" without inject"
+      },
+      {
+       "name": "sessionPersistence",
+       "readable": false,
+       "why": "cannot get property \"sessionPersistence\" without inject"
+      },
+      {
+       "name": "sessionFormat",
+       "readable": false,
+       "why": "cannot get property \"sessionFormat\" without inject"
+      },
+      {
+       "name": "userQuestions",
+       "readable": false,
+       "why": "cannot get property \"userQuestions\" without inject"
+      },
+      {
+       "name": "jobsLocal",
+       "readable": false,
+       "why": "cannot get property \"jobsLocal\" without inject"
+      },
+      {
+       "name": "terminal",
+       "readable": false,
+       "why": "cannot get property \"terminal\" without inject"
+      },
+      {
+       "name": "workspaceFiles",
+       "readable": false,
+       "why": "cannot get property \"workspaceFiles\" without inject"
+      }
+     ]
+    }
+   },
+   {
+    "feature": "harness.inspect",
+    "ok": true,
+    "detail": {
+     "available": true,
+     "service": "cordisInspect",
+     "attempts": {},
+     "providers": [
+      {
+       "platform": "host",
+       "id": "Service",
+       "description": "Progressive Host Service discovery: compact capability/signature directory, then one exact coding contract.",
+       "methods": [
+        {
+         "name": "listService",
+         "description": "Progressive Host Service discovery: compact capability/signature directory, then one exact coding contract.",
+         "inputSchema": "[deep]",
+         "outputSchema": "[deep]"
+        }
+       ]
+      },
+      {
+       "platform": "host",
+       "id": "Event",
+       "description": "Progressive Host Event discovery: compact listener directory, then one exact event contract.",
+       "methods": [
+        {
+         "name": "listEvents",
+         "description": "Progressive Host Event discovery: compact listener directory, then one exact event contract.",
+         "inputSchema": "[deep]",
+         "outputSchema": "[deep]"
+        }
+       ]
+      },
+      {
+       "platform": "host",
+       "id": "Config",
+       "description": "Progressive live plugin Config discovery: paged entry directory with schema status, then one entry's exact JSON Schema.",
+       "methods": [
+        {
+         "name": "listConfigs",
+         "description": "Progressive live plugin Config discovery: paged entry directory with schema status, then one entry's exact JSON Schema.",
+         "inputSchema": "[deep]",
+         "outputSchema": "[deep]"
+        }
+       ]
+      },
+      {
+       "platform": "host",
+       "id": "Tool",
+       "description": "Tools visible to the requesting Agent, including scoped and dynamic registrations.",
+       "methods": [
+        {
+         "name": "listTools",
+         "description": "Return every Tool schema currently callable by this Agent.",
+         "inputSchema": "[deep]",
+         "outputSchema": "[deep]"
+        }
+       ]
+      },
+      {
+       "platform": "client",
+       "id": "Service",
+       "description": "Progressive Client Service discovery: compact capability/signature directory, then one exact coding contract.",
+       "methods": [
+        {
+         "name": "listService",
+         "description": "Progressive Client Service discovery: compact capability/signature directory, then one exact coding contract.",
+         "inputSchema": "[deep]",
+         "outputSchema": "[deep]"
+        }
+       ]
+      },
+      {
+       "platform": "client",
+       "id": "Event",
+       "description": "Progressive Client Event discovery: compact listener directory, then one exact event contract.",
+       "methods": [
+        {
+         "name": "listEvents",
+         "description": "Progressive Client Event discovery: compact listener directory, then one exact event contract.",
+         "inputSchema": "[deep]",
+         "outputSchema": "[deep]"
+        }
+       ]
+      },
+      {
+       "platform": "client",
+       "id": "Builtin",
+       "description": "Plain-JavaScript symbols available to a dynamic Client half.",
+       "methods": [
+        {
+         "name": "listBuiltins",
+         "description": "Plain-JavaScript symbols available to a dynamic Client half.",
+         "inputSchema": "[deep]",
+         "outputSchema": "[deep]"
+        }
+       ]
+      },
+      {
+       "platform": "client",
+       "id": "Slots",
+       "description": "Progressive live Slot inspection with explicit Slot and Factory topology nodes.",
+       "methods": [
+        {
+         "name": "listSubTree",
+         "description": "Return compact live Slot and Factory trees, plus available detail for one exact root.",
+         "inputSchema": "[deep]",
+         "outputSchema": "[deep]"
+        }
+       ]
+      },
+      {
+       "platform": "client",
+       "id": "Theme",
+       "description": "Current theme token names and light/dark override requirements.",
+       "methods": [
+        {
+         "name": "listTokens",
+         "description": "Current theme token names and light/dark override requirements.",
+         "inputSchema": "[deep]",
+         "outputSchema": "[deep]"
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "feature": "harness.catalog",
+    "ok": true,
+    "detail": {
+     "available": true,
+     "servicesPublished": 91,
+     "shown": 91,
+     "hint": "pass expand:true (or service:\"<key>\") to get method names and signatures",
+     "services": [
+      {
+       "key": "agentDefaultModel",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 2,
+       "description": "Owns the default model selection independently of any Host or transport."
+      },
+      {
+       "key": "agentLoop",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 3,
+       "description": "Concrete agent factory and driver service."
+      },
+      {
+       "key": "agentPresets",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 12,
+       "description": "Registry of YAML-declared presets and the revisions live Agents retain."
+      },
+      {
+       "key": "agents",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 12,
+       "description": "Agent service (`ctx.agents`): tracks live agents and carries the initiating Agent through one process-local asynchronous driver chain."
+      },
+      {
+       "key": "agentTeams",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 11,
+       "description": "Agent Teams service backed by the exact live Lead Session log."
+      },
+      {
+       "key": "approval",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 3,
+       "description": "Approval service that applies session policy before answerers and logs every ask/outcome pair to the requesting session."
+      },
+      {
+       "key": "attachments",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 13,
+       "description": "Immutable binary attachment service."
+      },
+      {
+       "key": "authorization",
+       "tier": 3,
+       "callable": true,
+       "methodCount": 5,
+       "description": "`ctx.authorization`: a registry of credential-obtaining flows, one attempt at a time per key."
+      },
+      {
+       "key": "browserUse",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 1,
+       "description": "Owns one optional provider registration in the shared browser-use service."
+      },
+      {
+       "key": "clientModules",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 7,
+       "description": "The web plugin table service: incremental `dsh.client` scan + wire composition + bundle route + index injection rows."
+      },
+      {
+       "key": "commands",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 5,
+       "description": "Human-command registry."
+      },
+      {
+       "key": "compaction",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 3,
+       "description": "Abstract compaction service."
+      },
+      {
+       "key": "computerUse",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 1,
+       "description": "Owns one optional provider registration in the shared computer-use service."
+      },
+      {
+       "key": "configEditor",
+       "tier": 3,
+       "callable": true,
+       "methodCount": 3,
+       "description": "Persist complete raw configs and apply them through the normal Loader path."
+      },
+      {
+       "key": "connection",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 5,
+       "description": "Host `ctx.connection` members consumed by transport-independent adapters."
+      },
+      {
+       "key": "credentials",
+       "tier": 3,
+       "callable": true,
+       "methodCount": 9,
+       "description": "Abstract credential service over two key spaces that answer two questions."
+      },
+      {
+       "key": "credentialsController",
+       "tier": 3,
+       "callable": true,
+       "methodCount": 3,
+       "description": "Host service backing the generated `ctx.remote.credentials` namespace."
+      },
+      {
+       "key": "deepseekAccount",
+       "tier": 3,
+       "callable": true,
+       "methodCount": 13,
+       "description": "Account operations; only Host consumers can obtain a request credential."
+      },
+      {
+       "key": "deepseekLlmApiExtensions",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 1,
+       "description": "Registry of independently owned top-level fields for official DeepSeek requests."
+      },
+      {
+       "key": "directoryPicker",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 1,
+       "description": "Abstract directory-picking service."
+      },
+      {
+       "key": "directoryPickerController",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 3,
+       "description": "Host service backing the generated `ctx.remote.directoryPicker` namespace."
+      },
+      {
+       "key": "fileReferences",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 1,
+       "description": "Host capability for cancellable file-reference discovery."
+      },
+      {
+       "key": "fileUploads",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 6,
+       "description": "Host service owning upload storage and Agent-scoped staged receipts."
+      },
+      {
+       "key": "fs",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 15,
+       "description": "Abstract filesystem provider."
+      },
+      {
+       "key": "goals",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 10,
+       "description": "Goal service (`ctx.goals`) backed exclusively by the owning session log."
+      },
+      {
+       "key": "hmr",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 2,
+       "description": "Hot reload service with Cordis-compatible module configuration and events."
+      },
+      {
+       "key": "inspector",
+       "tier": 3,
+       "callable": true,
+       "methodCount": 1,
+       "description": "Shared Host/Client service fa\u00e7ade over the realm's source publisher."
+      },
+      {
+       "key": "invariants",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 1,
+       "description": "Package-owned invariant registry with global and regex-based selection."
+      },
+      {
+       "key": "jobController",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 3,
+       "description": "Host service backing the generated `ctx.remote.job` namespace."
+      },
+      {
+       "key": "jobs",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 9,
+       "description": "Abstract background job registry."
+      },
+      {
+       "key": "llm",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 15,
+       "description": "The abstract `llm` service: an adapter registry plus a streaming model-call API, interceptable via the `llm/stream` waterfall."
+      },
+      {
+       "key": "lsp",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 2,
+       "description": "The LSP capability seam (`ctx.lsp`)."
+      },
+      {
+       "key": "mcpResources",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 1,
+       "description": "Scoped resource access plus three tools shared by configured MCP servers."
+      },
+      {
+       "key": "messageFeedback",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 3,
+       "description": "Session-log service; cold operations never construct a Session or Agent."
+      },
+      {
+       "key": "officeToPdf",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 4,
+       "description": "A provider lifetime owns all converters, queued calls, and temporary files."
+      },
+      {
+       "key": "otel",
+       "tier": 3,
+       "callable": true,
+       "methodCount": 2,
+       "description": "Shared transport provider."
+      },
+      {
+       "key": "permissionPresets",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 6,
+       "description": "Owns the deployment's configured permission presets, the fixed Auto integration hook, and their write path."
+      },
+      {
+       "key": "planMode",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 2,
+       "description": "`ctx.planMode`: owns logged plan state, applies and narrates selected state at step start, the `plan:policy` section, the `/plan` command, and the stable exit tool."
+      },
+      {
+       "key": "pluginManager",
+       "tier": 3,
+       "callable": true,
+       "methodCount": 12,
+       "description": "Manage profile files and apply their declared reload lifecycle."
+      },
+      {
+       "key": "pluginRegistryProbe",
+       "tier": 3,
+       "callable": true,
+       "methodCount": 1,
+       "description": "Compares public registry responses on the Host; the Client owns the initial selection."
+      },
+      {
+       "key": "productAnalytics",
+       "tier": 3,
+       "callable": true,
+       "methodCount": 3,
+       "description": "Authenticated event intake; disabled instances do not inspect identity or accept new events."
+      },
+      {
+       "key": "productTelemetry",
+       "tier": 3,
+       "callable": true,
+       "methodCount": 1,
+       "description": "Host analytics sender."
+      },
+      {
+       "key": "profileContext",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 6,
+       "methodsFrom": "live object (catalog publishes none)",
+       "description": "Current profile facts; scheduling and mutation belong to their callers."
+      },
+      {
+       "key": "ptcRuntime",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 2,
+       "description": "Registers one `ctx.ptcRuntime` implementation."
+      },
+      {
+       "key": "sandbox",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 1,
+       "description": "Abstract process-sandbox service."
+      },
+      {
+       "key": "sandboxPolicy",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 2,
+       "description": "The sandbox-policy service (`ctx.sandboxPolicy`)."
+      },
+      {
+       "key": "schedule",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 6,
+       "description": "Shared management service; reads, deletion, and timing edits never activate a Session."
+      },
+      {
+       "key": "sessionController",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 22,
+       "description": "Host service backing the generated `ctx.remote.session` namespace."
+      },
+      {
+       "key": "sessionFeedback",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 1,
+       "description": "Host Remote through which a product surface records a Session-level remark."
+      },
+      {
+       "key": "sessionFileReferences",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 1,
+       "description": "Host Remote adapter over the composed file-reference provider."
+      },
+      {
+       "key": "sessionPersistence",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 6,
+       "description": "Durable append-only session storage addressed through per-session handles."
+      },
+      {
+       "key": "sessionProjectionCache",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 5,
+       "description": "The persisted projection cache service."
+      },
+      {
+       "key": "sessionProjections",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 8,
+       "description": "`ctx.sessionProjections`: the projection unit table and its drive."
+      },
+      {
+       "key": "sessionQuery",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 15,
+       "description": "Unified live-preferred session query service."
+      },
+      {
+       "key": "sessionReferenceResolver",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 3,
+       "description": "Exact-read consumer that prepares immutable cross-session message context."
+      },
+      {
+       "key": "sessions",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 9,
+       "description": "In-memory session store (`ctx.sessions`)."
+      },
+      {
+       "key": "sessionSkillCatalog",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 1,
+       "description": "Host service backing `ctx.remote.skills` without activating a cold Agent."
+      },
+      {
+       "key": "sessionTelemetry",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 2,
+       "description": "Loadable form of the backend contract: one implementation per context \u2014 the cordis `Service` registration under the `telemetry` key throws on a duplicate, cordis' standard behavior."
+      },
+      {
+       "key": "sessionTitle",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 4,
+       "description": "Log-backed title fold plus asynchronous fallback generation."
+      },
+      {
+       "key": "settings",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 6,
+       "description": "Project Config schemas into forms and own optional instance-level UI policy."
+      },
+      {
+       "key": "settingsController",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 5,
+       "description": "Host service backing the generated `ctx.remote.settings` namespace."
+      },
+      {
+       "key": "shell",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 2,
+       "description": "Abstract bash execution service."
+      },
+      {
+       "key": "shellEnv",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 3,
+       "description": "Registry (`ctx.shellEnv`) for trusted, per-execution `DSH_*` variables."
+      },
+      {
+       "key": "skills",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 5,
+       "description": "Layered registry of skill providers, the host+per-scope shape the tools registry established."
+      },
+      {
+       "key": "speechController",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 6,
+       "description": "Speech calls never activate or submit to an Agent."
+      },
+      {
+       "key": "speechToText",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 9,
+       "description": "Registry shared by all transcription consumers in one Host composition."
+      },
+      {
+       "key": "spillStore",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 1,
+       "description": "Abstract spill storage service."
+      },
+      {
+       "key": "ssh",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 2,
+       "description": "One non-reconnecting SSH session; loss invalidates all active operations."
+      },
+      {
+       "key": "storage",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 1,
+       "description": "The storage hub service."
+      },
+      {
+       "key": "storageDomain",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 2,
+       "description": "The mounted domain facility."
+      },
+      {
+       "key": "subagentModelSelection",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 1,
+       "description": "Singleton settings owner read when delegation tools are composed for a Session."
+      },
+      {
+       "key": "subagents",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 14,
+       "description": "Named provider registry with one-shot runs, durable discovery, and continuable-child operations."
+      },
+      {
+       "key": "subprocess",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 4,
+       "description": "Abstract subprocess service."
+      },
+      {
+       "key": "systemPrompt",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 8,
+       "description": "Registry service for the prompt inputs assembled before each model step."
+      },
+      {
+       "key": "terminalController",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 10,
+       "description": "Typed Remote control of transient Session-owned terminal processes."
+      },
+      {
+       "key": "terminals",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 9,
+       "description": "In-process registry for replaceable PTY backends and exact-Agent sessions."
+      },
+      {
+       "key": "timer",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 5,
+       "description": "Disposable timer helpers mixed into Cordis contexts."
+      },
+      {
+       "key": "tokenMeter",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 2,
+       "description": "Replay owner for one service-wide estimator and isolated per-session folds."
+      },
+      {
+       "key": "toolResultPruner",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 3,
+       "description": "Deterministic head/middle/tail pruning for current tool-result surface nodes."
+      },
+      {
+       "key": "tools",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 8,
+       "description": "Tool registry and execution pipeline."
+      },
+      {
+       "key": "typert",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 7,
+       "description": "Registry of generated schemas, package reflection, invocations, and Remote dependency providers."
+      },
+      {
+       "key": "typertGateway",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 5,
+       "description": "Resolve strict generated definitions or conservative SRC markers against current Cordis Services and Typert providers."
+      },
+      {
+       "key": "userQuestions",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 4,
+       "description": "`ctx.userQuestions`: validation plus the scoped answerer waterfall."
+      },
+      {
+       "key": "web",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 4,
+       "description": "The web access service."
+      },
+      {
+       "key": "webhookRuntime",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 0,
+       "description": "Fire-and-forget rule runtime."
+      },
+      {
+       "key": "webServer",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 7,
+       "description": "The browser HTTP carrier service."
+      },
+      {
+       "key": "workflowEngine",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 1,
+       "description": "Workflow Service Definition contract."
+      },
+      {
+       "key": "workspaceChanges",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 2,
+       "description": "Serves the summaries and file comparisons the recorder keeps for live Sessions."
+      },
+      {
+       "key": "workspaceController",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 11,
+       "description": "Host service backing the generated `ctx.remote.workspace` namespace."
+      },
+      {
+       "key": "workspaceFiles",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 5,
+       "description": "Host Remote file reads and workspace directory observations over the composed filesystem."
+      },
+      {
+       "key": "workspaceRegistry",
+       "tier": 2,
+       "callable": true,
+       "methodCount": 11,
+       "description": "Durable workspace registry."
+      }
+     ]
+    }
+   },
+   {
+    "feature": "host.call",
+    "ok": true,
+    "detail": "error: host.call is in denyOps"
+   },
+   {
+    "feature": "session.stats",
+    "ok": true,
+    "detail": "ok"
+   }
+  ],
+  "C.catalog": [
+   {
+    "feature": "agentDefaultModel.currentSelection",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "agentLoop",
+    "ok": true,
+    "detail": "no read-only method (3 methods)"
+   },
+   {
+    "feature": "agentPresets.list",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "agents.currentInitiator",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "agentTeams.listMembers",
+    "ok": false,
+    "detail": "error: service \"agentTeams\" is not reachable in this composition (not injected, and ctx.get(\"agentTeams\") / ctx.agentTeams are unavailable)"
+   },
+   {
+    "feature": "approval",
+    "ok": true,
+    "detail": "no read-only method (3 methods)"
+   },
+   {
+    "feature": "attachments.readImage",
+    "ok": false,
+    "detail": "error: signal?.throwIfAborted is not a function"
+   },
+   {
+    "feature": "authorization (tier 3)",
+    "ok": true,
+    "detail": "skipped: gated"
+   },
+   {
+    "feature": "browserUse",
+    "ok": true,
+    "detail": "no read-only method (1 methods)"
+   },
+   {
+    "feature": "clientModules",
+    "ok": true,
+    "detail": "no read-only method (7 methods)"
+   },
+   {
+    "feature": "commands.list",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "compaction",
+    "ok": true,
+    "detail": "no read-only method (3 methods)"
+   },
+   {
+    "feature": "computerUse",
+    "ok": true,
+    "detail": "no read-only method (1 methods)"
+   },
+   {
+    "feature": "configEditor (tier 3)",
+    "ok": true,
+    "detail": "skipped: gated"
+   },
+   {
+    "feature": "connection",
+    "ok": true,
+    "detail": "no read-only method (5 methods)"
+   },
+   {
+    "feature": "credentials (tier 3)",
+    "ok": true,
+    "detail": "skipped: gated"
+   },
+   {
+    "feature": "credentialsController (tier 3)",
+    "ok": true,
+    "detail": "skipped: gated"
+   },
+   {
+    "feature": "deepseekAccount (tier 3)",
+    "ok": true,
+    "detail": "skipped: gated"
+   },
+   {
+    "feature": "deepseekLlmApiExtensions",
+    "ok": true,
+    "detail": "no read-only method (1 methods)"
+   },
+   {
+    "feature": "directoryPicker",
+    "ok": true,
+    "detail": "no read-only method (1 methods)"
+   },
+   {
+    "feature": "directoryPickerController.list",
+    "ok": false,
+    "detail": "error: directoryPicker.list needs the browse capability; the composed picker serves \"native\""
+   },
+   {
+    "feature": "fileReferences.list",
+    "ok": false,
+    "detail": "error: Cannot read properties of undefined (reading 'header')"
+   },
+   {
+    "feature": "fileUploads.resolve",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "fs.resolve",
+    "ok": false,
+    "detail": "error: path.trim is not a function"
+   },
+   {
+    "feature": "goals.get",
+    "ok": false,
+    "detail": "error: agent \"undefined\" is not live in this registry"
+   },
+   {
+    "feature": "hmr.getLinked",
+    "ok": false,
+    "detail": "error: The \"url\" argument must be of type string. Received an instance of Object"
+   },
+   {
+    "feature": "inspector (tier 3)",
+    "ok": true,
+    "detail": "skipped: gated"
+   },
+   {
+    "feature": "invariants",
+    "ok": true,
+    "detail": "no read-only method (1 methods)"
+   },
+   {
+    "feature": "jobController",
+    "ok": true,
+    "detail": "no read-only method (3 methods)"
+   },
+   {
+    "feature": "jobs.list",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "llm.listProviders",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "lsp.query",
+    "ok": false,
+    "detail": "error: service \"lsp\" is not reachable in this composition (not injected, and ctx.get(\"lsp\") / ctx.lsp are unavailable)"
+   },
+   {
+    "feature": "mcpResources",
+    "ok": true,
+    "detail": "no read-only method (1 methods)"
+   },
+   {
+    "feature": "messageFeedback.list",
+    "ok": false,
+    "detail": "error: Cannot read properties of undefined (reading 'length')"
+   },
+   {
+    "feature": "officeToPdf",
+    "ok": true,
+    "detail": "no read-only method (4 methods)"
+   },
+   {
+    "feature": "otel (tier 3)",
+    "ok": true,
+    "detail": "skipped: gated"
+   },
+   {
+    "feature": "permissionPresets.current",
+    "ok": false,
+    "detail": "error: session.snapshotEvents is not a function"
+   },
+   {
+    "feature": "planMode.get",
+    "ok": false,
+    "detail": "error: service \"planMode\" is not reachable in this composition (not injected, and ctx.get(\"planMode\") / ctx.planMode are unavailable)"
+   },
+   {
+    "feature": "pluginManager (tier 3)",
+    "ok": true,
+    "detail": "skipped: gated"
+   },
+   {
+    "feature": "pluginRegistryProbe (tier 3)",
+    "ok": true,
+    "detail": "skipped: gated"
+   },
+   {
+    "feature": "productAnalytics (tier 3)",
+    "ok": true,
+    "detail": "skipped: gated"
+   },
+   {
+    "feature": "productTelemetry (tier 3)",
+    "ok": true,
+    "detail": "skipped: gated"
+   },
+   {
+    "feature": "profileContext.hasOwnProperty",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "ptcRuntime.resolve",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "sandbox",
+    "ok": true,
+    "detail": "no read-only method (1 methods)"
+   },
+   {
+    "feature": "sandboxPolicy.resolve",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "schedule.list",
+    "ok": false,
+    "detail": "error: service \"schedule\" is not reachable in this composition (not injected, and ctx.get(\"schedule\") / ctx.schedule are unavailable)"
+   },
+   {
+    "feature": "sessionController.resolveAgent",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "sessionFeedback",
+    "ok": true,
+    "detail": "no read-only method (1 methods)"
+   },
+   {
+    "feature": "sessionFileReferences.list",
+    "ok": false,
+    "detail": "error: Cannot read properties of undefined (reading 'header')"
+   },
+   {
+    "feature": "sessionPersistence.stat",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "sessionProjectionCache",
+    "ok": true,
+    "detail": "no read-only method (5 methods)"
+   },
+   {
+    "feature": "sessionProjections.snapshot",
+    "ok": false,
+    "detail": "error: object is not iterable (cannot read property Symbol(Symbol.iterator))"
+   },
+   {
+    "feature": "sessionQuery.searchSessions",
+    "ok": false,
+    "detail": "error: session search is disabled: this deployment configures the session-query index with openAt \"never\""
+   },
+   {
+    "feature": "sessionReferenceResolver.listCandidates",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "sessions.get",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "sessionSkillCatalog.list",
+    "ok": false,
+    "detail": "error: session \"undefined\" could not be inspected: SessionQueryError: failed to observe session \"undefined\": Cannot read properties of undefined (reading 'lengt"
+   },
+   {
+    "feature": "sessionTelemetry",
+    "ok": true,
+    "detail": "no read-only method (2 methods)"
+   },
+   {
+    "feature": "sessionTitle.get",
+    "ok": false,
+    "detail": "error: session.snapshotEvents is not a function"
+   },
+   {
+    "feature": "settings.describe",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "settingsController.describe",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "shell.resolve",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "shellEnv.list",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "skills.list",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "speechController.cancelPreparation",
+    "ok": false,
+    "detail": "error: service \"speechController\" is not reachable in this composition (not injected, and ctx.get(\"speechController\") / ctx.speechController are unavailable)"
+   },
+   {
+    "feature": "speechToText.listProviders",
+    "ok": false,
+    "detail": "error: service \"speechToText\" is not reachable in this composition (not injected, and ctx.get(\"speechToText\") / ctx.speechToText are unavailable)"
+   },
+   {
+    "feature": "spillStore",
+    "ok": true,
+    "detail": "no read-only method (1 methods)"
+   },
+   {
+    "feature": "ssh",
+    "ok": true,
+    "detail": "no read-only method (2 methods)"
+   },
+   {
+    "feature": "storage",
+    "ok": true,
+    "detail": "no read-only method (1 methods)"
+   },
+   {
+    "feature": "storageDomain.get",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "subagentModelSelection.current",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "subagents.resolveMaxDepth",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "subprocess.resolveExecutable",
+    "ok": false,
+    "detail": "error: The \"path\" argument must be of type string. Received an instance of Object"
+   },
+   {
+    "feature": "systemPrompt.getSectionOrder",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "terminalController.list",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "terminals.listBackends",
+    "ok": false,
+    "detail": "error: service \"terminals\" is not reachable in this composition (not injected, and ctx.get(\"terminals\") / ctx.terminals are unavailable)"
+   },
+   {
+    "feature": "timer",
+    "ok": true,
+    "detail": "no read-only method (5 methods)"
+   },
+   {
+    "feature": "tokenMeter",
+    "ok": true,
+    "detail": "no read-only method (2 methods)"
+   },
+   {
+    "feature": "toolResultPruner",
+    "ok": true,
+    "detail": "no read-only method (3 methods)"
+   },
+   {
+    "feature": "tools.get",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "typert.get",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "typertGateway.hasLiveClient",
+    "ok": true,
+    "detail": "ok"
+   },
+   {
+    "feature": "userQuestions",
+    "ok": true,
+    "detail": "no read-only method (4 methods)"
+   },
+   {
+    "feature": "web.search",
+    "ok": false,
+    "detail": "error: DeepSeek search credential resolution failed: TypeError: signal.addEventListener is not a function"
+   },
+   {
+    "feature": "webhookRuntime",
+    "ok": true,
+    "detail": "no read-only method (0 methods)"
+   },
+   {
+    "feature": "webServer",
+    "ok": true,
+    "detail": "no read-only method (7 methods)"
+   },
+   {
+    "feature": "workflowEngine",
+    "ok": true,
+    "detail": "no read-only method (1 methods)"
+   },
+   {
+    "feature": "workspaceChanges",
+    "ok": true,
+    "detail": "no read-only method (2 methods)"
+   },
+   {
+    "feature": "workspaceController",
+    "ok": true,
+    "detail": "no read-only method (11 methods)"
+   },
+   {
+    "feature": "workspaceFiles.read",
+    "ok": false,
+    "detail": "error: Cannot read properties of undefined (reading 'offset')"
+   },
+   {
+    "feature": "workspaceRegistry.get",
+    "ok": true,
+    "detail": "ok"
+   }
+  ]
+ },
+ "summary": {
+  "tools": 11,
+  "curated": 9,
+  "catalogServices": 91,
+  "catalogCalled": 51,
+  "catalogOk": 28,
+  "catalogNeedsArgsOrOther": 16,
+  "catalogUnreachable": 7,
+  "catalogNoReadMethod": 29
+ },
+ "finishedAt": "2026-10-13T04:32:39"
+}

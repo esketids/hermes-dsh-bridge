@@ -1,0 +1,58 @@
+# Bundle patch layer for dsh-hermes-thin.
+#
+# Applied when a profile lists this package in dsh.profile.bundles; install with:
+#   dsh plugin --profile desktop add /path/to/dsh-bridge/plugin
+# Rows reference packages by NAME so Node resolution finds the installed code.
+#
+# Two rows:
+#   1. mount the bridge (it starts its own loopback MCP server — no host port involved), and
+#   2. add `hermes-managed` to the permission preset table: sandbox confined to the
+#      workspace, approval never. The bridge pins it into every session IT creates, so the
+#      harness never asks a human and never fails closed on a missing answerer —
+#      authorisation decisions live on the Hermes side.
+#      defaultPreset stays `workspace-write`, so hand-opened app sessions are unchanged.
+
+- insert:
+    - id: hermes-thin
+      name: dsh-hermes-thin
+      config:
+        host: 127.0.0.1
+        port: 8791
+        # Pinned route. Never let it float: a different route is a different cache domain.
+        provider: openrouter
+        model: deepseek/deepseek-v4.1-flash
+        # The shipped adapter default is `high`; this knob is the biggest line on the bill.
+        reasoningEffort: medium
+        preset: standard
+        permissionPreset: hermes-managed
+        # Refuse to work outside these roots. Empty list = any path Hermes names.
+        workspaceRoots: []
+        maxAgents: 8
+        taskTimeoutMs: 1800000
+        # authToken: '<long random token>'   # required if host is ever not loopback
+
+- id: permission
+  name: '@deepseek-ai/dsh-permission-presets'
+  config:
+    defaultPreset: workspace-write
+    presets:
+      read-only:
+        sandbox: read-only
+        approval: ask
+        name: read-only
+        description: Read-only sandbox; operations still require confirmation.
+      workspace-write:
+        sandbox: workspace-write
+        approval: ask
+        name: workspace-write
+        description: Write inside the workspace; wider retries require approval.
+      danger-full-access:
+        sandbox: danger-full-access
+        approval: never
+        name: danger-full-access
+        description: Full file access without approval prompts.
+      hermes-managed:
+        sandbox: workspace-write
+        approval: never
+        name: hermes-managed
+        description: Confined to the workspace, never prompts — authorisation lives on the Hermes side.

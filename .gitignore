@@ -1,0 +1,18 @@
+node_modules/
+.DS_Store
+*.bak
+*.bak-*
+*.log
+reference/
+scratch-run/
+bench/
+ws-test/
+__pycache__/
+
+# never commit credential stores
+.credentials.yaml
+.env
+.env.*
+
+# third-party doc mirror: regenerable via the skill's fetch script, kept out of the repo
+skills/deepseek-harness/references/upstream-docs/

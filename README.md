@@ -52,19 +52,22 @@ you ──▶ Hermes (agent loop)
 
 ## What's in the box
 
-| Path | What it is |
-|---|---|
-| `plugin/` | the bridge: `index.js` (zero dependencies), `package.json` (bundle manifest), `cordis.patch.yml` (bundled defaults), `smoke.mjs` (standalone verifier), `bench.mjs` (cost experiment), `README.md` (technical detail) |
-| `skills/deepseek-harness/` | the Hermes skill + references: install recipe, architecture options, token/cache economics, package map |
-| `tools/` | `probe.py` / `probe-tier3.py` and their reports — the evidence used to verify the surface |
+Two halves, one contract:
+
+| Path | Half | What it is |
+|---|---|---|
+| `plugin/` | DSH side | the bridge: `index.js` (zero dependencies), `package.json` (bundle manifest), `cordis.patch.yml` (bundled defaults), `smoke.mjs` (standalone verifier), `bench.mjs` (cost experiment), `README.md` (technical detail) |
+| `hermes/` | Hermes side | the MCP server registration (`mcp-config.yaml`) + instructions. No code — Hermes is the client; a URL is the whole footprint |
+| `skills/deepseek-harness/` | reference | the agent's operating skill + references: install recipe, architecture rationale, token/cache economics, package map |
+| `tools/` | diagnostics | `probe.py` (tiers 1–2 sweep), `probe-tier3.py` (tier 3), and one anonymised example report |
 
 ## Quickstart
 
-**Prerequisites**: the DeepSeek Harness **desktop app** installed and opened at least once (macOS/Windows/Linux), Node ≥ 20, and Hermes Agent.
+**Prerequisites**: the DeepSeek Harness **desktop app** installed and opened at least once, Node ≥ 20, and Hermes Agent.
 
-### 1. Install the plugin into the app's profile
+### 1. Install the plugin into the app's profile (DSH side)
 
-The app owns its `desktop` profile, and the `dsh` CLI refuses to manage it. Do the three edits by hand (or script them):
+The app owns its `desktop` profile, and the `dsh` CLI refuses to manage it — so the install is three edits by hand:
 
 ```bash
 DSH_HOME="${DSH_HOME:-$HOME/.dsh}"
@@ -75,12 +78,12 @@ cd "$DSH_HOME/profiles/desktop"
 pnpm add -w "link:$PLUGIN"          # writes node_modules/dsh-hermes-thin -> your plugin dir
 
 # b) add it to the profile's bundle list
-#    (package.json -> "dsh": { "profile": { "bundles": [ ... "dsh-hermes-thin" ] } })
+#    (profile package.json -> "dsh": { "profile": { "bundles": [ … "dsh-hermes-thin" ] } })
 
 # c) add the config row to profiles/desktop/cordis.patch.yml
 ```
 
-The row to add (also shipped as `plugin/cordis.patch.yml`, which is the bundle-level default — a row with the same `id` in your **profile** patch overrides it):
+The row to add (also shipped as `plugin/cordis.patch.yml`, the bundle-level default — a row with the same `id` in your **profile** patch overrides it):
 
 ```yaml
 - insert:
@@ -101,7 +104,7 @@ The row to add (also shipped as `plugin/cordis.patch.yml`, which is the bundle-l
         enableTier3: false            # credentials / account / plugin installs
 ```
 
-**Then fully quit and reopen the app** — patch changes load at boot. Check it came up:
+**Then fully quit and reopen the app** — patch changes load at boot:
 
 ```bash
 curl -s http://127.0.0.1:8791/health
@@ -116,23 +119,56 @@ The bridge inherits the harness's credentials. Put your key where the harness ke
 OPENROUTER_API_KEY: <your key>
 ```
 
-Any provider the harness serves works; point `provider`/`model` at one of them. `reasoningEffort` defaults to `medium` — it is the single biggest line on a token bill, so lower it for routine edits if you care about spend.
+Any provider the harness serves works; point `provider`/`model` at one of them.
 
-### 3. Register with Hermes and verify
+### 3. Register it with Hermes (Hermes side)
 
 ```bash
 hermes mcp add dsh --url http://127.0.0.1:8791/mcp --connect-timeout 30
 hermes config set mcp_servers.dsh.timeout 2700     # long coding turns
-
-cd plugin && node smoke.mjs            # handshake + tools/list + health
-node smoke.mjs --run /path/to/repo     # a real tiny task, end to end
 ```
 
-MCP tools are discovered when a Hermes session starts, so run `/reload-mcp` (or start a new session) after adding the server.
+Or merge `hermes/mcp-config.yaml` into `~/.hermes/config.yaml` by hand. Then load the tools — `tools/list` is fetched at session start:
+
+```
+/reload-mcp        # in an existing session, or just start a new one
+```
+
+### 4. Verify
+
+```bash
+curl -s http://127.0.0.1:8791/health          # {"ok":true, ...}
+cd plugin && node smoke.mjs                   # handshake + tools/list + health
+node smoke.mjs --run /path/to/repo            # a real tiny task, end to end
+```
+
+## Configuration reference
+
+Settings live in the config row (`id: hermes-thin`). Precedence, last wins: **bundle patch → profile patch → home `~/.dsh/cordis.patch.yml` → `--patch` overlays**, with per-call tool arguments on top. Everything here requires an **app restart** except tool arguments.
+
+| Field | Default | What it does |
+|---|---|---|
+| `host` / `port` | `127.0.0.1` / `8791` | the MCP endpoint (must match `hermes/mcp-config.yaml`) |
+| `provider` / `model` | — | the pinned route for every session the bridge creates |
+| `reasoningEffort` | `medium` | `off` / `low` / `medium` / `high` — the biggest line on a token bill |
+| `maxTokens` | adapter default | output cap per model call |
+| `preset` | `standard` | the agent preset mounted into each session (its toolset) |
+| `permissionPreset` | `hermes-managed` | sandbox + approval policy pinned into each session |
+| `workspaceRoots` | `[]` | optional allow-list of directories tasks may run in |
+| `maxAgents` | `8` | resident sessions kept warm (one per working directory) |
+| `taskTimeoutMs` | `1800000` | per-task ceiling; also the guard when nothing answers a question |
+| `enableTier2` | `false` | expose the harness's live service catalog (mutations included) |
+| `enableTier3` | `false` | expose credentials / account / plugin-install surfaces |
+| `allowOps` / `denyOps` | `[]` | explicit overrides — a deny always wins over any tier |
+| `audit` / `auditLimit` | `true` / `200` | record dispatches in a ring buffer (`dsh_debug` shows it) |
+| `catalogTtlMs` | `60000` | how long the discovered service catalog is cached |
+| `authToken` | `''` | optional bearer token for every request but `/health` |
+
+**Secrets never go here.** They live in `~/.dsh/.credentials.yaml` or the environment.
 
 ## What Hermes gets
 
-Eleven MCP tools. The important ones:
+Eleven MCP tools, namespaced `mcp_dsh_*`:
 
 | Tool | Purpose |
 |---|---|
@@ -144,7 +180,13 @@ Eleven MCP tools. The important ones:
 
 Through `dsh_cmd`, the bridge also exposes the harness's **own live service catalog**: ask `harness.catalog` what exists and dispatch any method as `{group: <service>, op: <method>, args}`. New harness capability becomes reachable without touching either side.
 
-**Tiers** gate exposure: `1` = curated read/dispatch ops (default), `2` = the live catalog including mutations, `3` = credentials, account and plugin-install surfaces. `allowOps`/`denyOps` override tiers in either direction — a deny always wins.
+**Tiers** gate exposure:
+
+| Tier | Covers | Default |
+|---|---|---|
+| 1 | curated ops: run tasks, sessions, projects, discovery | on |
+| 2 | every method in the live service catalog (mutations included) | off |
+| 3 | `credentials`, `deepseekAccount`, `authorization`, `pluginManager`, config editing | off |
 
 ## Using it from Hermes
 
@@ -158,7 +200,7 @@ Through `dsh_cmd`, the bridge also exposes the harness's **own live service cata
 
 ## Diagnostics
 
-Start here whenever something looks wrong.
+### First response
 
 ```bash
 curl -s http://127.0.0.1:8791/health     # is the bridge up?
@@ -166,17 +208,40 @@ curl -s http://127.0.0.1:8791/health     # is the bridge up?
 
 | Symptom | Check | Meaning |
 |---|---|---|
-| Hermes doesn't see the tools | run `/reload-mcp`; then `hermes mcp list` | `tools/list` is fetched at session start — a new tool needs a reload |
+| Hermes doesn't see the tools | `/reload-mcp`, then `hermes mcp list` | `tools/list` is fetched at session start — a new tool needs a reload |
 | `/health` refuses to connect | is the DSH **app** running? | the bridge lives in the app's process; it is not a daemon |
-| Tools work but the agent returns text and does nothing | `dsh_debug` → check the `turn/end` reason | the silent-message class of failure; the session log says why |
-| An op returns *"tier N required"* | `dsh_commands` (shows tiers + what's callable) | working as designed — flip the flag in the config row and restart the app |
+| Tools work but the agent returns text and does nothing | `dsh_debug` → the `turn/end` reason | the silent-message class of failure; the session log says why |
+| *"tier N required"* | `dsh_commands` | working as designed — flip the flag in the config row and restart |
 | *"service X is not reachable in this composition"* | `harness.catalog` | the catalog lists every service the code *can* publish; fewer are actually mounted |
-| *"unknown method"* | `harness.inspect {input:{service:"X"}}` | the dispatcher validates names against the live catalog — typos cost nothing |
-| Odd argument errors | `harness.inspect` → read the published signature | pass arguments matching it; the dispatcher also retries shape-corrected argument lists |
-| The app won't boot after a config edit | restore the `.bak` file next to your patch | patch-layer YAML is boot-critical — validate before restarting |
-| Everything worked yesterday | app updated? | re-run the link step and `smoke.mjs`; the harness is a preview and its APIs move |
+| *"unknown method"* | `harness.inspect {input:{service:"X"}}` | names are validated against the live catalog — typos cost nothing |
+| Odd argument errors | `harness.inspect` → read the signature | pass matching arguments; the dispatcher also retries shape-corrected lists |
+| App won't boot after a config edit | restore the `.bak` next to your patch | patch-layer YAML is boot-critical — validate it first |
+| Everything worked yesterday | did the app update? | re-run the link step and `smoke.mjs`; the harness is a preview and its APIs move |
 
-Runtime logs and the audit ring: `dsh_debug` (bridge), and the app's own session logs under `$DSH_HOME/sessions/`.
+### The diagnostic scripts
+
+Two scripts sweep the bridge's whole surface and report per-feature pass/fail. They are the evidence behind the tier model — run them after a harness upgrade, or when you turn a tier on.
+
+```bash
+python3 tools/probe.py           # tiers 1–2: every MCP tool, every curated op,
+                                 # then a read-only sweep of the live catalog
+python3 tools/probe-tier3.py     # tier 3: credentials / account / plugin-manager surfaces
+                                 # (values masked at the source; includes one deliberate
+                                 # credentials write round-trip on a throwaway key, cleaned up)
+```
+
+Both talk to `http://127.0.0.1:8791/mcp` by default — override with `DSH_BRIDGE_URL` if you moved the port.
+
+What they check, in order:
+
+1. **MCP surface** — `tools/list` completes and every tool answers.
+2. **Curated ops** — each tier-1 op dispatches, and a deny-listed op (`host.call`) is *refused* (a refusal there is a pass).
+3. **Live catalog** — for every mounted service, the first read-only-looking method is called with no arguments (`list`/`get`/`describe`/`status`/…) so nothing mutates. Results are classified as reachable / needs-arguments / not-mounted, with the service's own error text.
+4. **Tier 3** (second script) — the authority surfaces, with credential values replaced by `<N chars, masked>` before anything is printed.
+
+Output is a per-feature PASS/FAIL list plus a JSON report. `tools/example-probe-report.json` shows the shape. Reports are written to `tools/` and excluded from git (see `.gitignore`), so running them never dirties the repo.
+
+**Reading the results:** *published ≠ mounted* is normal — the catalog advertises every service the code can provide, while fewer are live in a given composition. The scripts report exactly which, so an "unreachable" line is information, not necessarily a fault.
 
 ## Updating the harness
 
@@ -184,21 +249,21 @@ The harness is a developer preview; APIs and session formats change. After an ap
 
 1. re-do the `pnpm add -w "link:$PLUGIN"` step (a plain install can turn the link into a copy and break package identity),
 2. restart the app, run `smoke.mjs`,
-3. re-run `tools/probe.py` if you use the live-catalog tier — it re-verifies reachability and reports what moved.
+3. re-run `tools/probe.py` (and `probe-tier3.py` if tier 3 is on) to re-verify the surface.
 
 The bridge keeps the damage small: all harness-facing calls go through one thin adapter layer, and everything degrades rather than blocks activation.
 
 ## Uninstall
 
-Remove the plugin directory from the profile, drop the row from `profiles/desktop/cordis.patch.yml`, remove `dsh-hermes-thin` from the profile's `package.json` (dependencies + `dsh.profile.bundles`), restart the app, and `hermes mcp remove dsh`. Leaving the project registrations behind is harmless — removing a project never deletes folders, files or session history.
+Remove the plugin from the profile (deps + `dsh.profile.bundles` + the config row), restart the app, and `hermes mcp remove dsh`. Project registrations left behind are harmless — removing a project never deletes folders, files or session history.
 
 ## Known limits
 
-- **Loopback only, by design.** The bridge has an optional `authToken`, but it should not be exposed off-host.
-- **No question answering.** If a task triggers `ask_user_question`, nothing answers it; the per-task timeout is the guard. Keep tasks self-contained.
-- **Published ≠ mounted.** The catalog advertises classes; the live composition mounts a subset. Both are reportable (`harness.catalog`, `harness.services`).
-- **Installed as a link.** Edit the plugin and restart the app to reload it.
-- **Third-party doc mirror excluded.** `skills/.../references/upstream-docs/` is generated locally, not committed.
+- **Loopback only, by design.** `authToken` exists, but the port should not be exposed off-host.
+- **No question answering.** If a task triggers `ask_user_question`, nothing answers it; `taskTimeoutMs` is the guard. Keep tasks self-contained.
+- **Published ≠ mounted.** See the probe scripts above.
+- **Installed as a link.** Edit the plugin, restart the app to reload.
+- **Third-party doc corpus excluded.** `skills/.../references/upstream-docs/` is a local mirror of DeepSeek's own docs; it is not committed (other project's docs, drifts upstream). The skill works without it.
 
 ## License
 

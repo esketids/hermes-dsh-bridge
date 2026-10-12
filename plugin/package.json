@@ -1,7 +1,24 @@
 {
   "name": "dsh-hermes-thin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
+  "license": "MIT",
+  "author": "esketids",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/esketids/hermes-dsh-bridge.git"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "cordis",
+    "mcp",
+    "hermes-agent",
+    "bridge"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
   "description": "Thin, cache-optimised MCP bridge that lets Hermes Agent drive the DeepSeek Harness desktop app as its coding surface.",
   "type": "module",
   "main": "index.js",
@@ -9,7 +26,8 @@
     "index.js",
     "cordis.patch.yml",
     "README.md",
-    "smoke.mjs"
+    "smoke.mjs",
+    "bench.mjs"
   ],
   "dsh": {
     "bundle": {

@@ -1,0 +1,19 @@
+# Hermes-side half of the bridge.
+#
+# This is the only thing Hermes needs: an MCP server registration. Everything else
+# (sessions, tools, permissions, the app UI) lives on the DeepSeek Harness side.
+#
+# Either merge this block into ~/.hermes/config.yaml, or let Hermes write it:
+#
+#   hermes mcp add dsh --url http://127.0.0.1:8791/mcp --connect-timeout 30
+#   hermes config set mcp_servers.dsh.timeout 2700
+#
+# `url` must match the plugin's `port` on the DSH side (default 8791).
+# The endpoint only exists while the DeepSeek Harness desktop app is running.
+
+mcp_servers:
+  dsh:
+    url: http://127.0.0.1:8791/mcp
+    connect_timeout: 30     # seconds to establish the MCP handshake
+    timeout: 2700           # per-call ceiling — long coding turns exceed the default
+    enabled: true

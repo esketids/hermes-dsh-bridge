@@ -50,6 +50,90 @@ you ──▶ Hermes (agent loop)
         result + token/cache stats ──▶ back up the same pipe to Hermes
 ```
 
+## Full routing — every component
+
+The short version above is the shape; this is the whole path, including the handshakes, the process boundary, the config locations and the return leg.
+
+```
+┌─ YOU ────────────────────────────────────────────────────────────────────────┐
+│  a Hermes session: "use the harness to …"                                    │
+└──────────────────────────────┬───────────────────────────────────────────────┘
+                               ▼
+┌─ HERMES ─────────────────────────────────────────────────────────────────────┐
+│  agent loop decides this is coding work → calls an mcp_dsh_* tool            │
+│  MCP CLIENT — config: ~/.hermes/config.yaml                                  │
+│      mcp_servers.dsh.url             http://127.0.0.1:<port>/mcp  (loopback) │
+│      mcp_servers.dsh.connect_timeout 30s                                     │
+│      mcp_servers.dsh.timeout         2700s   (long coding turns)             │
+└──────────────────────────────┬───────────────────────────────────────────────┘
+                               │  HTTP POST · JSON-RPC 2.0 · one direction only
+   ┌─ HANDSHAKE 1 — transport (once, at Hermes session start) ────────────────┐
+   │  initialize                → serverInfo + Mcp-Session-Id                 │
+   │  notifications/initialized → 202                                         │
+   │  tools/list                → 11 tools    ⟵ new tools need /reload-mcp    │
+   └──────────────────────────────────────────────────────────────────────────┘
+                               ▼
+╔═ DSH DESKTOP APP PROCESS (Electron) ═════════════════════════════════════════╗
+║                                                                              ║
+║  ┌─ dsh-hermes-thin (Cordis plugin) ───────────────────────────────────────┐ ║
+║  │  node:http server on 127.0.0.1:<port>                                   │ ║
+║  │  MCP layer: initialize · tools/list · tools/call                        │ ║
+║  │      ▼                                                                  │ ║
+║  │  tools: dsh_run · dsh_sessions · dsh_stats · dsh_workspaces ·           │ ║
+║  │         dsh_workspace_add / remove · dsh_commands · dsh_cmd ·           │ ║
+║  │         dsh_health · dsh_debug                                          │ ║
+║  │      ▼                                                                  │ ║
+║  │  OPS REGISTRY ── tier gate (1/2/3) ── allowOps / denyOps ── audit ring   │ ║
+║  │      ▼                                                                  │ ║
+║  │  harness glue                                                           │ ║
+║  └──────┬──────────────────────────────────────────────────────────────────┘ ║
+║         ▼                                                                    ║
+║  ┌─ CORDIS HOST SERVICES ──────────────────────────────────────────────────┐ ║
+║  │  agents.create / resume        → agent + session                        │ ║
+║  │  agentPresets.mount            → the agent's toolset                    │ ║
+║  │  permissionPresets.set         → "hermes-managed" (workspace-write +    │ ║
+║  │                                  never): the harness never prompts      │ ║
+║  │  workspaceRegistry / Controller→ the repo becomes a project in the app  │ ║
+║  │  sessionTitle · session log    → labels; results + token stats read back│ ║
+║  └──────┬──────────────────────────────────────────────────────────────────┘ ║
+║         ▼                                                                    ║
+║  ┌─ THE CODING AGENT (a real harness session) ─────────────────────────────┐ ║
+║  │  route: <provider>/<model> · reasoningEffort: medium · workdir = repo   │ ║
+║  │  tools: bash · read · write · edit · glob · grep · subagent · …         │ ║
+║  └──────┬──────────────────────────────────────────────────────────────────┘ ║
+║         ▼                                                                    ║
+║  ┌─ THE APP UI (sibling client of the same services — not in the path) ────┐ ║
+║  │  the session appears in the sidebar under its project; changed-files card│ ║
+║  └─────────────────────────────────────────────────────────────────────────┘ ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+                               ▼
+                      ┌─ MODEL PROVIDER ─┐  (whatever <provider> names)
+                      └──────────────────┘
+                               ▼
+          ┌─ DISK — the real shared surface ─────────────────┐
+          │  the repo you named                              │
+          │  $DSH_HOME/sessions/<cwd>/session-*/             │
+          │  $DSH_HOME/storages/workspace.json   (projects)  │
+          │  $DSH_HOME/.credentials.yaml         (API keys)  │
+          └──────────────────────────────────────────────────┘
+                               │
+      ┌────────────────────────┴─ RETURN PATH ───────────────────────┐
+      │  result + tokens/cache folded from the session log            │
+      │  ▲ MCP tool result ▲ Hermes sees a normal tool result         │
+      └───────────────────────────────────────────────────────────────┘
+
+HANDSHAKE 2 — capability (on demand, inside any call)
+    dsh_commands  →  the registry: ops, tiers, what is callable right now,
+                     recent audit entries. Read fresh every time, which is why
+                     new ops never need a Hermes reload (only new MCP tools do).
+
+CONFIG LAYERS (last wins)
+    bundle patch → profile patch (id: hermes-thin) → $DSH_HOME/cordis.patch.yml
+    → --patch overlays → per-call tool arguments
+SECRETS
+    $DSH_HOME/.credentials.yaml or the environment — never in a patch file
+```
+
 ## What's in the box
 
 Two halves, one contract:

@@ -274,6 +274,10 @@ Through `dsh_cmd`, the bridge also exposes the harness's **own live service cata
 
 Writes on an authority/credential surface are held to a higher bar than reads: `dsh_cmd` runs them only with explicit arguments that satisfy the method's **published signature**, and never auto-fills them from whatever the bridge happens to hold. `args` may be given either as an object keyed by the method's published parameter names — the normal way — or as a positional array. That rule is not theoretical — a tier-3 probe once called a credentials setter with `args: {}`, the empty object went through as the credential reference, and the app refused to boot until `~/.dsh/.credentials.yaml` was repaired by hand.
 
+`dsh_cmd` also accepts `dry_run: true`, which runs the same checks — tier verdict, method existence, write guard — and **reports reachability without invoking the op**, curated or catalog.
+
+Methods that take a callback/producer cannot cross the MCP boundary, and the bridge refuses them rather than passing a placeholder — because one such call (`systemPrompt.tools`) registered a producer with no usable callback and killed every model turn until the app was restarted; the reviewed registry writers (`systemPrompt.*`, `tools.presentAs`, `tools.restrict`) are refused the same way.
+
 ## Using it from Hermes
 
 ```

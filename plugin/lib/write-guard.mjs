@@ -16,6 +16,14 @@
  * The rule that follows from that: a write on an authority/credential surface needs explicit
  * arguments that satisfy the method's *published signature*, and the bridge never auto-fills
  * them. Reads are untouched.
+ *
+ * A second, surface-wide rule was added after a full-surface audit called
+ * `systemPrompt.tools({})` — a name that reads like a getter. It registered a prompt-section
+ * producer with no usable callback, and from that moment every model turn died
+ * (`turn/end: reason error "provider is not a function"`) until the app was restarted. Methods
+ * that take a callback/producer cannot cross the MCP boundary at all, and neither can the
+ * registry writers whose arguments are in-process objects, so both are refused outright —
+ * for every service and every method, reads included.
  */
 
 /** Authority / credential / install surfaces: the tier-3 service keys. */
@@ -37,7 +45,47 @@ const MUTATING_VERBS = [
   'kill', 'submit', 'commit', 'publish', 'deploy', 'upload', 'lock', 'unlock', 'flush', 'install',
   'uninstall', 'enable', 'disable', 'reset', 'grant', 'save', 'apply', 'sign', 'link', 'unlink',
   'rename', 'edit', 'configure',
+  // registry writers: names that read innocently but publish into a live registry
+  'attach', 'detach', 'subscribe', 'unsubscribe', 'bind', 'unbind', 'suppress', 'override',
+  'define', 'provide', 'expose', 'enter',
 ]
+
+/**
+ * A declared type that JSON cannot carry across the MCP boundary: anything containing `=>`, or a
+ * bare identifier naming a producer/listener shape (`Provider`, `Listener`, `Factory`, …).
+ */
+const FUNCTION_TYPE_SUFFIXES = [
+  'Provider', 'Listener', 'Factory', 'Installer', 'Contributor', 'Resolver', 'Callback', 'Handler', 'Hook',
+]
+
+export function isFunctionTyped(type) {
+  if (typeof type !== 'string') return false
+  const t = type.trim()
+  if (t === '') return false
+  if (t.includes('=>')) return true
+  if (!/^[A-Za-z_$][\w$]*$/.test(t)) return false
+  return FUNCTION_TYPE_SUFFIXES.some((suffix) => t.endsWith(suffix))
+}
+
+/**
+ * Reviewed registry writers whose names do not look mutating and whose arguments are in-process
+ * objects (callbacks, section descriptors, tool handles). Service-qualified so the list is
+ * inspectable and extendable; refused on every tier, reads included.
+ */
+export const IN_PROCESS_ONLY = Object.freeze([
+  'systemPrompt.section',
+  'systemPrompt.context',
+  'systemPrompt.variable',
+  'systemPrompt.tools',
+  'systemPrompt.suppressRuntimeContext',
+  'tools.presentAs',
+  'tools.restrict',
+])
+
+const IN_PROCESS_ONLY_SET = new Set(IN_PROCESS_ONLY)
+
+/** The one reason shape shared by the surface-wide refusals. */
+const IN_PROCESS_WHY = 'cannot cross the MCP boundary — call it in-process instead'
 
 /**
  * A mutating method name: a verb, then a word boundary — end of string, or an uppercase letter /
@@ -81,16 +129,20 @@ export function signatureParams(sig) {
     const ch = sig[i]
     if ('(<[{'.includes(ch)) depth++
     else if (ch === ')') { depth--; if (depth === 0) { close = i; break } }
-    else if (')>]}'.includes(ch)) depth--
+    // `>` only closes a generic here — the `>` in `=>` is part of an arrow type, not a bracket.
+    else if (ch === '>') { if (sig[i - 1] !== '=') depth-- }
+    else if (']}'.includes(ch)) depth--
   }
   if (close === -1) return []
   const inner = sig.slice(open + 1, close)
   const parts = []
   let buf = ''
   let d = 0
-  for (const ch of inner) {
+  for (let i = 0; i < inner.length; i++) {
+    const ch = inner[i]
     if ('(<[{'.includes(ch)) d++
-    if (')>]}'.includes(ch)) d--
+    else if (ch === '>') { if (inner[i - 1] !== '=') d-- }
+    else if (')]}'.includes(ch)) d--
     if (ch === ',' && d === 0) { parts.push(buf); buf = '' } else buf += ch
   }
   if (buf.trim()) parts.push(buf)
@@ -138,26 +190,51 @@ function typeMismatch(value, type) {
  * @returns {{ok: true} | {ok: false, why: string}}
  */
 export function guardWriteCall({ service, op, signature, args } = {}) {
+  const params = signatureParams(signature)
+  const positional = Array.isArray(args)
+  const suppliedAt = (p, i) => (positional
+    ? i < args.length
+    : args !== null && typeof args === 'object' && Object.prototype.hasOwnProperty.call(args, p.name))
+  const valueAt = (p, i) => (positional ? args[i] : (args === null || typeof args !== 'object' ? undefined : args[p.name]))
+
+  // 0a. The reviewed registry writers: names that read like getters, arguments that are live
+  //     in-process objects. Refused on every service and every method, before the authority check.
+  if (typeof service === 'string' && typeof op === 'string' && IN_PROCESS_ONLY_SET.has(`${service}.${op}`)) {
+    return { ok: false, why: `${service}.${op} is a registry writer whose arguments are in-process objects and ${IN_PROCESS_WHY}` }
+  }
+
+  // 0b. A callback/producer parameter is never bridgeable — a placeholder is worse than a refusal,
+  //     because some of these publish into live registries and corrupt state. Refuse a required
+  //     function-typed parameter, and any value supplied for a function-typed parameter.
+  for (const [i, p] of params.entries()) {
+    if (!isFunctionTyped(p.type)) continue
+    const supplied = suppliedAt(p, i)
+    if (supplied && typeof valueAt(p, i) === 'function') {
+      return { ok: false, why: `argument "${p.name}" is a function, which ${IN_PROCESS_WHY}` }
+    }
+    if (supplied || !p.optional) {
+      return { ok: false, why: `parameter "${p.name}" takes a callback/producer that ${IN_PROCESS_WHY}` }
+    }
+  }
+
   if (!isAuthorityService(service) || !isMutatingOp(op)) return { ok: true }
   const fail = (why) => ({ ok: false, why })
 
   // 1. No arguments is not an argument list. `{}` / `[]` / a primitive is exactly the shape that
   //    became an empty-object credential reference.
-  const positional = Array.isArray(args)
   if (args === undefined || args === null || typeof args !== 'object') return fail('writes need explicit arguments')
   if (positional ? args.length === 0 : (!isPlainObject(args) || Object.keys(args).length === 0)) {
     return fail('writes need explicit arguments')
   }
 
-  const params = signatureParams(signature)
   const has = (p, i) => (positional ? i < args.length : Object.prototype.hasOwnProperty.call(args, p.name))
-  const valueAt = (p, i) => (positional ? args[i] : args[p.name])
+  const valueOf = (p, i) => (positional ? args[i] : args[p.name])
 
   // 2. Every required parameter of the published signature must be present and carry a value.
   for (const [i, p] of params.entries()) {
     if (p.optional) continue
     if (!has(p, i)) return fail(`write is missing required argument "${p.name}"`)
-    const value = valueAt(p, i)
+    const value = valueOf(p, i)
     if (isEmptyValue(value)) return fail(`required argument "${p.name}" is empty`)
     if (typeMismatch(value, p.type)) return fail(`required argument "${p.name}" does not match its declared type`)
   }
@@ -166,7 +243,7 @@ export function guardWriteCall({ service, op, signature, args } = {}) {
   //          for being a real string.
   for (const [i, p] of params.entries()) {
     if (!has(p, i)) continue
-    const value = valueAt(p, i)
+    const value = valueOf(p, i)
     if (value === undefined) continue
     const lower = p.name.toLowerCase()
     if (REF_LIKE.has(lower)) {

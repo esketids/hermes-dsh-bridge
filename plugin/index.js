@@ -33,6 +33,7 @@ import { realpath } from 'node:fs/promises'
 import { resolve as resolvePath, sep } from 'node:path'
 import { callerAttemptsOnly, guardWriteCall, signatureParams } from './lib/write-guard.mjs'
 import { positionalFromNamed } from './lib/named-args.mjs'
+import { planCall } from './lib/plan-call.mjs'
 
 export const name = 'hermes-thin'
 
@@ -993,12 +994,13 @@ export function apply(ctx, config = {}) {
       mountedServices: [...injectedServices.keys()].filter((k) => injectedServices.get(k) !== undefined && injectedServices.get(k) !== null),
       catalog,
       ...(cfg.audit ? { recentOps: auditLog.slice(-10) } : {}),
-      note: 'Call curated ops as dsh_cmd { group, op, args }; call any catalog method the same way ({ group: <serviceKey>, op: <methodName> }). The registry and the live catalog decide what exists, so new capabilities need no change on the Hermes side.',
+      note: 'Call curated ops as dsh_cmd { group, op, args }; call any catalog method the same way ({ group: <serviceKey>, op: <methodName> }). The registry and the live catalog decide what exists, so new capabilities need no change on the Hermes side. Pass dry_run:true to check reachability without invoking anything. Methods that take a callback/producer, and the reviewed registry writers, are refused outright — they cannot cross the MCP boundary.',
     }
   }
 
   /** The single dispatcher. Everything flows through here, so audit + tiers cannot be bypassed. */
-  async function dispatchCmd({ group, op, args }) {
+  async function dispatchCmd({ group, op, args, dry_run }) {
+    const dryRun = dry_run === true
     if (typeof group !== 'string' || typeof op !== 'string') {
       throw new Error('group and op are required (see dsh_commands)')
     }
@@ -1007,6 +1009,12 @@ export function apply(ctx, config = {}) {
     const entry = OPS.find((e) => e.group === group && e.op === op)
     if (entry) {
       const perm = opPermission(entry)
+      const missing = (entry.required ?? []).filter((field) => args?.[field] === undefined)
+      // dry_run reports reachability without running anything: the curated path checks permission
+      // and required arguments, then stops.
+      if (dryRun) {
+        return { group: entry.group, op: entry.op, dryRun: true, reachable: perm.allowed && missing.length === 0, permission: perm, missing }
+      }
       if (!perm.allowed) throw new Error(perm.why)
       for (const field of entry.required ?? []) {
         if (args?.[field] === undefined) throw new Error(`${opKey(entry)} requires "${field}"`)
@@ -1035,7 +1043,9 @@ export function apply(ctx, config = {}) {
     const tier = catalogTierFor(group)
     const key = `${group}.${op}`
     const perm = permissionForTier(tier, key)
-    if (!perm.allowed) throw new Error(perm.why)
+    // The executed path keeps its original check order: tier verdict before service resolution.
+    // dry_run reports every refusal instead of throwing at the first one.
+    if (!dryRun && !perm.allowed) throw new Error(perm.why)
     const target = resolveService(group)
     if (target === null) {
       throw new Error(`service "${group}" is not reachable in this composition (not injected, and ctx.get("${group}") / ctx.${group} are unavailable)`)
@@ -1044,6 +1054,18 @@ export function apply(ctx, config = {}) {
     // Services the catalog leaves undescribed (several tier-3 ones) are validated against the
     // live object's own methods instead — the catalog is a description, not the only truth.
     const known = catalogNames.length > 0 ? catalogNames : liveMethodNames(target)
+    // The published signature carries the declared parameter types; the guard needs it before it
+    // can decide, so it is read here rather than at the call site.
+    const signature = (svc.methods ?? []).find((m) => m.name === op)?.signature ?? ''
+    const hasMethod = known.includes(op) && typeof target[op] === 'function'
+    const started = Date.now()
+    // dry_run: the same checks in the same order — tier verdict, method existence, write guard —
+    // reported instead of executed. Nothing is invoked, and the audit records via: 'dry-run'.
+    if (dryRun) {
+      const plan = planCall({ service: group, op, signature, args, tier, permission: perm, hasMethod })
+      audit({ at: new Date().toISOString(), op: key, ok: plan.reachable, ms: Date.now() - started, via: 'dry-run', ...(plan.reachable ? {} : { error: plan.refusals.join('; ') }) })
+      return { ...plan, service: group, method: op, dryRun: true }
+    }
     if (!known.includes(op)) {
       throw new Error(`unknown method "${op}" on service "${group}" — known: ${known.slice(0, 30).join(', ')}${known.length > 30 ? ` … (+${known.length - 30} more)` : ''}`)
     }
@@ -1052,8 +1074,6 @@ export function apply(ctx, config = {}) {
     }
     // Writes on an authority surface need explicit, signature-validated arguments: the guard
     // refuses the empty/placeholder shapes the bridge must never turn into a real argument.
-    const signature = (svc.methods ?? []).find((m) => m.name === op)?.signature ?? ''
-    const started = Date.now()
     const guard = guardWriteCall({ service: group, op, signature, args })
     if (!guard.ok) {
       audit({ at: new Date().toISOString(), op: key, ok: false, ms: Date.now() - started, error: guard.why, via: 'catalog' })
@@ -1159,13 +1179,14 @@ export function apply(ctx, config = {}) {
     },
     {
       name: 'dsh_cmd',
-      description: 'Dispatch one command from the registry (see dsh_commands). Tier gating and audit live here, so nothing bypasses them.',
+      description: 'Dispatch one command from the registry (see dsh_commands). Tier gating and audit live here, so nothing bypasses them. Pass dry_run:true to check reachability without invoking the op.',
       inputSchema: {
         type: 'object',
         properties: {
           group: { type: 'string' },
           op: { type: 'string' },
           args: { type: 'object', description: 'Op arguments, per the descriptor.' },
+          dry_run: { type: 'boolean', description: 'Report reachability (tier verdict, method existence, write guard) without invoking the op. Never runs the method, curated or catalog.' },
         },
         required: ['group', 'op'],
       },

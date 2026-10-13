@@ -9,11 +9,13 @@
 import assert from 'node:assert/strict'
 import {
   AUTHORITY_SERVICES,
+  IN_PROCESS_ONLY,
   MUTATING_OP,
   REF_NAME_RE,
   callerAttemptsOnly,
   guardWriteCall,
   isAuthorityService,
+  isFunctionTyped,
   isMutatingOp,
   signatureParams,
 } from './write-guard.mjs'
@@ -230,6 +232,102 @@ check('signatureParams parses the published form', () => {
   ])
   assert.deepEqual(signatureParams(null), [])
   assert.deepEqual(signatureParams('noParens'), [])
+  // arrow types: the `>` in `=>` must not be read as a closing bracket
+  assert.deepEqual(signatureParams('list(onProgress: (done: number) => void): void'), [
+    { name: 'onProgress', optional: false, type: '(done: number) => void' },
+  ])
+  assert.deepEqual(signatureParams('watch(target: string, changed: (error?: Error) => void, signal: AbortSignal): void'), [
+    { name: 'target', optional: false, type: 'string' },
+    { name: 'changed', optional: false, type: '(error?: Error) => void' },
+    { name: 'signal', optional: false, type: 'AbortSignal' },
+  ])
+  // generics keep their own angle-bracket depth
+  assert.deepEqual(signatureParams('apply(input: Map<string, number>, provider: ToolProvider): void'), [
+    { name: 'input', optional: false, type: 'Map<string, number>' },
+    { name: 'provider', optional: false, type: 'ToolProvider' },
+  ])
+})
+
+/* ── registry-writer verbs ──────────────────────────────────────────────────────────────── */
+
+check('registry-writer verbs are mutating, and the boundary rule still holds', () => {
+  for (const op of ['register', 'deregister', 'attach', 'detach', 'subscribe', 'unsubscribe', 'bind', 'unbind', 'suppress', 'override', 'define', 'provide', 'expose', 'configure', 'enter']) {
+    assert.ok(isMutatingOp(op), op)
+    assert.ok(MUTATING_OP.test(op), op)
+  }
+  for (const op of ['address', 'setup', 'status', 'enabled', 'provider', 'binding', 'enterprise', 'listener', 'definitions']) {
+    assert.equal(isMutatingOp(op), false, op)
+  }
+})
+
+/* ── the unbridgeable rule: callbacks cannot cross MCP ──────────────────────────────────── */
+
+check('isFunctionTyped recognises arrow types and producer identifiers', () => {
+  for (const type of ['(error?: Error) => void', '() => string', '(current: T) => T', 'Provider', 'Listener', 'Factory', 'Installer', 'Contributor', 'Resolver', 'Callback', 'Handler', 'Hook']) {
+    assert.equal(isFunctionTyped(type), true, type)
+  }
+  for (const type of ['string', 'number', 'Agent', 'AbortSignal', 'string[]', '', null, undefined, 'Provider | undefined']) {
+    assert.equal(isFunctionTyped(type), false, String(type))
+  }
+})
+
+check('a required function-typed param is refused for any service, reads included', () => {
+  const why = refused(guardWriteCall({
+    service: 'assets',
+    op: 'list',
+    signature: 'list(onProgress: (done: number) => void): void',
+    args: {},
+  }))
+  assert.ok(why.includes('onProgress'), why)
+  assert.ok(why.includes('cannot cross the MCP boundary'), why)
+
+  const why2 = refused(guardWriteCall({
+    service: 'session',
+    op: 'get',
+    signature: 'get(provider: ThemeProvider): Theme',
+    args: {},
+  }))
+  assert.ok(why2.includes('provider'), why2)
+})
+
+check('a value supplied for a function-typed param is refused', () => {
+  const why = refused(guardWriteCall({
+    service: 'assets',
+    op: 'run',
+    signature: 'run(task: string, onEvent?: (e: Event) => void): void',
+    args: { task: 'T', onEvent: () => {} },
+  }))
+  assert.ok(why.includes('onEvent'), why)
+  assert.ok(why.includes('cannot cross the MCP boundary'), why)
+
+  const why2 = refused(guardWriteCall({
+    service: 'assets',
+    op: 'watch',
+    signature: 'watch(target: string, changed: (error?: Error) => void, signal?: AbortSignal): void',
+    args: ['/tmp/x', () => {}],
+  }))
+  assert.ok(why2.includes('changed'), why2)
+  // an omitted optional function-typed param leaves an ordinary call alone
+  assert.equal(guardWriteCall({ service: 'assets', op: 'run', signature: 'run(task: string, onEvent?: (e: Event) => void): void', args: { task: 'T' } }).ok, true)
+})
+
+check('IN_PROCESS_ONLY is exported, complete, and refused outright', () => {
+  for (const key of ['systemPrompt.section', 'systemPrompt.context', 'systemPrompt.variable', 'systemPrompt.tools', 'systemPrompt.suppressRuntimeContext', 'tools.presentAs', 'tools.restrict']) {
+    assert.ok(IN_PROCESS_ONLY.includes(key), key)
+  }
+  for (const key of IN_PROCESS_ONLY) {
+    const [service, op] = key.split('.')
+    const why = refused(guardWriteCall({ service, op, args: {} }))
+    assert.ok(why.includes('cannot cross the MCP boundary'), why)
+    assert.ok(why.includes(key), why)
+  }
+})
+
+check('ordinary reads are still accepted', () => {
+  assert.equal(guardWriteCall({ service: 'assets', op: 'list', signature: 'list(signal?: AbortSignal): Promise<string[]>', args: {} }).ok, true)
+  assert.equal(guardWriteCall({ service: 'tools', op: 'list', signature: 'list(): ToolDescriptor[]', args: {} }).ok, true)
+  assert.equal(guardWriteCall({ service: 'systemPrompt', op: 'describe', signature: 'describe(): string', args: {} }).ok, true)
+  assert.equal(guardWriteCall({ service: 'timer', op: 'now', signature: 'now(): number', args: undefined }).ok, true)
 })
 
 /* ── summary ───────────────────────────────────────────────────────────────────────────── */
